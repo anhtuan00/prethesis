@@ -1,13 +1,7 @@
 import Job from "../models/Job.js";
 import { StatusCodes } from "http-status-codes";
-import {
-  BadRequestError,
-  NotFoundError,
-  UnAuthenticatedError,
-} from "../errors/index.js";
+import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
-import mongoose from "mongoose";
-import moment from "moment";
 const createJob = async (req, res) => {
   const { position, company } = req.body;
 
@@ -18,6 +12,7 @@ const createJob = async (req, res) => {
   const job = await Job.create(req.body);
   res.status(StatusCodes.CREATED).json({ job });
 };
+
 const getAllJobs = async (req, res) => {
   const { status, jobType, sort, search } = req.query;
 
@@ -70,6 +65,7 @@ const getAllJobs = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ jobs, totalJobs, numOfPages });
 };
+
 const updateJob = async (req, res) => {
   const { id: jobId } = req.params;
   const { company, position } = req.body;
@@ -93,6 +89,7 @@ const updateJob = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ updatedJob });
 };
+
 const deleteJob = async (req, res) => {
   const { id: jobId } = req.params;
 

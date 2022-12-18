@@ -64,3 +64,4 @@ const updateUser = async (req, res) => {
 }
 
 export { register, login, updateUser }
+

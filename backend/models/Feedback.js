@@ -1,7 +1,12 @@
 import mongoose from "mongoose";
 
-const JobSchema = new mongoose.Schema(
+const FeedbackSchema = new mongoose.Schema(
   {
+    name: {
+      type: String,
+      required: [true, "Please provide name"],
+      maxlength: 50,
+    },
     company: {
       type: String,
       required: [true, "Please provide company"],
@@ -12,10 +17,10 @@ const JobSchema = new mongoose.Schema(
       required: [true, "Please provide position"],
       maxlength: 100,
     },
-    status: {
+    feedback: {
       type: String,
-      enum: ["interview", "declined", "pending"],
-      default: "pending",
+      required: [true, "Please provide feedback"],
+      maxlength: 100,
     },
     jobType: {
       type: String,
