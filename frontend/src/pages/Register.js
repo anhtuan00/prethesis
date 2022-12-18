@@ -86,7 +86,7 @@ const Register = () => {
         />
         {/* Select your role */}
         <div className="form-group">
-          <label>Select your role:</label>
+          <label>Select your role: </label>
           <select
             className="form-control"
             name="role"
@@ -102,7 +102,7 @@ const Register = () => {
           submit
         </button>
         <p>
-          {values.isMember ? "Not a member yet?" : "Already a member?"}
+          {values.isMember ? "Not a member yet? " : "Already a member? "}
           <button type="button" onClick={toggleMember} className="member-bt n">
             {values.isMember ? "Register" : "Login"}
           </button>
