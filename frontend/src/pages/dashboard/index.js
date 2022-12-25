@@ -2,5 +2,6 @@ import AddJob from "./AddJob";
 import AllJobs from "./AllJobs";
 import Profile from "./Profile";
 import SharedLayout from "./SharedLayout";
-import AdminHomePage from "./AdminHomePage";
-export { AllJobs, Profile, SharedLayout, AddJob, AdminHomePage };
+import AddFeedback from "./AddFeedback";
+import AllFeedback from "./AllFeedback";
+export { AllJobs, Profile, SharedLayout, AddJob, AddFeedback, AllFeedback };

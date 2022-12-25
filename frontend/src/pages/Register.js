@@ -8,7 +8,6 @@ const initialState = {
   email: "",
   password: "",
   isMember: true,
-  role: "user",
 };
 
 const Register = () => {
@@ -31,7 +30,7 @@ const Register = () => {
       displayAlert();
       return;
     }
-    const currentUser = { name, email, password, role: values.role };
+    const currentUser = { name, email, password };
     if (isMember) {
       setupUser({
         currentUser,
@@ -50,7 +49,7 @@ const Register = () => {
   useEffect(() => {
     if (user) {
       setTimeout(() => {
-        navigate(user.role === "admin" ? "/admin" : "/");
+        navigate("/");
       }, 3000);
     }
   }, [user, navigate]);
@@ -84,26 +83,12 @@ const Register = () => {
           value={values.password}
           handleChange={handleChange}
         />
-        {/* Select your role */}
-        <div className="form-group">
-          <label>Select your role: </label>
-          <select
-            className="form-control"
-            name="role"
-            value={values.role}
-            onChange={handleChange}
-          >
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-
         <button type="submit" className="btn btn-block" disabled={isLoading}>
           submit
         </button>
         <p>
-          {values.isMember ? "Not a member yet? " : "Already a member? "}
-          <button type="button" onClick={toggleMember} className="member-bt n">
+          {values.isMember ? "Not a member yet?" : "Already a member?"}
+          <button type="button" onClick={toggleMember} className="member-btn">
             {values.isMember ? "Register" : "Login"}
           </button>
         </p>

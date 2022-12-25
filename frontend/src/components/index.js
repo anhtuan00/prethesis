@@ -7,6 +7,7 @@ import Loading from "./Loading";
 import Navbar from "./Navbar";
 import SearchContainer from "./SearchContainer";
 import SmallSidebar from "./SmallSidebar";
+import DateInput from "./DateInput";
 export {
   FormRow,
   Alert,
@@ -17,4 +18,5 @@ export {
   SearchContainer,
   JobsContainer,
   Loading,
+  DateInput,
 };

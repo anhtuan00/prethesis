@@ -1,21 +1,35 @@
-import jwt from 'jsonwebtoken'
-import { UnAuthenticatedError } from '../errors/index.js'
+// Import the jsonwebtoken library to verify the auth token
+import jwt from "jsonwebtoken";
 
-UnAuthenticatedError
+// Import the UnAuthenticatedError class
+import { UnAuthenticatedError } from "../errors/index.js";
+
+// Define the auth middleware function
 const auth = async (req, res, next) => {
-  const authHeader = req.headers.authorization
-  if (!authHeader || !authHeader.startsWith('Bearer')) {
-    throw new UnAuthenticatedError('Authentication Invalid')
+  // Get the authorization header from the request
+  const authHeader = req.headers.authorization;
+
+  // If the authorization header is not present or does not start with 'Bearer', throw an UnAuthenticatedError
+  if (!authHeader || !authHeader.startsWith("Bearer")) {
+    throw new UnAuthenticatedError("Authentication Invalid");
   }
-  const token = authHeader.split(' ')[1]
+
+  // Get the token from the authorization header
+  const token = authHeader.split(" ")[1];
+
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET)
-    req.user = { userId: payload.userId }
+    // Verify the token using the JWT secret
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    // Add the userId from the payload to the request object
+    req.user = { userId: payload.userId };
 
-    next()
+    // Call the next middleware function
+    next();
   } catch (error) {
-    throw new UnAuthenticatedError('Authentication Invalid')
+    // If there was an error verifying the token, throw an UnAuthenticatedError
+    throw new UnAuthenticatedError("Authentication Invalid");
   }
-}
+};
 
-export default auth
+// Export the auth middleware function
+export default auth;

@@ -27,6 +27,13 @@ import {
   EDIT_JOB_ERROR,
   CLEAR_FILTERS,
   CHANGE_PAGE,
+  SET_EDIT_FEEDBACK,
+  EDIT_FEEDBACK_BEGIN,
+  EDIT_FEEDBACK_SUCCESS,
+  EDIT_FEEDBACK_ERROR,
+  DELETE_FEEDBACK_BEGIN,
+  GET_FEEDBACKS_BEGIN,
+  GET_FEEDBACKS_SUCCESS,
 } from "./actions";
 
 const token = localStorage.getItem("token");
@@ -61,6 +68,15 @@ const initialState = {
   searchType: "all",
   sort: "latest",
   sortOptions: ["latest", "oldest", "a-z", "z-a"],
+  fbstudentName: "",
+  fbstudentId: "",
+  fbposition: "",
+  fbstudentPhone: "",
+  fbcompanyName: "",
+  fblocation: "",
+  fbcompanyPhone: "",
+  fbstartDate: "2022-12-22",
+  fbendDate: "2023-12-31",
 };
 
 const AppContext = React.createContext();
@@ -264,6 +280,77 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  const setEditFeedback = (id) => {
+    dispatch({ type: SET_EDIT_FEEDBACK, payload: { id } });
+  };
+
+  const getFeedbacks = async () => {
+    dispatch({ type: GET_FEEDBACKS_BEGIN });
+    try {
+      const { data } = await authFetch.get("/feedbacks");
+      dispatch({ type: GET_FEEDBACKS_SUCCESS, payload: data.data });
+    } catch (error) {
+      logoutUser();
+    }
+  };
+
+  const editFeedback = async () => {
+    dispatch({ type: EDIT_FEEDBACK_BEGIN });
+
+    try {
+      const {
+        fbstudentName,
+        fbstudentId,
+        fbposition,
+        fbstudentPhone,
+        fbcompanyName,
+        fblocation,
+        fbcompanyPhone,
+        fbstartDate,
+        fbendDate,
+      } = state;
+      await authFetch.patch(`/feedbacks/${state.editFeedbackId}`, {
+        fbstudentName,
+        fbstudentId,
+        fbposition,
+        fbstudentPhone,
+        fbcompanyName,
+        fblocation,
+        fbcompanyPhone,
+        fbstartDate,
+        fbendDate,
+      });
+      dispatch({ type: EDIT_FEEDBACK_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      if (error.response.status === 401) return;
+      dispatch({
+        type: EDIT_JOB_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+    clearAlert();
+  };
+
+  const editFeedbackSuccess = (alertText) => ({
+    type: EDIT_FEEDBACK_SUCCESS,
+    payload: alertText,
+  });
+
+  const editFeedbackError = () => ({
+    type: EDIT_FEEDBACK_ERROR,
+  });
+
+  const deleteFeedback = async (feedbackId) => {
+    dispatch({ type: DELETE_FEEDBACK_BEGIN });
+    try {
+      await authFetch.delete(`/feedback/${feedbackId}`);
+      getFeedbacks();
+    } catch (error) {
+      logoutUser();
+    }
+  };
+
   const clearFilters = () => {
     dispatch({ type: CLEAR_FILTERS });
   };
@@ -286,6 +373,8 @@ const AppProvider = ({ children }) => {
         setEditJob,
         deleteJob,
         editJob,
+        setEditFeedback,
+        editFeedback,
         clearFilters,
         changePage,
       }}

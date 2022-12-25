@@ -23,6 +23,11 @@ import {
   EDIT_JOB_ERROR,
   CLEAR_FILTERS,
   CHANGE_PAGE,
+  SET_EDIT_FEEDBACK,
+  EDIT_FEEDBACK_BEGIN,
+  EDIT_FEEDBACK_SUCCESS,
+  EDIT_FEEDBACK_ERROR,
+  DELETE_FEEDBACK_BEGIN,
 } from "./actions";
 
 import { initialState } from "./appContext";
@@ -209,6 +214,40 @@ const reducer = (state, action) => {
     };
   }
 
+  if (action.type === SET_EDIT_FEEDBACK) {
+    return {
+      ...state,
+      editFeedback: action.payload,
+    };
+  }
+  if (action.type === EDIT_FEEDBACK_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+  if (action.type === EDIT_FEEDBACK_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: action.payload,
+    };
+  }
+  if (action.type === EDIT_FEEDBACK_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "Failed to edit feedback",
+    };
+  }
+
+  if (action.type === DELETE_FEEDBACK_BEGIN) {
+    return { ...state, isLoading: true };
+  }
   if (action.type === CLEAR_FILTERS) {
     return {
       ...state,

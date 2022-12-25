@@ -2,35 +2,48 @@ import mongoose from "mongoose";
 
 const FeedbackSchema = new mongoose.Schema(
   {
-    name: {
+    fbstudentName: {
       type: String,
-      required: [true, "Please provide name"],
+      required: [true, "Please provide student name"],
       maxlength: 50,
     },
-    company: {
+    fbstudentId: {
       type: String,
-      required: [true, "Please provide company"],
+      required: [true, "Please provide student id"],
       maxlength: 50,
     },
-    position: {
+    fbstudentPhone: {
+      type: String,
+      required: [true, "Please provide student phone number"],
+      maxlength: 50,
+    },
+    fbcompanyName: {
+      type: String,
+      required: [true, "Please provide company name"],
+      maxlength: 50,
+    },
+    fbcompanyPhone: {
+      type: String,
+      required: [true, "Please provide company phone number"],
+      maxlength: 50,
+    },
+    fbposition: {
       type: String,
       required: [true, "Please provide position"],
       maxlength: 100,
     },
-    feedback: {
+    fblocation: {
       type: String,
-      required: [true, "Please provide feedback"],
+      required: [true, "Please provide location"],
       maxlength: 100,
     },
-    jobType: {
-      type: String,
-      enum: ["full-time", "part-time", "remote", "internship"],
-      default: "full-time",
+    fbstartDate: {
+      type: Date,
+      required: [true, "Please provide start date"],
     },
-    jobLocation: {
-      type: String,
-      default: "my city",
-      required: true,
+    fbendDate: {
+      type: Date,
+      required: [true, "Please provide end date"],
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
@@ -46,4 +59,4 @@ const FeedbackSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Job", JobSchema);
+export default mongoose.model("Feedback", FeedbackSchema);
