@@ -34,6 +34,9 @@ import {
   DELETE_FEEDBACK_BEGIN,
   GET_FEEDBACKS_BEGIN,
   GET_FEEDBACKS_SUCCESS,
+  CREATE_FEEDBACK_BEGIN,
+  CREATE_FEEDBACK_SUCCESS,
+  CREATE_FEEDBACK_ERROR,
 } from "./actions";
 
 const token = localStorage.getItem("token");
@@ -77,6 +80,8 @@ const initialState = {
   fbcompanyPhone: "",
   fbstartDate: "2022-12-22",
   fbendDate: "2023-12-31",
+  fbComment: "",
+  createFeedbackLoading: false,
 };
 
 const AppContext = React.createContext();
@@ -279,6 +284,32 @@ const AppProvider = ({ children }) => {
       logoutUser();
     }
   };
+  const createFeedback = () => {
+    dispatch({ type: CREATE_FEEDBACK_BEGIN });
+
+    authFetch
+      .post("/feedback", {
+        studentName: state.fbstudentName,
+        studentId: state.fbstudentId,
+        position: state.fbposition,
+        studentPhone: state.fbstudentPhone,
+        companyName: state.fbcompanyName,
+        location: state.fblocation,
+        companyPhone: state.fbcompanyPhone,
+        startDate: state.fbstartDate,
+        endDate: state.fbendDate,
+        comment: state.fbComment,
+      })
+      .then((res) => {
+        dispatch({ type: CREATE_FEEDBACK_SUCCESS, payload: res.data });
+        displayAlert("Feedback created successfully", "success");
+        clearValues();
+      })
+      .catch((err) => {
+        dispatch({ type: CREATE_FEEDBACK_ERROR, payload: err });
+        displayAlert("Error creating feedback", "error");
+      });
+  };
 
   const setEditFeedback = (id) => {
     dispatch({ type: SET_EDIT_FEEDBACK, payload: { id } });
@@ -308,6 +339,7 @@ const AppProvider = ({ children }) => {
         fbcompanyPhone,
         fbstartDate,
         fbendDate,
+        fbComment,
       } = state;
       await authFetch.patch(`/feedbacks/${state.editFeedbackId}`, {
         fbstudentName,
@@ -377,6 +409,7 @@ const AppProvider = ({ children }) => {
         editFeedback,
         clearFilters,
         changePage,
+        createFeedback,
       }}
     >
       {children}

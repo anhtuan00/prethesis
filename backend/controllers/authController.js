@@ -78,9 +78,9 @@ const login = async (req, res) => {
 
 const updateUser = async (req, res) => {
   // Destructure the fields from the request body
-  const { email, name, lastName, location } = req.body;
+  const { email, name, lastName, location, studentId } = req.body;
   // Validate that all required fields are present
-  if (!email || !name || !lastName || !location) {
+  if (!email || !name || !lastName || !location || !studentId) {
     throw new BadRequestError("Please provide all values");
   }
   // Find the user by the userId in the request object
@@ -90,11 +90,14 @@ const updateUser = async (req, res) => {
   user.name = name;
   user.lastName = lastName;
   user.location = location;
+  user.studentId = studentId;
   // Save the updated user object to the database
   await user.save();
-  // Create a JWT for the user
+  // Remove the password field from the user object
+  user.password = undefined;
+  // Generate a JWT for the user
   const token = user.createJWT();
-  // Send the updated user object, JWT, and location in the response
+  // Send the user object, JWT, and location in the response
   res.status(StatusCodes.OK).json({ user, token, location: user.location });
 };
 

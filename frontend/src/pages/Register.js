@@ -68,7 +68,7 @@ const Register = () => {
             handleChange={handleChange}
           />
         )}
-
+        
         {/* email input */}
         <FormRow
           type="email"

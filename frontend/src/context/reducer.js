@@ -28,6 +28,11 @@ import {
   EDIT_FEEDBACK_SUCCESS,
   EDIT_FEEDBACK_ERROR,
   DELETE_FEEDBACK_BEGIN,
+  GET_FEEDBACKS_BEGIN,
+  GET_FEEDBACKS_SUCCESS,
+  CREATE_FEEDBACK_BEGIN,
+  CREATE_FEEDBACK_SUCCESS,
+  CREATE_FEEDBACK_ERROR,
 } from "./actions";
 
 import { initialState } from "./appContext";
@@ -214,6 +219,28 @@ const reducer = (state, action) => {
     };
   }
 
+  if (action.type === CREATE_FEEDBACK_BEGIN) {
+    return { ...state, createFeedbackLoading: true };
+  }
+  if (action.type === CREATE_FEEDBACK_SUCCESS) {
+    return {
+      ...state,
+      createFeedbackLoading: false,
+      showAlert: true,
+      alertType: "success",
+      alertText: "Feedback created successfully!",
+    };
+  }
+  if (action.type === CREATE_FEEDBACK_ERROR) {
+    return {
+      ...state,
+      createFeedbackLoading: false,
+      showAlert: true,
+      alertType: "danger",
+      alertText: "Error creating feedback",
+    };
+  }
+
   if (action.type === SET_EDIT_FEEDBACK) {
     return {
       ...state,
@@ -248,6 +275,7 @@ const reducer = (state, action) => {
   if (action.type === DELETE_FEEDBACK_BEGIN) {
     return { ...state, isLoading: true };
   }
+
   if (action.type === CLEAR_FILTERS) {
     return {
       ...state,

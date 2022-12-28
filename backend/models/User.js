@@ -40,7 +40,13 @@ const UserSchema = new mongoose.Schema({
     trim: true,
     maxlength: 20,
     // Set a default value for the lastName field
-    default: "lastName",
+    default: "Please provide your lastName",
+  },
+  studentId: {
+    type: String,
+    unique: true,
+    minlength: 11,
+    maxlength: 11,
   },
   location: {
     // The user's location
@@ -48,7 +54,7 @@ const UserSchema = new mongoose.Schema({
     trim: true,
     maxlength: 20,
     // Set a default value for the location field
-    default: "my city",
+    default: "Please provide your location",
   },
 });
 

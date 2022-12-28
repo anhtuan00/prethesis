@@ -8,6 +8,9 @@ import Navbar from "./Navbar";
 import SearchContainer from "./SearchContainer";
 import SmallSidebar from "./SmallSidebar";
 import DateInput from "./DateInput";
+import FormRowComment from "./FormRowComment";
+import FeedbackContainer from "./FeedbackContainer";
+import Feedback from "./Feedback";
 export {
   FormRow,
   Alert,
@@ -19,4 +22,7 @@ export {
   JobsContainer,
   Loading,
   DateInput,
+  FormRowComment,
+  FeedbackContainer,
+  Feedback,
 };

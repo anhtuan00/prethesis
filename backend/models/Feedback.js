@@ -45,6 +45,11 @@ const FeedbackSchema = new mongoose.Schema(
       type: Date,
       required: [true, "Please provide end date"],
     },
+    fbComment: {
+      type: String,
+      required: [true, "Please provide a feedback comment"],
+      maxlength: 500,
+    },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",

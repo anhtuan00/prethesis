@@ -1,4 +1,5 @@
 import main from "../assets/images/main.svg";
+import landing from "../assets/images/landing.png";
 import Wrapper from "../assets/wrappers/LandingPage";
 import { Link } from "react-router-dom";
 const Landing = () => {

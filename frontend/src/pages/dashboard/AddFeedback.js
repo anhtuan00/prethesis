@@ -1,16 +1,14 @@
-import { FormRow, FormRowSelect, Alert, DateInput } from "../../components";
+import {
+  FormRow,
+  FormRowSelect,
+  Alert,
+  DateInput,
+  FormRowComment,
+} from "../../components";
 import { useAppContext } from "../../context/appContext";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
 
 const AddFeedback = () => {
-  // const [fbstudentName, setfbStudentName] = useState("");
-  // const [position, setPosition] = useState("");
-  // const [studentPhone, setStudentPhone] = useState("");
-  // const [companyName, setCompanyName] = useState("");
-  // const [location, setLocation] = useState("");
-  // const [companyPhone, setCompanyPhone] = useState("");
-  // const [timeStarted, setTimeStarted] = useState("");
-
   const {
     isLoading,
     isEditing,
@@ -25,13 +23,30 @@ const AddFeedback = () => {
     fbcompanyPhone,
     fbstartDate,
     fbendDate,
+    fbComment,
     handleChange,
     clearValues,
     createJob,
     editJob,
+    editFeedback,
+    createFeedback,
   } = useAppContext();
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // log all form values here
+    console.log({
+      fbstudentName,
+      fbstudentId,
+      fbposition,
+      fbstudentPhone,
+      fbcompanyName,
+      fblocation,
+      fbcompanyPhone,
+      fbstartDate,
+      fbendDate,
+      fbComment,
+    });
 
     if (
       !fbstudentName ||
@@ -39,16 +54,19 @@ const AddFeedback = () => {
       !fbstudentPhone ||
       !fbcompanyName ||
       !fblocation ||
-      !fbcompanyPhone
+      !fbcompanyPhone ||
+      !fbstartDate ||
+      !fbendDate ||
+      !fbComment
     ) {
       displayAlert();
       return;
     }
     if (isEditing) {
-      editJob();
+      editFeedback();
       return;
     }
-    createJob();
+    createFeedback();
   };
 
   const handleFeedbackInput = (e) => {
@@ -105,16 +123,17 @@ const AddFeedback = () => {
             type="text"
             labelText="fb company location"
             name="fblocation"
-            value={fbstudentPhone}
+            value={fblocation}
             handleChange={handleFeedbackInput}
           />
           <FormRow
             type="text"
             labelText="fb company Phone"
-            name="fblocation"
+            name="fbcompanyPhone"
             value={fbcompanyPhone}
             handleChange={handleFeedbackInput}
           />
+
           <DateInput
             labelText="Start date"
             name="fbstartDate"
@@ -128,6 +147,13 @@ const AddFeedback = () => {
             value={fbendDate}
             handleChange={handleFeedbackInput}
             max="2022-12-31"
+          />
+          <FormRowComment
+            type="text"
+            labelText="Feedback Comment"
+            name="fbComment"
+            value={fbComment}
+            handleChange={handleFeedbackInput}
           />
 
           {/* btn container */}

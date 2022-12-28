@@ -26,6 +26,7 @@ import connectDB from "./db/connect.js";
 // Import the route handlers for the auth and jobs routes
 import authRouter from "./routes/authRoutes.js";
 import jobsRouter from "./routes/jobsRoutes.js";
+import feedbackRouter from "./routes/feedbackRoutes.js";
 
 // Import the middleware for handling not found routes and errors
 import notFoundMiddleware from "./middleware/not-found.js";
@@ -55,7 +56,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/jobs", authenticateUser, jobsRouter);
 
 // Add the feedback router to handle requests to the /api/v1/feedback route
-// app.use("/api/v1/feedback", feedbackRouter);
+app.use("/api/v1/feedback", authenticateUser, feedbackRouter);
 
 // Use the notFoundMiddleware for any requests that do not match any of the above routes
 app.use(notFoundMiddleware);

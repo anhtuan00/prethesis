@@ -1,17 +1,19 @@
 import express from "express";
 const router = express.Router();
 
-// Import the controllers for handling feedback requests
 import {
-  submitFeedback,
-  deleteFeedback,
-} from "../controllers/feedbackController";
+  createFeedback, // function for creating a new feedback
+  deleteFeedback, // function for deleting a feedback
+  getAllFeedbacks, // function for getting all feedbacks
+  updateFeedback, // function for updating a feedback
+} from "../controllers/feedbackController.js";
 
-// Import middleware for authenticating requests
-import authenticateUser from "../middleware/auth.js";
+// When a POST request is made to the '/' route, call the createFeedback function
+// When a GET request is made to the '/' route, call the getAllFeedbacks function
+router.route("/").post(createFeedback).get(getAllFeedbacks);
 
-// Define routes for handling feedback requests
-router.route("/submit").post(authenticateUser, submitFeedback);
-router.route("/:feedbackId").delete(authenticateUser, deleteFeedback);
+// When a DELETE request is made to the '/:id' route, call the deleteFeedback function
+// When a PATCH request is made to the '/:id' route, call the updateFeedback function
+router.route("/:id").delete(deleteFeedback).patch(updateFeedback);
 
 export default router;
