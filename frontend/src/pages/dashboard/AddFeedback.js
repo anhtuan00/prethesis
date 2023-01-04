@@ -1,10 +1,4 @@
-import {
-  FormRow,
-  FormRowSelect,
-  Alert,
-  DateInput,
-  FormRowComment,
-} from "../../components";
+import { FormRow, Alert, DateInput, FormRowComment } from "../../components";
 import { useAppContext } from "../../context/appContext";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
 
@@ -26,8 +20,6 @@ const AddFeedback = () => {
     fbComment,
     handleChange,
     clearValues,
-    createJob,
-    editJob,
     editFeedback,
     createFeedback,
   } = useAppContext();
@@ -58,10 +50,21 @@ const AddFeedback = () => {
       !fbstartDate ||
       !fbendDate ||
       !fbComment
-    ) {
-      displayAlert();
-      return;
-    }
+    )
+      if (
+        !fbstudentName ||
+        !fbposition ||
+        !fbstudentPhone ||
+        !fbcompanyName ||
+        !fblocation ||
+        !fbcompanyPhone ||
+        !fbstartDate ||
+        !fbendDate ||
+        !fbComment
+      ) {
+        displayAlert();
+        return;
+      }
     if (isEditing) {
       editFeedback();
       return;
@@ -75,10 +78,11 @@ const AddFeedback = () => {
     handleChange({ name, value });
   };
 
+  console.log("isLoading: ", isLoading);
   return (
     <Wrapper>
       <form className="form">
-        <h3>{isEditing ? "edit job" : "add job"}</h3>
+        <h3>{isEditing ? "edit feedback" : "add feedback"}</h3>
         {showAlert && <Alert />}
         <div className="form-center">
           {/* position */}
@@ -146,7 +150,7 @@ const AddFeedback = () => {
             name="fbendDate"
             value={fbendDate}
             handleChange={handleFeedbackInput}
-            max="2022-12-31"
+            max="2023-12-31"
           />
           <FormRowComment
             type="text"
@@ -170,7 +174,7 @@ const AddFeedback = () => {
               className="btn btn-block clear-btn"
               onClick={(e) => {
                 e.preventDefault();
-                clearValues();
+                clearValues("feedback");
               }}
             >
               clear

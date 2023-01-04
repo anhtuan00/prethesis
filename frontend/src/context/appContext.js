@@ -78,10 +78,13 @@ const initialState = {
   fbcompanyName: "",
   fblocation: "",
   fbcompanyPhone: "",
-  fbstartDate: "2022-12-22",
-  fbendDate: "2023-12-31",
+  fbstartDate: "",
+  fbendDate: "",
   fbComment: "",
-  createFeedbackLoading: false,
+  feedbacks: [],
+  totalFeedbacks: 0,
+  feedbackPage: 1,
+  totalFeedbackPages: 1,
 };
 
 const AppContext = React.createContext();
@@ -143,6 +146,9 @@ const AppProvider = ({ children }) => {
   };
 
   const setupUser = async ({ currentUser, endPoint, alertText }) => {
+    // Add a role field to the currentUser object and set it to "user"
+    currentUser.role = "user";
+
     dispatch({ type: SETUP_USER_BEGIN });
     try {
       const { data } = await axios.post(
@@ -164,6 +170,7 @@ const AppProvider = ({ children }) => {
     }
     clearAlert();
   };
+
   const toggleSidebar = () => {
     dispatch({ type: TOGGLE_SIDEBAR });
   };
@@ -198,9 +205,13 @@ const AppProvider = ({ children }) => {
   const handleChange = ({ name, value }) => {
     dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
   };
-  const clearValues = () => {
-    dispatch({ type: CLEAR_VALUES });
+  const clearValues = (formType) => {
+    dispatch({
+      type: CLEAR_VALUES,
+      payload: formType,
+    });
   };
+
   const createJob = async () => {
     dispatch({ type: CREATE_JOB_BEGIN });
     try {
@@ -284,45 +295,66 @@ const AppProvider = ({ children }) => {
       logoutUser();
     }
   };
-  const createFeedback = () => {
+  const createFeedback = async () => {
+    console.log("createFeedback trong context");
     dispatch({ type: CREATE_FEEDBACK_BEGIN });
-
-    authFetch
-      .post("/feedback", {
-        studentName: state.fbstudentName,
-        studentId: state.fbstudentId,
-        position: state.fbposition,
-        studentPhone: state.fbstudentPhone,
-        companyName: state.fbcompanyName,
-        location: state.fblocation,
-        companyPhone: state.fbcompanyPhone,
-        startDate: state.fbstartDate,
-        endDate: state.fbendDate,
-        comment: state.fbComment,
-      })
-      .then((res) => {
-        dispatch({ type: CREATE_FEEDBACK_SUCCESS, payload: res.data });
-        displayAlert("Feedback created successfully", "success");
-        clearValues();
-      })
-      .catch((err) => {
-        dispatch({ type: CREATE_FEEDBACK_ERROR, payload: err });
-        displayAlert("Error creating feedback", "error");
+    try {
+      const {
+        fbstudentName,
+        fbstudentId,
+        fbposition,
+        fbstudentPhone,
+        fbcompanyName,
+        fblocation,
+        fbcompanyPhone,
+        fbstartDate,
+        fbendDate,
+        fbComment,
+      } = state;
+      await authFetch.post("/feedbacks", {
+        fbstudentName,
+        fbstudentId,
+        fbposition,
+        fbstudentPhone,
+        fbcompanyName,
+        fblocation,
+        fbcompanyPhone,
+        fbstartDate,
+        fbendDate,
+        fbComment,
       });
+      dispatch({ type: CREATE_FEEDBACK_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      if (error.response.status === 401) return;
+      dispatch({
+        type: CREATE_FEEDBACK_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+    clearAlert();
+  };
+
+  const getFeedbacks = async (page = 1) => {
+    dispatch({ type: GET_FEEDBACKS_BEGIN });
+    try {
+      const { data } = await authFetch.get(`/feedbacks?page=${page}`);
+      const { feedbacks, totalFeedbacks, numOfPages } = data;
+      dispatch({
+        type: GET_FEEDBACKS_SUCCESS,
+        payload: {
+          feedbacks,
+          totalFeedbacks,
+          numOfPages,
+        },
+      });
+    } catch (error) {
+      logoutUser();
+    }
   };
 
   const setEditFeedback = (id) => {
     dispatch({ type: SET_EDIT_FEEDBACK, payload: { id } });
-  };
-
-  const getFeedbacks = async () => {
-    dispatch({ type: GET_FEEDBACKS_BEGIN });
-    try {
-      const { data } = await authFetch.get("/feedbacks");
-      dispatch({ type: GET_FEEDBACKS_SUCCESS, payload: data.data });
-    } catch (error) {
-      logoutUser();
-    }
   };
 
   const editFeedback = async () => {
@@ -351,32 +383,26 @@ const AppProvider = ({ children }) => {
         fbcompanyPhone,
         fbstartDate,
         fbendDate,
+        fbComment,
       });
       dispatch({ type: EDIT_FEEDBACK_SUCCESS });
       dispatch({ type: CLEAR_VALUES });
     } catch (error) {
       if (error.response.status === 401) return;
       dispatch({
-        type: EDIT_JOB_ERROR,
+        type: EDIT_FEEDBACK_ERROR,
         payload: { msg: error.response.data.msg },
       });
     }
     clearAlert();
   };
 
-  const editFeedbackSuccess = (alertText) => ({
-    type: EDIT_FEEDBACK_SUCCESS,
-    payload: alertText,
-  });
-
-  const editFeedbackError = () => ({
-    type: EDIT_FEEDBACK_ERROR,
-  });
-
   const deleteFeedback = async (feedbackId) => {
+    console.log("deleteFeedback trong context");
+    console.log("feedbackId is: ", feedbackId);
     dispatch({ type: DELETE_FEEDBACK_BEGIN });
     try {
-      await authFetch.delete(`/feedback/${feedbackId}`);
+      await authFetch.delete(`/feedbacks/${feedbackId}`);
       getFeedbacks();
     } catch (error) {
       logoutUser();
@@ -387,7 +413,7 @@ const AppProvider = ({ children }) => {
     dispatch({ type: CLEAR_FILTERS });
   };
   const changePage = (page) => {
-    dispatch({ type: CHANGE_PAGE, payload: { page } });
+    dispatch({ type: CHANGE_PAGE, payl1oad: { page } });
   };
   return (
     <AppContext.Provider
@@ -410,6 +436,8 @@ const AppProvider = ({ children }) => {
         clearFilters,
         changePage,
         createFeedback,
+        getFeedbacks,
+        deleteFeedback,
       }}
     >
       {children}

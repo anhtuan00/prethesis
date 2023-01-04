@@ -13,9 +13,6 @@ const Wrapper = styled.article`
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
-    h5 {
-      letter-spacing: 0;
-    }
   }
   .main-icon {
     width: 60px;
@@ -41,18 +38,6 @@ const Wrapper = styled.article`
       letter-spacing: var(--letterSpacing);
     }
   }
-  .pending {
-    background: #fcefc7;
-    color: #e9b949;
-  }
-  .interview {
-    background: #e0e8f9;
-    color: #647acb;
-  }
-  .declined {
-    color: #d66a6a;
-    background: #ffeeee;
-  }
   .content {
     padding: 1rem 1.5rem;
   }
@@ -67,39 +52,35 @@ const Wrapper = styled.article`
       grid-template-columns: 1fr;
     }
     @media (min-width: 1120px) {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
+  grid-template-columns: 1fr 1fr;
+}
+footer {
+  margin-top: 1rem;
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  visibility: hidden;
+}
+.edit-btn,
+.delete-btn {
+  letter-spacing: var(--letterSpacing);
+  cursor: pointer;
+  height: 30px;
+}
+.edit-btn {
+  color: var(--green-dark);
+  background: var(--green-light);
+  margin-right: 0.5rem;
+}
+.delete-btn {
+  color: var(--red-dark);
+  background: var(--red-light);
+}
 
-  .status {
-    border-radius: var(--borderRadius);
-    text-transform: capitalize;
-    letter-spacing: var(--letterSpacing);
-    text-align: center;
-    width: 100px;
-    height: 30px;
-  }
-  footer {
-    margin-top: 1rem;
-  }
-  .edit-btn,
-  .delete-btn {
-    letter-spacing: var(--letterSpacing);
-    cursor: pointer;
-    height: 30px;
-  }
-  .edit-btn {
-    color: var(--green-dark);
-    background: var(--green-light);
-    margin-right: 0.5rem;
-  }
-  .delete-btn {
-    color: var(--red-dark);
-    background: var(--red-light);
-  }
-  &:hover .actions {
-    visibility: visible;
-  }
+&:hover .actions {
+  visibility: visible;
+}
 `;
 
 export default Wrapper;

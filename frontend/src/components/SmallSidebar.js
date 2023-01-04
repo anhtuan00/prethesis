@@ -2,9 +2,12 @@ import Wrapper from "../assets/wrappers/SmallSidebar";
 import { FaTimes } from "react-icons/fa";
 import { useAppContext } from "../context/appContext";
 import NavLinks from "./NavLinks";
+import { adminLinks, userLinks } from "../utils/links";
 
 const SmallSidebar = () => {
-  const { showSidebar, toggleSidebar } = useAppContext();
+  const { showSidebar, toggleSidebar, user } = useAppContext();
+  const links = user.role === "admin" ? adminLinks : userLinks;
+
   return (
     <Wrapper>
       <div
@@ -17,7 +20,7 @@ const SmallSidebar = () => {
             <FaTimes />
           </button>
           <header></header>
-          <NavLinks toggleSidebar={toggleSidebar} />
+          <NavLinks links={links} toggleSidebar={toggleSidebar} />
         </div>
       </div>
     </Wrapper>

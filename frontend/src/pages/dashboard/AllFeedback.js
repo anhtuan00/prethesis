@@ -1,20 +1,11 @@
-// import { FeedbackContainer, SearchContainer } from "../../components";
-
-// const AllFeedback = () => {
-//   return (
-//     <>
-//       {/* <SearchContainer /> */}
-//       <FeedbackContainer />
-//     </>
-//   );
-// };
-
-// export default AllFeedback;
-
-import React from "react";
+import { FeedbackContainer } from "../../components";
 
 const AllFeedback = () => {
-  return <div>AllFeedback</div>;
+  return (
+    <>
+      <FeedbackContainer />
+    </>
+  );
 };
 
 export default AllFeedback;

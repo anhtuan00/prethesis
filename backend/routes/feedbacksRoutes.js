@@ -6,7 +6,7 @@ import {
   deleteFeedback, // function for deleting a feedback
   getAllFeedbacks, // function for getting all feedbacks
   updateFeedback, // function for updating a feedback
-} from "../controllers/feedbackController.js";
+} from "../controllers/feedbacksController.js";
 
 // When a POST request is made to the '/' route, call the createFeedback function
 // When a GET request is made to the '/' route, call the getAllFeedbacks function

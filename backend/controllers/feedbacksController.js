@@ -1,6 +1,7 @@
 import Feedback from "../models/Feedback.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
+import User from "../models/User.js";
 
 // This function handles the request to submit a new feedback.
 // It expects the request body to contain fbstudentName, fbstudentId, fbstudentPhone, fbcompanyName, fbcompanyPhone, fbposition, fblocation, fbstartDate, fbendDate, and fbComment fields.
@@ -38,10 +39,22 @@ const createFeedback = async (req, res) => {
     throw new BadRequestError("Please provide all values");
   }
 
+  // Check if the user has already sent a feedback
+  const user = await User.findOne({
+    _id: req.user.userId,
+    hasSentFeedback: true,
+  });
+  if (user) {
+    throw new BadRequestError("You can only send one feedback");
+  }
+
   // Set the user ID of the authenticated user as the creator of the feedback
   req.body.createdBy = req.user.userId;
   // Create a new feedback in the database using the provided information
   const feedback = await Feedback.create(req.body);
+
+  // Update the user's hasSentFeedback field to true
+  await User.findByIdAndUpdate(req.user.userId, { hasSentFeedback: true });
 
   res.status(StatusCodes.CREATED).json({ feedback });
 };
@@ -51,37 +64,13 @@ const createFeedback = async (req, res) => {
 // It uses these query parameters to filter and sort the feedbacks and paginate the result.
 // It returns the matching feedbacks, total number of feedbacks, and total number of pages in the response.
 const getAllFeedbacks = async (req, res) => {
-  const { status, sort, search } = req.query;
-
   // Set the user ID of the authenticated user as the creator of the feedback
   const queryObject = {
     createdBy: req.user.userId,
   };
-  // Add additional fields to the query object based on the provided query parameters
-  if (status && status !== "all") {
-    queryObject.status = status;
-  }
-  if (search) {
-    queryObject.position = { $regex: search, $options: "i" };
-  }
-  // NO AWAIT
+
   // Find all feedbacks that match the query object
   let result = Feedback.find(queryObject);
-
-  // Sort the results based on the provided sort query parameter
-  // If no sort parameter is provided, the results will not be sorted
-  if (sort === "latest") {
-    result = result.sort("-createdAt"); // sort by most recent first
-  }
-  if (sort === "oldest") {
-    result = result.sort("createdAt"); // sort by oldest first
-  }
-  if (sort === "a-z") {
-    result = result.sort("position"); // sort alphabetically by position field
-  }
-  if (sort === "z-a") {
-    result = result.sort("-position"); // sort alphabetically by position field in reverse order
-  }
 
   // Set up pagination by skipping and limiting the number of results
   // If no page or limit query parameters are provided, default to page 1 with 10 results per page
@@ -163,26 +152,33 @@ const updateFeedback = async (req, res) => {
 // It then checks that the authenticated user has permission to delete the feedback.
 // If the user does not have permission, it throws a BadRequestError.
 // Otherwise, it deletes the feedback and returns a success message in the response.
+// This function handles the request to delete a feedback.
+// It expects the request params to contain a feedback ID.
+// If the feedback does not exist or the authenticated user is not the creator of the feedback, it will throw a NotFoundError.
+// Otherwise, it will delete the feedback from the database and return the deleted feedback in the response.
 const deleteFeedback = async (req, res) => {
   // Extract the feedback ID from the request params
-  const { feedbackId } = req.params;
+  const { id: feedbackId } = req.params;
 
-  // Find the feedback by its ID
-  const feedback = await Feedback.findById(feedbackId);
+  // Find the feedback by its ID and the authenticated user's ID
+  const feedback = await Feedback.findOne({
+    _id: feedbackId,
+    createdBy: req.user.userId,
+  });
 
   // If the feedback does not exist, throw a NotFoundError
   if (!feedback) {
     throw new NotFoundError("Feedback not found");
   }
 
-  // Check that the authenticated user has permission to delete the feedback
-  checkPermissions(req.user.userId, feedback.createdBy);
-
-  // Delete the feedback
+  // Delete the feedback from the database
   await feedback.remove();
 
-  // Return a success message in the response
-  res.status(StatusCodes.OK).json({ message: "Feedback deleted successfully" });
+  // Update the user's hasSentFeedback field to false
+  await User.findByIdAndUpdate(req.user.userId, { hasSentFeedback: false });
+
+  res.status(StatusCodes.OK).json({ feedback });
 };
+
 
 export { createFeedback, getAllFeedbacks, updateFeedback, deleteFeedback };

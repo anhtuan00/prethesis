@@ -11,6 +11,8 @@ import DateInput from "./DateInput";
 import FormRowComment from "./FormRowComment";
 import FeedbackContainer from "./FeedbackContainer";
 import Feedback from "./Feedback";
+import FeedbackInfo from "./FeedbackInfo";
+import NavLinks from "./NavLinks";
 export {
   FormRow,
   Alert,
@@ -25,4 +27,6 @@ export {
   FormRowComment,
   FeedbackContainer,
   Feedback,
+  FeedbackInfo,
+  NavLinks,
 };

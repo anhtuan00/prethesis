@@ -11,6 +11,7 @@ const FeedbackSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide student id"],
       maxlength: 50,
+      unique: true,
     },
     fbstudentPhone: {
       type: String,
@@ -40,25 +41,26 @@ const FeedbackSchema = new mongoose.Schema(
     fbstartDate: {
       type: Date,
       required: [true, "Please provide start date"],
+      default: "2022-12-30", // default start date
     },
     fbendDate: {
       type: Date,
       required: [true, "Please provide end date"],
+      default: "2023-12-31", // default end date
     },
     fbComment: {
       type: String,
       required: [true, "Please provide a feedback comment"],
       maxlength: 500,
     },
+
+    
+
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",
       required: [true, "Please provide user"],
-    },
-    approve: {
-      type: String,
-      enum: ["approved", "unapproved"],
-      default: "unapproved",
+      unique: true, // add unique index
     },
   },
   { timestamps: true }

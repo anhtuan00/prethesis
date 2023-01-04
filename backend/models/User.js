@@ -34,13 +34,17 @@ const UserSchema = new mongoose.Schema({
     // Exclude the password field from the model's toJSON representation (so it is not included in responses)
     select: false,
   },
+  role: {
+    type: String,
+    default: "user",
+  },
   lastName: {
     // The user's last name
     type: String,
     trim: true,
     maxlength: 20,
     // Set a default value for the lastName field
-    default: "Please provide your lastName",
+    default: "Last Name",
   },
   studentId: {
     type: String,
@@ -54,7 +58,11 @@ const UserSchema = new mongoose.Schema({
     trim: true,
     maxlength: 20,
     // Set a default value for the location field
-    default: "Please provide your location",
+    default: "Your Location",
+  },
+  hasSentFeedback: {
+    type: Boolean,
+    default: false,
   },
 });
 

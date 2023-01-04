@@ -64,6 +64,7 @@ const reducer = (state, action) => {
       isLoading: true,
       token: action.payload.token,
       user: action.payload.user,
+      role: action.payload.user.role,
       userLocation: action.payload.location,
       jobLocation: action.payload.location,
       showAlert: true,
@@ -71,6 +72,7 @@ const reducer = (state, action) => {
       alertText: action.payload.alertText,
     };
   }
+
   if (action.type === SETUP_USER_ERROR) {
     return {
       ...state,
@@ -128,21 +130,39 @@ const reducer = (state, action) => {
     };
   }
   if (action.type === CLEAR_VALUES) {
-    const initialState = {
-      isEditing: false,
-      editJobId: "",
-      position: "",
-      company: "",
-      jobLocation: state.userLocation,
-      jobType: "full-time",
-      status: "pending",
-    };
-
-    return {
-      ...state,
-      ...initialState,
-    };
+    switch (action.payload) {
+      case "job":
+        return {
+          ...state,
+          isEditing: false,
+          editJobId: "",
+          position: "",
+          company: "",
+          jobLocation: state.userLocation,
+          jobType: "full-time",
+          status: "pending",
+        };
+      case "feedback":
+        return {
+          ...state,
+          isEditing: false,
+          editFeedbackId: "",
+          fbstudentName: "",
+          fbstudentId: "",
+          fbposition: "",
+          fbstudentPhone: "",
+          fbcompanyName: "",
+          fblocation: "",
+          fbcompanyPhone: "",
+          fbstartDate: "",
+          fbendDate: "",
+          fbComment: "",
+        };
+      default:
+        return state;
+    }
   }
+
   if (action.type === CREATE_JOB_BEGIN) {
     return { ...state, isLoading: true };
   }
@@ -225,7 +245,7 @@ const reducer = (state, action) => {
   if (action.type === CREATE_FEEDBACK_SUCCESS) {
     return {
       ...state,
-      createFeedbackLoading: false,
+      isLoading: false,
       showAlert: true,
       alertType: "success",
       alertText: "Feedback created successfully!",
@@ -234,19 +254,68 @@ const reducer = (state, action) => {
   if (action.type === CREATE_FEEDBACK_ERROR) {
     return {
       ...state,
-      createFeedbackLoading: false,
+      isLoading: false,
       showAlert: true,
       alertType: "danger",
-      alertText: "Error creating feedback",
+      alertText: action.payload.msg,
+    };
+  }
+
+  if (action.type === GET_FEEDBACKS_BEGIN) {
+    console.log("GET_FEEDBACKS_BEGIN");
+    return {
+      ...state,
+      isLoading: true,
+      showAlert: false,
+    };
+  }
+
+  if (action.type === GET_FEEDBACKS_SUCCESS) {
+    console.log("GET_FEEDBACKS_SUCCESS");
+    return {
+      ...state,
+      isLoading: false,
+      feedbacks: action.payload.feedbacks,
+      totalFeedbacks: action.payload.totalFeedbacks,
+      feedbackPage: action.payload.page,
+      totalFeedbackPages: action.payload.numOfPages,
     };
   }
 
   if (action.type === SET_EDIT_FEEDBACK) {
+    const feedback = state.feedbacks.find(
+      (feedback) => feedback._id === action.payload.id
+    );
+    const {
+      _id,
+      fbstudentName,
+      fbstudentId,
+      fbposition,
+      fbstudentPhone,
+      fbcompanyName,
+      fblocation,
+      fbcompanyPhone,
+      fbstartDate,
+      fbendDate,
+      fbComment,
+    } = feedback;
     return {
       ...state,
-      editFeedback: action.payload,
+      isEditing: true,
+      editFeedbackId: _id,
+      fbstudentName,
+      fbstudentId,
+      fbposition,
+      fbstudentPhone,
+      fbcompanyName,
+      fblocation,
+      fbcompanyPhone,
+      fbstartDate,
+      fbendDate,
+      fbComment,
     };
   }
+
   if (action.type === EDIT_FEEDBACK_BEGIN) {
     return {
       ...state,
