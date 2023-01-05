@@ -29,6 +29,16 @@ const JobSchema = new mongoose.Schema(
       default: "my city", // default value for jobLocation is "my city"
       required: true, // jobLocation is a required field
     },
+    startDate: {
+      type: Date,
+      required: [true, "Please provide start date"],
+      default: "2022-12-30", // default start date
+    },
+    fbendDate: {
+      type: Date,
+      required: [true, "Please provide end date"],
+      default: "2023-12-31", // default end date
+    },
     createdBy: {
       type: mongoose.Types.ObjectId, // createdBy field stores the object ID of a user
       ref: "User", // createdBy field references the User model
