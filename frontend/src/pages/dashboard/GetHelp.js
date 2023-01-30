@@ -7,16 +7,27 @@ const GetHelp = () => {
       <h2>University Department</h2>
       <ul>
         <li>Name: Department of Computer Science</li>
-        <li>Location: 123 Main St</li>
-        <li>Phone: 555-555-1212</li>
-        <li>Working Hours: 9am-5pm</li>
+        <li>
+          Location: Quarter 6, Linh Trung w., Thu Duc City, Ho Chi Minh City
+        </li>
+        <li>Phone: (028) 37244270 ext. 3232</li>
+        <li>Fax: (028) 37244271</li>
+        <li>Email: cse@hcmiu.edu.vn</li>
+        <li>Working Hours: 8am-5pm</li>
       </ul>
-      <h2>Lecturer Responsible for Tracking Internship</h2>
+      <h2>
+        Lecturer Responsible for Student internship and job assistance system
+      </h2>
       <ul>
-        <li>Name: Dr. Jane Smith</li>
-        <li>Location: 456 Main St</li>
-        <li>Phone: 555-555-1212</li>
-        <li>Working Hours: 9am-5pm</li>
+        <li>Name: MSc. Pham Quoc Son Lam</li>
+        <li>
+          Location: Room 610, International University. Block 6, Linh Trung
+          Ward, Thu Duc District, HCM City, Vietnam
+        </li>
+        <li>Phone: (84-8) 37244270. Ext: 3232</li>
+        <li>Fax: (84-8) 37244271</li>
+        <li>Email: pqslam@hcmiu.edu.vn</li>
+        <li>Working Hours: 8am-5pm</li>
       </ul>
     </div>
   );

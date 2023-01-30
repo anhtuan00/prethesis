@@ -1,4 +1,4 @@
-import { FormRow, FormRowSelect, Alert } from "../../components";
+import { FormRow, FormRowSelect, Alert, DateInput } from "../../components";
 import { useAppContext } from "../../context/appContext";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
 
@@ -15,6 +15,8 @@ const AddJob = () => {
     jobTypeOptions,
     status,
     statusOptions,
+    startDate,
+    endDate,
     handleChange,
     clearValues,
     createJob,
@@ -34,9 +36,10 @@ const AddJob = () => {
     }
     createJob();
   };
+
   const handleJobInput = (e) => {
     const name = e.target.name;
-    const value = e.target.value;
+    let value = e.target.value;
     handleChange({ name, value });
   };
 
@@ -82,6 +85,20 @@ const AddJob = () => {
             value={jobType}
             handleChange={handleJobInput}
             list={jobTypeOptions}
+          />
+          <DateInput
+            labelText="Start date"
+            name="startDate"
+            value={startDate}
+            handleChange={handleJobInput}
+            min="2022-12-22"
+          />
+          <DateInput
+            labelText="End date"
+            name="endDate"
+            value={endDate}
+            handleChange={handleJobInput}
+            max="2023-12-31"
           />
           {/* btn container */}
           <div className="btn-container">

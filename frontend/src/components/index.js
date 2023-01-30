@@ -13,6 +13,9 @@ import FeedbackContainer from "./FeedbackContainer";
 import Feedback from "./Feedback";
 import FeedbackInfo from "./FeedbackInfo";
 import NavLinks from "./NavLinks";
+import UsersContainer from "./UsersContainer";
+import UsersSearchContainer from "./UsersSearchContainer";
+import UsersPageBtnContainer from "./UsersPageBtnContainer";
 export {
   FormRow,
   Alert,
@@ -29,4 +32,7 @@ export {
   Feedback,
   FeedbackInfo,
   NavLinks,
+  UsersContainer,
+  UsersSearchContainer,
+  UsersPageBtnContainer,
 };

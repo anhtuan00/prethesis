@@ -2,6 +2,8 @@ import React, { useReducer, useContext } from "react";
 
 import reducer from "./reducer";
 import axios from "axios";
+import moment from "moment";
+
 import {
   DISPLAY_ALERT,
   CLEAR_ALERT,
@@ -37,6 +39,8 @@ import {
   CREATE_FEEDBACK_BEGIN,
   CREATE_FEEDBACK_SUCCESS,
   CREATE_FEEDBACK_ERROR,
+  GET_USERS_BEGIN,
+  GET_USERS_SUCCESS,
 } from "./actions";
 
 const token = localStorage.getItem("token");
@@ -61,11 +65,12 @@ const initialState = {
   jobType: "full-time",
   statusOptions: ["interview", "declined", "pending"],
   status: "pending",
+  startDate: "2022-12-30",
+  endDate: "2023-12-31",
   jobs: [],
   totalJobs: 0,
   numOfPages: 1,
   page: 1,
-  monthlyApplications: [],
   search: "",
   searchStatus: "all",
   searchType: "all",
@@ -85,6 +90,14 @@ const initialState = {
   totalFeedbacks: 0,
   feedbackPage: 1,
   totalFeedbackPages: 1,
+  users: [],
+  pageUsers: 1,
+  totalUsers: 0,
+  searchUsers: "",
+  sortUsers: "",
+  numOfPagesUsers: 1,
+  searchEmail: "",
+  searchStudentId: "",
 };
 
 const AppContext = React.createContext();
@@ -203,8 +216,12 @@ const AppProvider = ({ children }) => {
   };
 
   const handleChange = ({ name, value }) => {
+    if (name === "startDate" || name === "endDate") {
+      value = new Date(value);
+    }
     dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
   };
+
   const clearValues = (formType) => {
     dispatch({
       type: CLEAR_VALUES,
@@ -215,13 +232,23 @@ const AppProvider = ({ children }) => {
   const createJob = async () => {
     dispatch({ type: CREATE_JOB_BEGIN });
     try {
-      const { position, company, jobLocation, jobType, status } = state;
+      const {
+        position,
+        company,
+        jobLocation,
+        jobType,
+        status,
+        startDate,
+        endDate,
+      } = state;
       await authFetch.post("/jobs", {
         position,
         company,
         jobLocation,
         jobType,
         status,
+        startDate,
+        endDate,
       });
       dispatch({ type: CREATE_JOB_SUCCESS });
       dispatch({ type: CLEAR_VALUES });
@@ -265,15 +292,24 @@ const AppProvider = ({ children }) => {
   };
   const editJob = async () => {
     dispatch({ type: EDIT_JOB_BEGIN });
-
     try {
-      const { position, company, jobLocation, jobType, status } = state;
+      const {
+        position,
+        company,
+        jobLocation,
+        jobType,
+        status,
+        startDate,
+        endDate,
+      } = state;
       await authFetch.patch(`/jobs/${state.editJobId}`, {
         company,
         position,
         jobLocation,
         jobType,
         status,
+        startDate,
+        endDate,
       });
       dispatch({ type: EDIT_JOB_SUCCESS });
       dispatch({ type: CLEAR_VALUES });
@@ -286,6 +322,7 @@ const AppProvider = ({ children }) => {
     }
     clearAlert();
   };
+
   const deleteJob = async (jobId) => {
     dispatch({ type: DELETE_JOB_BEGIN });
     try {
@@ -296,7 +333,6 @@ const AppProvider = ({ children }) => {
     }
   };
   const createFeedback = async () => {
-    console.log("createFeedback trong context");
     dispatch({ type: CREATE_FEEDBACK_BEGIN });
     try {
       const {
@@ -409,11 +445,41 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  const convertDate = (date) => {
+    return moment(date).format("DD-MM-YYYY");
+  };
+
+  const getUsers = async () => {
+    const { pageUsers, searchUsers, searchEmail, searchStudentId, sortUsers } =
+      state;
+
+    let url = `/users?page=${pageUsers}&email=${searchEmail}&studentId=${searchStudentId}&sort=${sortUsers}`;
+    if (searchUsers) {
+      url = url + `&searchUsers=${searchUsers}`;
+    }
+    dispatch({ type: GET_USERS_BEGIN });
+    try {
+      const { data } = await authFetch(url);
+      const { users, totalUsers, numOfPagesUsers } = data;
+      dispatch({
+        type: GET_USERS_SUCCESS,
+        payload: {
+          users,
+          totalUsers,
+          numOfPagesUsers,
+        },
+      });
+    } catch (error) {
+      logoutUser();
+    }
+    clearAlert();
+  };
+
   const clearFilters = () => {
     dispatch({ type: CLEAR_FILTERS });
   };
   const changePage = (page) => {
-    dispatch({ type: CHANGE_PAGE, payl1oad: { page } });
+    dispatch({ type: CHANGE_PAGE, payload: { page } });
   };
   return (
     <AppContext.Provider
@@ -438,6 +504,8 @@ const AppProvider = ({ children }) => {
         createFeedback,
         getFeedbacks,
         deleteFeedback,
+        convertDate,
+        getUsers,
       }}
     >
       {children}

@@ -48,8 +48,9 @@ const UserSchema = new mongoose.Schema({
   },
   studentId: {
     type: String,
-    unique: true,
-    minlength: 11,
+    // unique: true,
+    default: "",
+    // minlength: 11,
     maxlength: 11,
   },
   location: {

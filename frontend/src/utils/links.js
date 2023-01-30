@@ -16,8 +16,8 @@ export const adminLinks = [
     icon: <MdQueryStats />,
   },
   { id: 3, text: "add approval", path: "add-approve", icon: <FaWpforms /> },
-  { id: 4, text: "profile", path: "profile", icon: <ImProfile /> },
-  { id: 5, text: "get help", path: "get-help", icon: <FaQuestionCircle /> },
+  { id: 4, text: "get help", path: "get-help", icon: <FaQuestionCircle /> },
+  { id: 5, text: "profile", path: "profile", icon: <ImProfile /> },
 ];
 
 export const userLinks = [

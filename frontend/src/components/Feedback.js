@@ -24,28 +24,28 @@ const Feedback = ({
   fbcompanyPhone,
   fblocation,
 }) => {
-  const { setEditFeedback, deleteFeedback } = useAppContext();
-
+  const { setEditFeedback, deleteFeedback, convertDate } = useAppContext();
+  const fbformattedStartDate = convertDate(fbstartDate);
+  const fbformattedEndDate = convertDate(fbendDate);
   return (
     <Wrapper>
       <header>
-        <div className="main-icon">{fbcompanyName.charAt(0)}</div>
+        <div className="main-icon">{fbstudentName.charAt(0)}</div>
         <div className="info">
-          <h5>Student ID: {fbstudentId}</h5>
           <h5>{fbstudentName}</h5>
+          <h5>Student ID: {fbstudentId}</h5>
           <p>{fbposition}</p>
+          <p>{fbstudentPhone}</p>
         </div>
       </header>
       <div className="content">
         <div className="content-center">
-          <FeedbackInfo icon={<FaIdCard />} text={fbstudentId} />
-          <FeedbackInfo icon={<FaUser />} text={fbstudentName} />
-          <FeedbackInfo icon={<FaPhone />} text={fbstudentPhone} />
-          <FeedbackInfo icon={<FaBriefcase />} text={fbposition} />
+          <FeedbackInfo icon={<FaBriefcase />} text={fbcompanyName} />
           <FeedbackInfo icon={<FaPhone />} text={fbcompanyPhone} />
           <FeedbackInfo icon={<FaMapMarkerAlt />} text={fblocation} />
-          <FeedbackInfo icon={<FaCalendarAlt />} text={fbstartDate} />
-          <FeedbackInfo icon={<FaCalendarAlt />} text={fbendDate} />
+          <FeedbackInfo icon={<FaCalendarAlt />} text={fbformattedStartDate} />
+          <FeedbackInfo icon={<FaCalendarAlt />} text={fbformattedEndDate} />
+          <FeedbackInfo icon={<FaBriefcase />} text={fbComment} />
           <div className={`status ${status}`}>{status}</div>
         </div>
         <footer>

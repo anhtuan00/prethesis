@@ -33,6 +33,8 @@ import {
   CREATE_FEEDBACK_BEGIN,
   CREATE_FEEDBACK_SUCCESS,
   CREATE_FEEDBACK_ERROR,
+  GET_USERS_BEGIN,
+  GET_USERS_SUCCESS,
 } from "./actions";
 
 import { initialState } from "./appContext";
@@ -141,6 +143,8 @@ const reducer = (state, action) => {
           jobLocation: state.userLocation,
           jobType: "full-time",
           status: "pending",
+          startDate: "",
+          endDate: "",
         };
       case "feedback":
         return {
@@ -185,6 +189,20 @@ const reducer = (state, action) => {
       alertText: action.payload.msg,
     };
   }
+
+  if (action.type === GET_USERS_BEGIN) {
+    return { ...state, isLoading: true, showAlert: false };
+  }
+  if (action.type === GET_USERS_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      users: action.payload.users,
+      totalUsers: action.payload.totalUsers,
+      numOfPagesUsers: action.payload.numOfPagesUsers,
+    };
+  }
+
   if (action.type === GET_JOBS_BEGIN) {
     return { ...state, isLoading: true, showAlert: false };
   }
@@ -199,7 +217,16 @@ const reducer = (state, action) => {
   }
   if (action.type === SET_EDIT_JOB) {
     const job = state.jobs.find((job) => job._id === action.payload.id);
-    const { _id, position, company, jobLocation, jobType, status } = job;
+    const {
+      _id,
+      position,
+      company,
+      jobLocation,
+      jobType,
+      status,
+      startDate,
+      endDate,
+    } = job;
     return {
       ...state,
       isEditing: true,
@@ -209,8 +236,11 @@ const reducer = (state, action) => {
       jobLocation,
       jobType,
       status,
+      startDate,
+      endDate,
     };
   }
+
   if (action.type === DELETE_JOB_BEGIN) {
     return { ...state, isLoading: true };
   }
@@ -262,7 +292,6 @@ const reducer = (state, action) => {
   }
 
   if (action.type === GET_FEEDBACKS_BEGIN) {
-    console.log("GET_FEEDBACKS_BEGIN");
     return {
       ...state,
       isLoading: true,
@@ -271,7 +300,6 @@ const reducer = (state, action) => {
   }
 
   if (action.type === GET_FEEDBACKS_SUCCESS) {
-    console.log("GET_FEEDBACKS_SUCCESS");
     return {
       ...state,
       isLoading: false,
@@ -286,6 +314,7 @@ const reducer = (state, action) => {
     const feedback = state.feedbacks.find(
       (feedback) => feedback._id === action.payload.id
     );
+
     const {
       _id,
       fbstudentName,
@@ -328,7 +357,7 @@ const reducer = (state, action) => {
       isLoading: false,
       showAlert: true,
       alertType: "success",
-      alertText: action.payload,
+      alertText: "Feedback Updated!",
     };
   }
   if (action.type === EDIT_FEEDBACK_ERROR) {
@@ -337,7 +366,7 @@ const reducer = (state, action) => {
       isLoading: false,
       showAlert: true,
       alertType: "danger",
-      alertText: "Failed to edit feedback",
+      alertText: action.payload.msg,
     };
   }
 
@@ -352,6 +381,10 @@ const reducer = (state, action) => {
       searchStatus: "all",
       searchType: "all",
       sort: "latest",
+      searchUsers: "",
+      searchEmail: "",
+      searchStudentId: "",
+      sortUsers: "latest",
     };
   }
   if (action.type === CHANGE_PAGE) {

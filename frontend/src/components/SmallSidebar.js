@@ -19,7 +19,6 @@ const SmallSidebar = () => {
           <button type="button" className="close-btn" onClick={toggleSidebar}>
             <FaTimes />
           </button>
-          <header></header>
           <NavLinks links={links} toggleSidebar={toggleSidebar} />
         </div>
       </div>

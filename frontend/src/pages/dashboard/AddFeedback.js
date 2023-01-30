@@ -88,6 +88,7 @@ const AddFeedback = () => {
           {/* position */}
           <FormRow
             type="text"
+            labelText="Student Name"
             name="fbstudentName"
             value={fbstudentName}
             handleChange={handleFeedbackInput}
@@ -95,6 +96,7 @@ const AddFeedback = () => {
           {/* position */}
           <FormRow
             type="text"
+            labelText="Student ID"
             name="fbstudentId"
             value={fbstudentId}
             handleChange={handleFeedbackInput}
@@ -102,6 +104,7 @@ const AddFeedback = () => {
           {/* company */}
           <FormRow
             type="text"
+            labelText="Position"
             name="fbposition"
             value={fbposition}
             handleChange={handleFeedbackInput}
@@ -109,7 +112,7 @@ const AddFeedback = () => {
           {/* location */}
           <FormRow
             type="text"
-            labelText="fb student Phone"
+            labelText="Student Phone"
             name="fbstudentPhone"
             value={fbstudentPhone}
             handleChange={handleFeedbackInput}
@@ -117,7 +120,7 @@ const AddFeedback = () => {
           {/* location */}
           <FormRow
             type="text"
-            labelText="fb company Name"
+            labelText="Company Name"
             name="fbcompanyName"
             value={fbcompanyName}
             handleChange={handleFeedbackInput}
@@ -125,14 +128,14 @@ const AddFeedback = () => {
           {/* location */}
           <FormRow
             type="text"
-            labelText="fb company location"
+            labelText="Company location"
             name="fblocation"
             value={fblocation}
             handleChange={handleFeedbackInput}
           />
           <FormRow
             type="text"
-            labelText="fb company Phone"
+            labelText="Company Phone"
             name="fbcompanyPhone"
             value={fbcompanyPhone}
             handleChange={handleFeedbackInput}

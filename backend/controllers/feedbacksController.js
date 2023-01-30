@@ -2,6 +2,7 @@ import Feedback from "../models/Feedback.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import User from "../models/User.js";
+import checkPermissions from "../utils/checkPermissions.js";
 
 // This function handles the request to submit a new feedback.
 // It expects the request body to contain fbstudentName, fbstudentId, fbstudentPhone, fbcompanyName, fbcompanyPhone, fbposition, fblocation, fbstartDate, fbendDate, and fbComment fields.
@@ -99,8 +100,9 @@ const getAllFeedbacks = async (req, res) => {
 // If the user does not have permission, it throws a BadRequestError.
 // Otherwise, it updates the feedback and returns the updated feedback in the response.
 const updateFeedback = async (req, res) => {
+  console.log("Received data:", req.body);
   // Extract the feedback ID and updated values from the request params and body
-  const { feedbackId } = req.params;
+  const { id: feedbackId } = req.params;
   const {
     fbstudentName,
     fbstudentId,
@@ -112,35 +114,44 @@ const updateFeedback = async (req, res) => {
     fbstartDate,
     fbendDate,
     fbComment,
-    approve,
   } = req.body;
 
   // Find the feedback by its ID
   const feedback = await Feedback.findById(feedbackId);
-
+  console.log("Feedback: ", feedback);
   // If the feedback does not exist, throw a NotFoundError
   if (!feedback) {
     throw new NotFoundError("Feedback not found");
   }
 
   // Check that the authenticated user has permission to update the feedback
-  checkPermissions(req.user.userId, feedback.createdBy);
+  checkPermissions(req.user, feedback.createdBy);
 
-  // Update the feedback with the provided values
-  feedback.fbstudentName = fbstudentName;
-  feedback.fbstudentId = fbstudentId;
-  feedback.fbstudentPhone = fbstudentPhone;
-  feedback.fbcompanyName = fbcompanyName;
-  feedback.fbcompanyPhone = fbcompanyPhone;
-  feedback.fbposition = fbposition;
-  feedback.fblocation = fblocation;
-  feedback.fbstartDate = fbstartDate;
-  feedback.fbendDate = fbendDate;
-  feedback.fbComment = fbComment;
-  feedback.approve = approve;
-
-  // Save the updated feedback to the database
-  const updatedFeedback = await feedback.save();
+  // Update the feedback with the provided values using the $set operator
+  // This will only update the fields that are present in the request body, leaving the other fields unchanged
+  const updatedFeedback = await Feedback.findOneAndUpdate(
+    { _id: feedbackId },
+    {
+      $set: {
+        fbstudentName,
+        fbstudentId,
+        fbstudentPhone,
+        fbcompanyName,
+        fbcompanyPhone,
+        fbposition,
+        fblocation,
+        fbstartDate,
+        fbendDate,
+        fbComment,
+      },
+    },
+    {
+      // Return the updated document as the result
+      new: true,
+      // Run the validators on the update operation
+      runValidators: true,
+    }
+  );
 
   // Return the updated feedback in the response
   res.status(StatusCodes.OK).json({ feedback: updatedFeedback });
@@ -179,6 +190,5 @@ const deleteFeedback = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ feedback });
 };
-
 
 export { createFeedback, getAllFeedbacks, updateFeedback, deleteFeedback };

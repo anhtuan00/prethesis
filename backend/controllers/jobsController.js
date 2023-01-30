@@ -9,16 +9,22 @@ import checkPermissions from "../utils/checkPermissions.js";
 // Otherwise, it will create a new job in the database using the provided information
 // and return the created job in the response.
 const createJob = async (req, res) => {
-  // Extract the position, company, and approve values from the request body
-  const { position, company, approve = "unapproved" } = req.body;
+  // Extract the position, company, startDate, endDate, and approve values from the request body
+  const {
+    position,
+    company,
+    startDate,
+    endDate,
+    approve = "unapproved",
+  } = req.body;
 
   // Validate that all required fields are present in the request body
-  if (!position || !company || !approve) {
+  if (!position || !company || !startDate || !endDate || !approve) {
     throw new BadRequestError("Please provide all values");
   }
   // Set the user ID of the authenticated user as the creator of the job
   req.body.createdBy = req.user.userId;
-  const job = await Job.create(req.body);
+  const job = await Job.create({ ...req.body, startDate, endDate });
   res.status(StatusCodes.CREATED).json({ job });
 };
 
@@ -27,8 +33,9 @@ const createJob = async (req, res) => {
 // It uses these query parameters to filter and sort the jobs and paginate the result.
 // It returns the matching jobs, total number of jobs, and total number of pages in the response.
 const getAllJobs = async (req, res) => {
-  const { status, jobType, sort, search } = req.query;
+  const { status, jobType, sort, search, approve } = req.query;
 
+  console.log("This is the request: ", req.query);
   // Set the user ID of the authenticated user as the creator of the job
   const queryObject = {
     createdBy: req.user.userId,
@@ -43,6 +50,9 @@ const getAllJobs = async (req, res) => {
   if (search) {
     queryObject.position = { $regex: search, $options: "i" };
   }
+  if (approve && approve !== "all") {
+    queryObject.approve = approve;
+  }
   // NO AWAIT
   // Find all jobs that match the query object
   let result = Job.find(queryObject);
@@ -53,7 +63,7 @@ const getAllJobs = async (req, res) => {
     result = result.sort("-createdAt"); // sort by most recent first
   }
   if (sort === "oldest") {
-    result = result.sort("createdAt"); // sort by oldest first
+    result = result.sort("createdAt"); // sort alphabetically by position field
   }
   if (sort === "a-z") {
     result = result.sort("position"); // sort alphabetically by position field
@@ -83,12 +93,29 @@ const getAllJobs = async (req, res) => {
 };
 
 const updateJob = async (req, res) => {
-  // Extract the job ID and company and position values from the request parameters and body, respectively
+  console.log("Received data:", req.body);
+  // Extract the job ID, company, position, startDate, and endDate values from the request parameters and body, respectively
   const { id: jobId } = req.params;
-  const { company, position, approve } = req.body;
+  const {
+    company,
+    position,
+    startDate,
+    endDate,
+    jobLocation,
+    jobType,
+    status,
+  } = req.body;
 
   // Validate that all required fields are present in the request body
-  if (!position || !company || !approve) {
+  if (
+    !position ||
+    !company ||
+    !startDate ||
+    !endDate ||
+    !jobLocation ||
+    !jobType ||
+    !status
+  ) {
     throw new BadRequestError("Please provide all values");
   }
 
@@ -103,13 +130,26 @@ const updateJob = async (req, res) => {
   // Check if the authenticated user has permission to update the job
   checkPermissions(req.user, job.createdBy);
 
-  // Update the job with the given ID using the provided company and position values
-  const updatedJob = await Job.findOneAndUpdate({ _id: jobId }, req.body, {
-    // Return the updated document as the result
-    new: true,
-    // Run the validators on the update operation
-    runValidators: true,
-  });
+  // Update the job with the given ID using the provided company, position, startDate, and endDate values
+  // Use $set operator to update only the fields you want to change
+  const updatedJob = await Job.findOneAndUpdate(
+    { _id: jobId },
+    {
+      $set: {
+        company,
+        position,
+        startDate,
+        endDate,
+        jobLocation,
+        jobType,
+        status,
+      },
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 
   // Return the updated job in the response
   res.status(StatusCodes.OK).json({ updatedJob });

@@ -1,6 +1,11 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const Wrapper = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - var(--nav-height));
   nav {
     width: var(--fluid-width);
     max-width: var(--max-width);
@@ -10,10 +15,12 @@ const Wrapper = styled.main`
     align-items: center;
   }
   .page {
-    min-height: calc(100vh - var(--nav-height));
-    display: grid;
-    align-items: center;
-    margin-top: -3rem;
+    width: var(--fluid-width);
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  .info {
+    text-align: center;
   }
   h1 {
     font-weight: 700;
@@ -23,6 +30,9 @@ const Wrapper = styled.main`
   }
   p {
     color: var(--grey-600);
+    margin: auto;
+    margin-bottom: 1rem;
+    margin-top: -1rem;
   }
   .main-img {
     display: none;
@@ -36,5 +46,6 @@ const Wrapper = styled.main`
       display: block;
     }
   }
-`
-export default Wrapper
+`;
+
+export default Wrapper;
