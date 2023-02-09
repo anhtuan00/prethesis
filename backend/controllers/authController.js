@@ -101,6 +101,4 @@ const updateUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user, token, location: user.location });
 };
 
-
-
 export { register, login, updateUser };

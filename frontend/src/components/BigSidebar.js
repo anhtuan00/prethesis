@@ -1,11 +1,25 @@
 import { useAppContext } from "../context/appContext";
 import NavLinks from "./NavLinks";
 import Wrapper from "../assets/wrappers/BigSidebar";
-import { adminLinks, userLinks } from "../utils/links";
+import {
+  adminLinks,
+  userLinks,
+  teacherLinks,
+  companyLinks,
+} from "../utils/links";
 
 const BigSidebar = () => {
   const { showSidebar, user } = useAppContext();
-  const links = user.role === "admin" ? adminLinks : userLinks;
+  let links;
+  if (user.role === "admin") {
+    links = adminLinks;
+  } else if (user.role === "user") {
+    links = userLinks;
+  } else if (user.role === "teacher") {
+    links = teacherLinks;
+  } else if (user.role === "company") {
+    links = companyLinks;
+  }
   return (
     <Wrapper>
       <div

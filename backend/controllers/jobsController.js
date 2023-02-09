@@ -35,7 +35,7 @@ const createJob = async (req, res) => {
 const getAllJobs = async (req, res) => {
   const { status, jobType, sort, search, approve } = req.query;
 
-  console.log("This is the request: ", req.query);
+  // console.log("This is the request: ", req.query);
   // Set the user ID of the authenticated user as the creator of the job
   const queryObject = {
     createdBy: req.user.userId,

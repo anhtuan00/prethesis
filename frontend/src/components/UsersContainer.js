@@ -21,6 +21,7 @@ const UsersContainer = () => {
 
   useEffect(() => {
     getUsers();
+    console.log("users: ", users);
     // eslint-disable-next-line
   }, [pageUsers, searchUsers, searchEmail, searchStudentId, sortUsers]);
 

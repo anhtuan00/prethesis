@@ -434,8 +434,6 @@ const AppProvider = ({ children }) => {
   };
 
   const deleteFeedback = async (feedbackId) => {
-    console.log("deleteFeedback trong context");
-    console.log("feedbackId is: ", feedbackId);
     dispatch({ type: DELETE_FEEDBACK_BEGIN });
     try {
       await authFetch.delete(`/feedbacks/${feedbackId}`);

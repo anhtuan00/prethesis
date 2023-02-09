@@ -9,7 +9,7 @@ const Landing = () => {
           <h1>
             Job <span>Assistance</span> App
           </h1>
-          <p>Welcome to our Job Assistance App</p>
+          <p>Welcome to our iSIS</p>
           <Link to="/register" className="btn btn-hero">
             Login/Register
           </Link>

@@ -1,8 +1,6 @@
 import {
   FaBriefcase,
   FaCalendarAlt,
-  FaIdCard,
-  FaUser,
   FaPhone,
   FaMapMarkerAlt,
 } from "react-icons/fa";

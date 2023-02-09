@@ -20,6 +20,8 @@ const auth = async (req, res, next) => {
   try {
     // Verify the token using the JWT secret
     const payload = jwt.verify(token, process.env.JWT_SECRET);
+    // console.log("jwt: " + JSON.stringify(jwt));
+    // console.log("payload: " + JSON.stringify(payload));
     // Add the userId from the payload to the request object
     req.user = { userId: payload.userId };
 

@@ -53,9 +53,6 @@ const FeedbackSchema = new mongoose.Schema(
       required: [true, "Please provide a feedback comment"],
       maxlength: 500,
     },
-
-    
-
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",

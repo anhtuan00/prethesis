@@ -12,6 +12,14 @@ import {
   ViewUsers,
   AddApproval,
   SharedLayout,
+  Grade,
+  CompanyFeedback,
+  ManageEvaluationReport,
+  ManageInternshipReport,
+  ManageCompanyPartnershipProposal,
+  InternshipConfirmation,
+  StudentFeedback,
+  CoordinatorFeedback,
 } from "./pages/dashboard";
 
 function App() {
@@ -35,10 +43,34 @@ function App() {
           <Route path="all-feedback" element={<AllFeedback />} />
           <Route path="add-feedback" element={<AddFeedback />} />
           <Route path="job-search-resources" element={<JobSearchResources />} />
+          <Route
+            path="internship-confirmation"
+            element={<InternshipConfirmation />}
+          />
+          <Route path="student-feedback" element={<StudentFeedback />} />
           {/* Routes available to admins */}
           <Route path="view-users" element={<ViewUsers />} />
           <Route path="view-all-feedback" element={<ViewAllFeedbacks />} />
-          <Route path="add-approve" element={<AddApproval />} />
+          <Route path="add-approval" element={<AddApproval />} />
+
+          {/* Routes available for company */}
+          <Route path="company-feedback" element={<CompanyFeedback />} />
+          <Route path="grade" element={<Grade />} />
+
+          {/* Routes available for teacher */}
+          <Route
+            path="manage-evaluation-report"
+            element={<ManageEvaluationReport />}
+          />
+          <Route
+            path="manage-internship-report"
+            element={<ManageInternshipReport />}
+          />
+          <Route
+            path="manage-company-partnership-proposal"
+            element={<ManageCompanyPartnershipProposal />}
+          />
+          <Route path="teacher-feedback" element={<CoordinatorFeedback />} />
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/landing" element={<Landing />} />

@@ -9,6 +9,14 @@ import JobSearchResources from "./JobSearchResources";
 import ViewAllFeedbacks from "./ViewAllFeedbacks";
 import ViewUsers from "./ViewUsers";
 import AddApproval from "./AddApproval";
+import CompanyFeedback from "./CompanyFeedback";
+import Grade from "./Grade";
+import ManageEvaluationReport from "./ManageEvaluationReport";
+import ManageInternshipReport from "./ManageInternshipReport";
+import ManageCompanyPartnershipProposal from "./ManageCompanyPartnershipProposal";
+import InternshipConfirmation from "./InternshipConfirmation";
+import StudentFeedback from "./StudentFeedback";
+import CoordinatorFeedback from "./CoordinatorFeedback";
 export {
   AllJobs,
   Profile,
@@ -21,4 +29,12 @@ export {
   ViewAllFeedbacks,
   ViewUsers,
   AddApproval,
+  CompanyFeedback,
+  Grade,
+  ManageEvaluationReport,
+  ManageInternshipReport,
+  ManageCompanyPartnershipProposal,
+  InternshipConfirmation,
+  StudentFeedback,
+  CoordinatorFeedback,
 }; // export the GetHelp component

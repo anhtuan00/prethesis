@@ -1,4 +1,4 @@
-import { FaUser, FaEnvelope, FaRegIdCard } from "react-icons/fa";
+import { FaEnvelope, FaRegIdCard } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../context/appContext";
 import Wrapper from "../assets/wrappers/User";
