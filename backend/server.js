@@ -1,5 +1,7 @@
 // Import express
 import express from "express";
+import cors from "cors";
+
 // Create an express app
 const app = express();
 
@@ -24,10 +26,11 @@ import mongoSanitize from "express-mongo-sanitize";
 import connectDB from "./db/connect.js";
 
 // Import the route handlers for the auth and jobs routes
-import authRouter from "./routes/authRoutes.js";
-import jobsRouter from "./routes/jobsRoutes.js";
-import feedbacksRouter from "./routes/feedbacksRoutes.js";
-import usersRouter from "./routes/usersRoutes.js";
+import { rootRouter } from "./routes/rootRoute.js";
+// import authRouter from "./routes/authRoutes.js";
+// import jobsRouter from "./routes/jobsRoutes.js";
+// import feedbacksRouter from "./routes/feedbacksRoutes.js";
+// import usersRouter from "./routes/usersRoutes.js";
 
 // Import the middleware for handling not found routes and errors
 import notFoundMiddleware from "./middleware/not-found.js";
@@ -36,10 +39,15 @@ import errorHandlerMiddleware from "./middleware/error-handler.js";
 // Import the middleware to authenticate users
 import authenticateUser from "./middleware/auth.js";
 
+import swaggerUI from "swagger-ui-express";
+import { swaggerDocument } from "./swagger/swaggerDocument.js";
+
 // Use morgan for request logging in development mode
 if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
 }
+
+app.use("/swagger", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // Use express.json to parse JSON bodies in requests
 app.use(express.json());
@@ -50,17 +58,11 @@ app.use(xss());
 // Use mongo-sanitize to sanitize user input to prevent NoSQL injection attacks
 app.use(mongoSanitize());
 
-// Use the authRouter for requests to the /api/v1/auth route
-app.use("/api/v1/auth", authRouter);
-
-// Use the jobsRouter for requests to the /api/v1/jobs route, after authenticating the user
-app.use("/api/v1/jobs", authenticateUser, jobsRouter);
-
-// Add the feedback router to handle requests to the /api/v1/feedback route
-app.use("/api/v1/feedbacks", authenticateUser, feedbacksRouter);
-
-// Use the usersRouter for requests to the /api/v1/users route, after authenticating the user
-app.use("/api/v1/users", authenticateUser, usersRouter);
+app.use("/api/v1", rootRouter);
+// app.use("/api/v1/auth", authRouter);
+// app.use("/api/v1/jobs", authenticateUser, jobsRouter);
+// app.use("/api/v1/feedbacks", authenticateUser, feedbacksRouter);
+// app.use("/api/v1/users", authenticateUser, usersRouter);
 
 // Use the notFoundMiddleware for any requests that do not match any of the above routes
 app.use(notFoundMiddleware);
@@ -84,6 +86,8 @@ const start = async () => {
     console.log(error);
   }
 };
+
+app.use(cors({ origin: "*" }));
 
 // Start the server
 start();

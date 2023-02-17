@@ -1,25 +1,10 @@
-import {
-  FaMapMarkerAlt,
-  FaCalendarAlt,
-  FaWrench,
-  FaCheck,
-} from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { useAppContext } from "../context/appContext";
-import Wrapper from "../assets/wrappers/Job";
-import JobInfo from "./JobInfo";
+import { FaMapMarkerAlt, FaCalendarAlt, FaWrench, FaCheck } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { useAppContext } from '../context/appContext';
+import Wrapper from '../assets/wrappers/Job';
+import JobInfo from './JobInfo';
 
-const Job = ({
-  _id,
-  position,
-  company,
-  jobLocation,
-  jobType,
-  status,
-  approve,
-  startDate,
-  endDate,
-}) => {
+const Job = ({ _id, position, company, jobLocation, jobType, status, approve, startDate, endDate }) => {
   const { setEditJob, deleteJob, convertDate } = useAppContext();
   const formattedStartDate = convertDate(startDate);
   const formattedEndDate = convertDate(endDate);
@@ -44,18 +29,10 @@ const Job = ({
         </div>
         <footer>
           <div className="actions">
-            <Link
-              to="/add-job"
-              className="btn edit-btn"
-              onClick={() => setEditJob(_id)}
-            >
+            <Link to="/add-job" className="btn edit-btn" onClick={() => setEditJob(_id)}>
               Edit
             </Link>
-            <button
-              type="button"
-              className="btn delete-btn"
-              onClick={() => deleteJob(_id)}
-            >
+            <button type="button" className="btn delete-btn" onClick={() => deleteJob(_id)}>
               Delete
             </button>
           </div>

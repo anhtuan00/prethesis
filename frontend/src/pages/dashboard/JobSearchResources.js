@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const JobSearchResources = () => {
   return (
@@ -33,9 +33,8 @@ const JobSearchResources = () => {
 
       <h2>Other Resources</h2>
       <p>
-        Consider reaching out to alumni or networking with professionals in your
-        field of interest. You can also check out job fairs and career events at
-        International University or in your local community.
+        Consider reaching out to alumni or networking with professionals in your field of interest. You can also check
+        out job fairs and career events at International University or in your local community.
       </p>
     </div>
   );

@@ -1,4 +1,4 @@
-import Wrapper from "../assets/wrappers/FeedbackInfo";
+import Wrapper from '../assets/wrappers/FeedbackInfo';
 
 const FeedbackInfo = ({ icon, text }) => {
   return (

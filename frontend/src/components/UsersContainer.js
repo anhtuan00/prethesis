@@ -1,9 +1,9 @@
-import { useEffect } from "react";
-import User from "./User";
-import Wrapper from "../assets/wrappers/UsersContainer";
-import { useAppContext } from "../context/appContext";
-import Loading from "./Loading";
-import UsersPageBtnContainer from "./UsersPageBtnContainer";
+import { useEffect } from 'react';
+import User from './User';
+import Wrapper from '../assets/wrappers/UsersContainer';
+import { useAppContext } from '../context/appContext';
+import Loading from './Loading';
+import UsersPageBtnContainer from './UsersPageBtnContainer';
 
 const UsersContainer = () => {
   const {
@@ -21,7 +21,7 @@ const UsersContainer = () => {
 
   useEffect(() => {
     getUsers();
-    console.log("users: ", users);
+    console.log('users: ', users);
     // eslint-disable-next-line
   }, [pageUsers, searchUsers, searchEmail, searchStudentId, sortUsers]);
 
@@ -40,11 +40,11 @@ const UsersContainer = () => {
   return (
     <Wrapper>
       <h5>
-        {totalUsers} user{users.length > 1 && "s"} found
+        {totalUsers} user{users.length > 1 && 's'} found
       </h5>
       <div className="users">
         {users
-          .filter((user) => user.role === "user")
+          .filter((user) => user.role === 'user')
           .map((user) => {
             return <User key={user._id} {...user} />;
           })}

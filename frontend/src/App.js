@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Register, Landing, Error, ProtectedRoute } from "./pages";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Register, Landing, Error, ProtectedRoute } from './pages';
 import {
   AllJobs,
   Profile,
@@ -20,9 +20,13 @@ import {
   InternshipConfirmation,
   StudentFeedback,
   CoordinatorFeedback,
-  InternshipSearch,
-  JobSearch,
-} from "./pages/dashboard";
+} from './pages/dashboard';
+import Search from './pages/Search';
+import Companies from './pages/Companies';
+import Jobs from './pages/Jobs';
+import InternshipReports from './pages/InternshipReports';
+import MasterData from './pages/MasterData';
+import Users from './pages/Users';
 
 function App() {
   return (
@@ -36,6 +40,12 @@ function App() {
             </ProtectedRoute>
           }
         >
+          <Route path="search-jobs" element={<Search />} />
+          <Route path="companies" element={<Companies />} />
+          <Route path="jobs" element={<Jobs />} />
+          <Route path="internship-reports" element={<InternshipReports />} />
+          <Route path="master-data" element={<MasterData />} />
+          <Route path="users" element={<Users />} />
           {/* Routes available to both users and admins */}
           <Route path="get-help" element={<GetHelp />} />
           <Route path="profile" element={<Profile />} />
@@ -45,13 +55,8 @@ function App() {
           <Route path="all-feedback" element={<AllFeedback />} />
           <Route path="add-feedback" element={<AddFeedback />} />
           <Route path="job-search-resources" element={<JobSearchResources />} />
-          <Route
-            path="internship-confirmation"
-            element={<InternshipConfirmation />}
-          />
+          <Route path="internship-confirmation" element={<InternshipConfirmation />} />
           <Route path="student-feedback" element={<StudentFeedback />} />
-          <Route path="internship-search" element={<InternshipSearch />} />
-          <Route path="job-search" element={<JobSearch />} />
           {/* Routes available to admins */}
           <Route path="view-users" element={<ViewUsers />} />
           <Route path="view-all-feedback" element={<ViewAllFeedbacks />} />
@@ -62,18 +67,9 @@ function App() {
           <Route path="grade" element={<Grade />} />
 
           {/* Routes available for teacher */}
-          <Route
-            path="manage-evaluation-report"
-            element={<ManageEvaluationReport />}
-          />
-          <Route
-            path="manage-internship-report"
-            element={<ManageInternshipReport />}
-          />
-          <Route
-            path="manage-company-partnership-proposal"
-            element={<ManageCompanyPartnershipProposal />}
-          />
+          <Route path="manage-evaluation-report" element={<ManageEvaluationReport />} />
+          <Route path="manage-internship-report" element={<ManageInternshipReport />} />
+          <Route path="manage-company-partnership-proposal" element={<ManageCompanyPartnershipProposal />} />
           <Route path="teacher-feedback" element={<CoordinatorFeedback />} />
         </Route>
         <Route path="/register" element={<Register />} />

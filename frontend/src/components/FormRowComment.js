@@ -4,14 +4,7 @@ const FormRowComment = ({ name, value, handleChange, labelText }) => {
       <label htmlFor={name} className="form-label">
         {labelText || name}
       </label>
-      <textarea
-        name={name}
-        value={value}
-        onChange={handleChange}
-        className="form-textarea"
-        rows={3}
-        wrap="hard"
-      />
+      <textarea name={name} value={value} onChange={handleChange} className="form-textarea" rows={3} wrap="hard" />
     </div>
   );
 };

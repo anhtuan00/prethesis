@@ -1,8 +1,8 @@
-import React, { useReducer, useContext } from "react";
+import React, { useReducer, useContext } from 'react';
 
-import reducer from "./reducer";
-import axios from "axios";
-import moment from "moment";
+import reducer from './reducer';
+import axios from 'axios';
+import moment from 'moment';
 
 import {
   DISPLAY_ALERT,
@@ -41,51 +41,51 @@ import {
   CREATE_FEEDBACK_ERROR,
   GET_USERS_BEGIN,
   GET_USERS_SUCCESS,
-} from "./actions";
+} from './actions';
 
-const token = localStorage.getItem("token");
-const user = localStorage.getItem("user");
-const userLocation = localStorage.getItem("location");
+const token = localStorage.getItem('token');
+const user = localStorage.getItem('user');
+const userLocation = localStorage.getItem('location');
 
 const initialState = {
   isLoading: false,
   showAlert: false,
-  alertText: "",
-  alertType: "",
+  alertText: '',
+  alertType: '',
   user: user ? JSON.parse(user) : null,
   token: token,
-  userLocation: userLocation || "",
+  userLocation: userLocation || '',
   showSidebar: false,
   isEditing: false,
-  editJobId: "",
-  position: "",
-  company: "",
-  jobLocation: userLocation || "",
-  jobTypeOptions: ["full-time", "part-time", "remote", "internship"],
-  jobType: "full-time",
-  statusOptions: ["interview", "declined", "pending"],
-  status: "pending",
-  startDate: "2022-12-30",
-  endDate: "2023-12-31",
+  editJobId: '',
+  position: '',
+  company: '',
+  jobLocation: userLocation || '',
+  jobTypeOptions: ['full-time', 'part-time', 'remote', 'internship'],
+  jobType: 'full-time',
+  statusOptions: ['interview', 'declined', 'pending'],
+  status: 'pending',
+  startDate: '2022-12-30',
+  endDate: '2023-12-31',
   jobs: [],
   totalJobs: 0,
   numOfPages: 1,
   page: 1,
-  search: "",
-  searchStatus: "all",
-  searchType: "all",
-  sort: "latest",
-  sortOptions: ["latest", "oldest", "a-z", "z-a"],
-  fbstudentName: "",
-  fbstudentId: "",
-  fbposition: "",
-  fbstudentPhone: "",
-  fbcompanyName: "",
-  fblocation: "",
-  fbcompanyPhone: "",
-  fbstartDate: "",
-  fbendDate: "",
-  fbComment: "",
+  search: '',
+  searchStatus: 'all',
+  searchType: 'all',
+  sort: 'latest',
+  sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
+  fbstudentName: '',
+  fbstudentId: '',
+  fbposition: '',
+  fbstudentPhone: '',
+  fbcompanyName: '',
+  fblocation: '',
+  fbcompanyPhone: '',
+  fbstartDate: '',
+  fbendDate: '',
+  fbComment: '',
   feedbacks: [],
   totalFeedbacks: 0,
   feedbackPage: 1,
@@ -93,11 +93,12 @@ const initialState = {
   users: [],
   pageUsers: 1,
   totalUsers: 0,
-  searchUsers: "",
-  sortUsers: "",
+  searchUsers: '',
+  sortUsers: '',
   numOfPagesUsers: 1,
-  searchEmail: "",
-  searchStudentId: "",
+  searchEmail: '',
+  searchStudentId: '',
+  pageName: '',
 };
 
 const AppContext = React.createContext();
@@ -107,13 +108,13 @@ const AppProvider = ({ children }) => {
 
   // axios
   const authFetch = axios.create({
-    baseURL: "/api/v1",
+    baseURL: '/api/v1',
   });
   // request
 
   authFetch.interceptors.request.use(
     (config) => {
-      config.headers.common["Authorization"] = `Bearer ${state.token}`;
+      config.headers.common['Authorization'] = `Bearer ${state.token}`;
       return config;
     },
     (error) => {
@@ -147,27 +148,21 @@ const AppProvider = ({ children }) => {
   };
 
   const addUserToLocalStorage = ({ user, token, location }) => {
-    localStorage.setItem("user", JSON.stringify(user));
-    localStorage.setItem("token", token);
-    localStorage.setItem("location", location);
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('token', token);
+    localStorage.setItem('location', location);
   };
 
   const removeUserFromLocalStorage = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    localStorage.removeItem("location");
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('location');
   };
 
   const setupUser = async ({ currentUser, endPoint, alertText }) => {
-    // Add a role field to the currentUser object and set it to "user"
-    currentUser.role = "user";
-
     dispatch({ type: SETUP_USER_BEGIN });
     try {
-      const { data } = await axios.post(
-        `/api/v1/auth/${endPoint}`,
-        currentUser
-      );
+      const { data } = await axios.post(`/api/v1/auth/${endPoint}`, currentUser);
 
       const { user, token, location } = data;
       dispatch({
@@ -195,7 +190,7 @@ const AppProvider = ({ children }) => {
   const updateUser = async (currentUser) => {
     dispatch({ type: UPDATE_USER_BEGIN });
     try {
-      const { data } = await authFetch.patch("/auth/updateUser", currentUser);
+      const { data } = await authFetch.patch('/auth/updateUser', currentUser);
 
       const { user, location, token } = data;
 
@@ -216,7 +211,7 @@ const AppProvider = ({ children }) => {
   };
 
   const handleChange = ({ name, value }) => {
-    if (name === "startDate" || name === "endDate") {
+    if (name === 'startDate' || name === 'endDate') {
       value = new Date(value);
     }
     dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
@@ -232,16 +227,8 @@ const AppProvider = ({ children }) => {
   const createJob = async () => {
     dispatch({ type: CREATE_JOB_BEGIN });
     try {
-      const {
-        position,
-        company,
-        jobLocation,
-        jobType,
-        status,
-        startDate,
-        endDate,
-      } = state;
-      await authFetch.post("/jobs", {
+      const { position, company, jobLocation, jobType, status, startDate, endDate } = state;
+      await authFetch.post('/jobs', {
         position,
         company,
         jobLocation,
@@ -293,15 +280,7 @@ const AppProvider = ({ children }) => {
   const editJob = async () => {
     dispatch({ type: EDIT_JOB_BEGIN });
     try {
-      const {
-        position,
-        company,
-        jobLocation,
-        jobType,
-        status,
-        startDate,
-        endDate,
-      } = state;
+      const { position, company, jobLocation, jobType, status, startDate, endDate } = state;
       await authFetch.patch(`/jobs/${state.editJobId}`, {
         company,
         position,
@@ -347,7 +326,7 @@ const AppProvider = ({ children }) => {
         fbendDate,
         fbComment,
       } = state;
-      await authFetch.post("/feedbacks", {
+      await authFetch.post('/feedbacks', {
         fbstudentName,
         fbstudentId,
         fbposition,
@@ -444,12 +423,11 @@ const AppProvider = ({ children }) => {
   };
 
   const convertDate = (date) => {
-    return moment(date).format("DD-MM-YYYY");
+    return moment(date).format('DD-MM-YYYY');
   };
 
   const getUsers = async () => {
-    const { pageUsers, searchUsers, searchEmail, searchStudentId, sortUsers } =
-      state;
+    const { pageUsers, searchUsers, searchEmail, searchStudentId, sortUsers } = state;
 
     let url = `/users?page=${pageUsers}&email=${searchEmail}&studentId=${searchStudentId}&sort=${sortUsers}`;
     if (searchUsers) {
@@ -479,10 +457,16 @@ const AppProvider = ({ children }) => {
   const changePage = (page) => {
     dispatch({ type: CHANGE_PAGE, payload: { page } });
   };
+
+  const changePageName = (name) => {
+    dispatch({ type: 'CHANGE_PAGE_NAME', payload: name });
+  };
+
   return (
     <AppContext.Provider
       value={{
         ...state,
+        authFetch,
         displayAlert,
         setupUser,
         toggleSidebar,
@@ -504,6 +488,7 @@ const AppProvider = ({ children }) => {
         deleteFeedback,
         convertDate,
         getUsers,
+        changePageName,
       }}
     >
       {children}

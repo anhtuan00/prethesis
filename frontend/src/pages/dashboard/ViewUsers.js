@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import { UsersSearchContainer, UsersContainer } from "../../components";
+import { UsersSearchContainer, UsersContainer } from '../../components';
 const ViewUsers = () => {
   return (
     <>

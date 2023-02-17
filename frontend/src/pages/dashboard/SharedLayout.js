@@ -1,7 +1,16 @@
-import { Outlet } from "react-router-dom";
-import Wrapper from "../../assets/wrappers/SharedLayout";
-import { Navbar, BigSidebar, SmallSidebar } from "../../components";
+import { useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import Wrapper from '../../assets/wrappers/SharedLayout';
+import { BigSidebar, Navbar, SmallSidebar } from '../../components';
+
 const SharedLayout = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (window.location.pathname === '/') {
+      navigate('/search-jobs');
+    }
+  });
+
   return (
     <Wrapper>
       <main className="dashboard">

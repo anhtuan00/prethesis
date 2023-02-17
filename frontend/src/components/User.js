@@ -1,8 +1,8 @@
-import { FaEnvelope, FaRegIdCard } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { useAppContext } from "../context/appContext";
-import Wrapper from "../assets/wrappers/User";
-import UserInfo from "./UserInfo";
+import { FaEnvelope, FaRegIdCard } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { useAppContext } from '../context/appContext';
+import Wrapper from '../assets/wrappers/User';
+import UserInfo from './UserInfo';
 
 const User = ({ _id, name, email, studentId }) => {
   const { setEditUser, deleteUser } = useAppContext();
@@ -22,18 +22,10 @@ const User = ({ _id, name, email, studentId }) => {
         </div>
         <footer>
           <div className="actions">
-            <Link
-              to="/add-user"
-              className="btn edit-btn"
-              onClick={() => setEditUser(_id)}
-            >
+            <Link to="/add-user" className="btn edit-btn" onClick={() => setEditUser(_id)}>
               Add Approval
             </Link>
-            <button
-              type="button"
-              className="btn delete-btn"
-              onClick={() => deleteUser(_id)}
-            >
+            <button type="button" className="btn delete-btn" onClick={() => deleteUser(_id)}>
               Delete
             </button>
           </div>

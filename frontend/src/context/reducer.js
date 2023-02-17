@@ -35,25 +35,25 @@ import {
   CREATE_FEEDBACK_ERROR,
   GET_USERS_BEGIN,
   GET_USERS_SUCCESS,
-} from "./actions";
+} from './actions';
 
-import { initialState } from "./appContext";
+import { initialState } from './appContext';
 
 const reducer = (state, action) => {
   if (action.type === DISPLAY_ALERT) {
     return {
       ...state,
       showAlert: true,
-      alertType: "danger",
-      alertText: "Please provide all values!",
+      alertType: 'danger',
+      alertText: 'Please provide all values!',
     };
   }
   if (action.type === CLEAR_ALERT) {
     return {
       ...state,
       showAlert: false,
-      alertType: "",
-      alertText: "",
+      alertType: '',
+      alertText: '',
     };
   }
 
@@ -70,7 +70,7 @@ const reducer = (state, action) => {
       userLocation: action.payload.location,
       jobLocation: action.payload.location,
       showAlert: true,
-      alertType: "success",
+      alertType: 'success',
       alertText: action.payload.alertText,
     };
   }
@@ -80,7 +80,7 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       showAlert: true,
-      alertType: "danger",
+      alertType: 'danger',
       alertText: action.payload.msg,
     };
   }
@@ -95,8 +95,8 @@ const reducer = (state, action) => {
       ...initialState,
       user: null,
       token: null,
-      jobLocation: "",
-      userLocation: "",
+      jobLocation: '',
+      userLocation: '',
     };
   }
   if (action.type === UPDATE_USER_BEGIN) {
@@ -111,8 +111,8 @@ const reducer = (state, action) => {
       userLocation: action.payload.location,
       jobLocation: action.payload.location,
       showAlert: true,
-      alertType: "success",
-      alertText: "User Profile Updated!",
+      alertType: 'success',
+      alertText: 'User Profile Updated!',
     };
   }
   if (action.type === UPDATE_USER_ERROR) {
@@ -120,7 +120,7 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       showAlert: true,
-      alertType: "danger",
+      alertType: 'danger',
       alertText: action.payload.msg,
     };
   }
@@ -133,34 +133,34 @@ const reducer = (state, action) => {
   }
   if (action.type === CLEAR_VALUES) {
     switch (action.payload) {
-      case "job":
+      case 'job':
         return {
           ...state,
           isEditing: false,
-          editJobId: "",
-          position: "",
-          company: "",
+          editJobId: '',
+          position: '',
+          company: '',
           jobLocation: state.userLocation,
-          jobType: "full-time",
-          status: "pending",
-          startDate: "",
-          endDate: "",
+          jobType: 'full-time',
+          status: 'pending',
+          startDate: '',
+          endDate: '',
         };
-      case "feedback":
+      case 'feedback':
         return {
           ...state,
           isEditing: false,
-          editFeedbackId: "",
-          fbstudentName: "",
-          fbstudentId: "",
-          fbposition: "",
-          fbstudentPhone: "",
-          fbcompanyName: "",
-          fblocation: "",
-          fbcompanyPhone: "",
-          fbstartDate: "",
-          fbendDate: "",
-          fbComment: "",
+          editFeedbackId: '',
+          fbstudentName: '',
+          fbstudentId: '',
+          fbposition: '',
+          fbstudentPhone: '',
+          fbcompanyName: '',
+          fblocation: '',
+          fbcompanyPhone: '',
+          fbstartDate: '',
+          fbendDate: '',
+          fbComment: '',
         };
       default:
         return state;
@@ -176,8 +176,8 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       showAlert: true,
-      alertType: "success",
-      alertText: "New Job Created!",
+      alertType: 'success',
+      alertText: 'New Job Created!',
     };
   }
   if (action.type === CREATE_JOB_ERROR) {
@@ -185,7 +185,7 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       showAlert: true,
-      alertType: "danger",
+      alertType: 'danger',
       alertText: action.payload.msg,
     };
   }
@@ -217,16 +217,7 @@ const reducer = (state, action) => {
   }
   if (action.type === SET_EDIT_JOB) {
     const job = state.jobs.find((job) => job._id === action.payload.id);
-    const {
-      _id,
-      position,
-      company,
-      jobLocation,
-      jobType,
-      status,
-      startDate,
-      endDate,
-    } = job;
+    const { _id, position, company, jobLocation, jobType, status, startDate, endDate } = job;
     return {
       ...state,
       isEditing: true,
@@ -255,8 +246,8 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       showAlert: true,
-      alertType: "success",
-      alertText: "Job Updated!",
+      alertType: 'success',
+      alertText: 'Job Updated!',
     };
   }
   if (action.type === EDIT_JOB_ERROR) {
@@ -264,7 +255,7 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       showAlert: true,
-      alertType: "danger",
+      alertType: 'danger',
       alertText: action.payload.msg,
     };
   }
@@ -277,8 +268,8 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       showAlert: true,
-      alertType: "success",
-      alertText: "Feedback created successfully!",
+      alertType: 'success',
+      alertText: 'Feedback created successfully!',
     };
   }
   if (action.type === CREATE_FEEDBACK_ERROR) {
@@ -286,7 +277,7 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       showAlert: true,
-      alertType: "danger",
+      alertType: 'danger',
       alertText: action.payload.msg,
     };
   }
@@ -311,9 +302,7 @@ const reducer = (state, action) => {
   }
 
   if (action.type === SET_EDIT_FEEDBACK) {
-    const feedback = state.feedbacks.find(
-      (feedback) => feedback._id === action.payload.id
-    );
+    const feedback = state.feedbacks.find((feedback) => feedback._id === action.payload.id);
 
     const {
       _id,
@@ -356,8 +345,8 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       showAlert: true,
-      alertType: "success",
-      alertText: "Feedback Updated!",
+      alertType: 'success',
+      alertText: 'Feedback Updated!',
     };
   }
   if (action.type === EDIT_FEEDBACK_ERROR) {
@@ -365,7 +354,7 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       showAlert: true,
-      alertType: "danger",
+      alertType: 'danger',
       alertText: action.payload.msg,
     };
   }
@@ -377,19 +366,24 @@ const reducer = (state, action) => {
   if (action.type === CLEAR_FILTERS) {
     return {
       ...state,
-      search: "",
-      searchStatus: "all",
-      searchType: "all",
-      sort: "latest",
-      searchUsers: "",
-      searchEmail: "",
-      searchStudentId: "",
-      sortUsers: "latest",
+      search: '',
+      searchStatus: 'all',
+      searchType: 'all',
+      sort: 'latest',
+      searchUsers: '',
+      searchEmail: '',
+      searchStudentId: '',
+      sortUsers: 'latest',
     };
   }
   if (action.type === CHANGE_PAGE) {
     return { ...state, page: action.payload.page };
   }
+
+  if (action.type === 'CHANGE_PAGE_NAME') {
+    return { ...state, pageName: action.payload };
+  }
+
   throw new Error(`no such action : ${action.type}`);
 };
 

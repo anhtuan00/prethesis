@@ -1,4 +1,4 @@
-import { FeedbackContainer } from "../../components";
+import { FeedbackContainer } from '../../components';
 
 const AllFeedback = () => {
   return (

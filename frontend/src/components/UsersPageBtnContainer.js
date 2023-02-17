@@ -1,6 +1,6 @@
-import { useAppContext } from "../context/appContext";
-import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi";
-import Wrapper from "../assets/wrappers/UsersPageBtnContainer";
+import { useAppContext } from '../context/appContext';
+import { HiChevronDoubleLeft, HiChevronDoubleRight } from 'react-icons/hi';
+import Wrapper from '../assets/wrappers/UsersPageBtnContainer';
 
 const UsersPageBtnContainer = () => {
   const { numOfPagesUsers, pageUsers, changePageUsers } = useAppContext();
@@ -33,9 +33,7 @@ const UsersPageBtnContainer = () => {
           return (
             <button
               type="button"
-              className={
-                pageNumber === pageUsers ? "pageBtn active" : "pageBtn"
-              }
+              className={pageNumber === pageUsers ? 'pageBtn active' : 'pageBtn'}
               key={pageNumber}
               onClick={() => changePageUsers(pageNumber)}
             >

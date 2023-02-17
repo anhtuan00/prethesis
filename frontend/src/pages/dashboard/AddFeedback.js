@@ -1,6 +1,6 @@
-import { FormRow, Alert, DateInput, FormRowComment } from "../../components";
-import { useAppContext } from "../../context/appContext";
-import Wrapper from "../../assets/wrappers/DashboardFormPage";
+import { FormRow, Alert, DateInput, FormRowComment } from '../../components';
+import { useAppContext } from '../../context/appContext';
+import Wrapper from '../../assets/wrappers/DashboardFormPage';
 
 const AddFeedback = () => {
   const {
@@ -78,11 +78,11 @@ const AddFeedback = () => {
     handleChange({ name, value });
   };
 
-  console.log("isLoading: ", isLoading);
+  console.log('isLoading: ', isLoading);
   return (
     <Wrapper>
       <form className="form">
-        <h3>{isEditing ? "edit feedback" : "add feedback"}</h3>
+        <h3>{isEditing ? 'edit feedback' : 'add feedback'}</h3>
         {showAlert && <Alert />}
         <div className="form-center">
           {/* position */}
@@ -165,19 +165,14 @@ const AddFeedback = () => {
 
           {/* btn container */}
           <div className="btn-container">
-            <button
-              type="submit"
-              className="btn btn-block submit-btn"
-              onClick={handleSubmit}
-              disabled={isLoading}
-            >
+            <button type="submit" className="btn btn-block submit-btn" onClick={handleSubmit} disabled={isLoading}>
               submit
             </button>
             <button
               className="btn btn-block clear-btn"
               onClick={(e) => {
                 e.preventDefault();
-                clearValues("feedback");
+                clearValues('feedback');
               }}
             >
               clear

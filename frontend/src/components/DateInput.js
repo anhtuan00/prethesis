@@ -1,7 +1,5 @@
 const DateInput = ({ labelText, name, value, handleChange, min, max }) => {
-  const valueAsDate = value
-    ? new Date(value).toISOString().substring(0, 10)
-    : "";
+  const valueAsDate = value ? new Date(value).toISOString().substring(0, 10) : '';
   return (
     <div className="form-row">
       <label htmlFor={name} className="form-label">

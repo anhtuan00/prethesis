@@ -22,4 +22,4 @@ router.route("/login").post(apiLimiter, login);
 // Requiring authentication for the updateUser route
 router.route("/updateUser").patch(authenticateUser, updateUser);
 
-export default router;
+export const authRouter = router;

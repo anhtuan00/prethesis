@@ -1,4 +1,4 @@
-import Wrapper from "../assets/wrappers/UserInfo";
+import Wrapper from '../assets/wrappers/UserInfo';
 
 const UserInfo = ({ icon, text }) => {
   return (

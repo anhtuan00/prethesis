@@ -1,8 +1,8 @@
-import { useAppContext } from "../context/appContext";
-import { useEffect } from "react";
-import Loading from "./Loading";
-import Feedback from "./Feedback";
-import Wrapper from "../assets/wrappers/FeedbackContainer";
+import { useAppContext } from '../context/appContext';
+import { useEffect } from 'react';
+import Loading from './Loading';
+import Feedback from './Feedback';
+import Wrapper from '../assets/wrappers/FeedbackContainer';
 
 const FeedbackContainer = () => {
   // get the necessary state and functions from the app context

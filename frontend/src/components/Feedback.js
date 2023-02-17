@@ -1,13 +1,8 @@
-import {
-  FaBriefcase,
-  FaCalendarAlt,
-  FaPhone,
-  FaMapMarkerAlt,
-} from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { useAppContext } from "../context/appContext";
-import Wrapper from "../assets/wrappers/Feedback";
-import FeedbackInfo from "./FeedbackInfo";
+import { FaBriefcase, FaCalendarAlt, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { useAppContext } from '../context/appContext';
+import Wrapper from '../assets/wrappers/Feedback';
+import FeedbackInfo from './FeedbackInfo';
 const Feedback = ({
   _id,
   fbstudentName,
@@ -48,18 +43,10 @@ const Feedback = ({
         </div>
         <footer>
           <div className="actions">
-            <Link
-              to="/add-feedback"
-              className="btn edit-btn"
-              onClick={() => setEditFeedback(_id)}
-            >
+            <Link to="/add-feedback" className="btn edit-btn" onClick={() => setEditFeedback(_id)}>
               Edit
             </Link>
-            <button
-              type="button"
-              className="btn delete-btn"
-              onClick={() => deleteFeedback(_id)}
-            >
+            <button type="button" className="btn delete-btn" onClick={() => deleteFeedback(_id)}>
               Delete
             </button>
           </div>

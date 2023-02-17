@@ -3,66 +3,42 @@ import validator from "validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-// Define the schema for a User model
 const UserSchema = new mongoose.Schema({
-  name: {
-    // The user's name
-    type: String,
-    required: [true, "Please provide name"],
-    minlength: 3,
-    maxlength: 20,
-    trim: true,
-  },
   email: {
-    // The user's email address
     type: String,
     required: [true, "Please provide email"],
-    // Validate that the email is in a proper format
     validate: {
       validator: validator.isEmail,
       message: "Please provide a valid email",
     },
-    // Enforce uniqueness for the email field
     unique: true,
   },
   password: {
-    // The user's password
     type: String,
     required: [true, "Please provide password"],
-    // Ensure that the password is at least 6 characters long
     minlength: 6,
-    // Exclude the password field from the model's toJSON representation (so it is not included in responses)
     select: false,
   },
   role: {
     type: String,
-    default: "user",
+    default: "student",
   },
-  lastName: {
-    // The user's last name
-    type: String,
-    trim: true,
-    maxlength: 20,
-    // Set a default value for the lastName field
-    default: "Last Name",
-  },
-  studentId: {
-    type: String,
-    default: "ITITIU18***",
-    maxlength: 11,
-  },
-  location: {
-    // The user's location
-    type: String,
-    trim: true,
-    maxlength: 20,
-    // Set a default value for the location field
-    default: "Your Location",
-  },
-  hasSentFeedback: {
-    type: Boolean,
-    default: false,
-  },
+  name: { type: String },
+  IDNumber: { type: String },
+  DOB: { type: Date },
+  Address: { type: String },
+  District: { type: String },
+  City: { type: String },
+  Country: { type: String },
+  Tel: { type: String },
+  CourseNumber: { type: String },
+  ClassCode: { type: String },
+  ClassName: { type: String },
+  Faculty: { type: String },
+  HeadTeacher: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+  appliedInternship: [{ type: mongoose.Schema.Types.ObjectId, ref: "job" }],
+  AdmitDate: { type: Date },
+  GradDate: { type: Date },
 });
 
 // This middleware function is run before saving the user to the database.
@@ -90,9 +66,8 @@ UserSchema.methods.createJWT = function () {
 // It hashes the provided password and compares it to the hashed password stored in the user's password field.
 // If the two hashes match, the method returns true. Otherwise, it returns false.
 UserSchema.methods.comparePassword = async function (candidatePassword) {
-  const isMatch = await bcrypt.compare(candidatePassword, this.password);
-  return isMatch;
+  return await bcrypt.compare(candidatePassword, this.password);
 };
 
 // This line exports the User model, which is based on the UserSchema and can be used to perform CRUD operations on the users collection in the database.
-export default mongoose.model("User", UserSchema);
+export default mongoose.model("user", UserSchema);
