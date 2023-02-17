@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.24.0",
     "history": "^5.1.0",
+    "material-react-table": "^1.7.3",
     "material-table": "^1.69.2",
     "moment": "^2.29.1",
     "normalize.css": "^8.0.1",

@@ -100,9 +100,21 @@ export const userLinks = [
     path: "manage-internship-report",
     icon: <FaWpforms />,
   },
+  {
+    id: 11,
+    text: "Internship Search",
+    path: "internship-search",
+    icon: <FaWpforms />,
+  },
+  {
+    id: 11,
+    text: "Job Search",
+    path: "job-search",
+    icon: <FaWpforms />,
+  },
 
-  { id: 11, text: "get help", path: "get-help", icon: <FaQuestionCircle /> },
-  { id: 12, text: "profile", path: "profile", icon: <ImProfile /> },
+  { id: 12, text: "get help", path: "get-help", icon: <FaQuestionCircle /> },
+  { id: 13, text: "profile", path: "profile", icon: <ImProfile /> },
 ];
 
 export const companyLinks = [

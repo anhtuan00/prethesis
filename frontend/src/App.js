@@ -20,6 +20,8 @@ import {
   InternshipConfirmation,
   StudentFeedback,
   CoordinatorFeedback,
+  InternshipSearch,
+  JobSearch,
 } from "./pages/dashboard";
 
 function App() {
@@ -48,6 +50,8 @@ function App() {
             element={<InternshipConfirmation />}
           />
           <Route path="student-feedback" element={<StudentFeedback />} />
+          <Route path="internship-search" element={<InternshipSearch />} />
+          <Route path="job-search" element={<JobSearch />} />
           {/* Routes available to admins */}
           <Route path="view-users" element={<ViewUsers />} />
           <Route path="view-all-feedback" element={<ViewAllFeedbacks />} />

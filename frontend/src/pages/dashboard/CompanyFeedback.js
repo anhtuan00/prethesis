@@ -44,117 +44,62 @@ let companyFeedback = [
   {
     _id: 1,
     studentName: "Osgood Maciaszek",
-    studentId: 1,
-    companyName: "Schultz-Will",
+    studentId: "ITITIU18123",
+    companyName: "FPT",
     internshipPosition: "Programmer Analyst IV",
-    courseFeedback:
-      "justo sit amet sapien dignissim vestibulum vestibulum ante ipsum primis",
-    studentFeedback:
-      "quis justo maecenas rhoncus aliquam lacus morbi quis tortor id nulla ultrices aliquet maecenas",
-    coordinatorFeedback:
-      "montes nascetur ridiculus mus etiam vel augue vestibulum rutrum rutrum neque aenean auctor gravida sem praesent id massa id",
+    courseFeedback: "Course need to improve on A, B",
+    studentFeedback: "Student need to improve on C, D",
+    coordinatorFeedback: "Coordinator is good",
   },
   {
     _id: 2,
     studentName: "Annecorinne Haymes",
-    studentId: 2,
-    companyName: "Gleichner-Mitchell",
-    internshipPosition: "Developer III",
-    courseFeedback:
-      "ut volutpat sapien arcu sed augue aliquam erat volutpat in congue",
-    studentFeedback:
-      "ipsum integer a nibh in quis justo maecenas rhoncus aliquam lacus morbi quis tortor id nulla",
-    coordinatorFeedback:
-      "elit proin interdum mauris non ligula pellentesque ultrices phasellus id sapien in sapien iaculis congue vivamus metus arcu",
+    studentId: "TMA solution",
+    companyName: "Schultz-Will",
+    internshipPosition: "Software Engineer",
+    courseFeedback: "Course need to improve on A, B",
+    studentFeedback: "Student need to improve on C, D",
+    coordinatorFeedback: "Coordinator is good",
   },
   {
     _id: 3,
     studentName: "Gaelan Fitchen",
-    studentId: 3,
-    companyName: "Altenwerth and Sons",
-    internshipPosition: "Food Chemist",
-    courseFeedback:
-      "tincidunt lacus at velit vivamus vel nulla eget eros elementum pellentesque quisque porta volutpat erat quisque erat eros viverra eget",
-    studentFeedback:
-      "quisque id justo sit amet sapien dignissim vestibulum vestibulum ante ipsum primis in faucibus orci",
-    coordinatorFeedback:
-      "in imperdiet et commodo vulputate justo in blandit ultrices enim lorem ipsum dolor sit amet consectetuer adipiscing elit proin interdum",
+    studentId: "ITDSIU18160",
+    companyName: "Geek up",
+    internshipPosition: "Data analysis",
+    courseFeedback: "Course need to improve on A, B",
+    studentFeedback: "Student need to improve on C, D",
+    coordinatorFeedback: "Coordinator is good",
   },
   {
     _id: 4,
     studentName: "Kamillah Mc Caughan",
-    studentId: 4,
-    companyName: "Hettinger, Willms and Reilly",
-    internshipPosition: "Senior Quality Engineer",
-    courseFeedback: "blandit mi in porttitor pede justo eu massa donec dapibus",
-    studentFeedback:
-      "at vulputate vitae nisl aenean lectus pellentesque eget nunc donec quis orci eget",
-    coordinatorFeedback:
-      "quis justo maecenas rhoncus aliquam lacus morbi quis tortor id nulla",
+    studentId: "ITITIU19372",
+    companyName: "Golden Owl",
+    internshipPosition: "Backend Developer",
+    courseFeedback: "Course need to improve on A, B",
+    studentFeedback: "Student need to improve on C, D",
+    coordinatorFeedback: "Coordinator is good",
   },
   {
     _id: 5,
     studentName: "Bear Iceton",
-    studentId: 5,
-    companyName: "Hayes Group",
-    internshipPosition: "Librarian",
-    courseFeedback:
-      "vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae donec pharetra magna vestibulum",
-    studentFeedback: "donec dapibus duis at velit eu est congue elementum in",
-    coordinatorFeedback:
-      "commodo vulputate justo in blandit ultrices enim lorem ipsum dolor sit amet consectetuer adipiscing elit proin interdum mauris non ligula",
+    studentId: "ITITIU19263",
+    companyName: "FPT",
+    internshipPosition: "Frontend Developer",
+    courseFeedback: "Course need to improve on A, B",
+    studentFeedback: "Student need to improve on C, D",
+    coordinatorFeedback: "Coordinator is good",
   },
   {
     _id: 6,
     studentName: "Gill Ruthven",
-    studentId: 6,
-    companyName: "Schowalter-Langosh",
-    internshipPosition: "Nurse Practicioner",
-    courseFeedback:
-      "elementum in hac habitasse platea dictumst morbi vestibulum velit id pretium iaculis diam erat fermentum justo nec condimentum neque sapien",
-    studentFeedback:
-      "luctus ultricies eu nibh quisque id justo sit amet sapien",
-    coordinatorFeedback:
-      "lacus at turpis donec posuere metus vitae ipsum aliquam non mauris morbi non lectus",
-  },
-  {
-    _id: 7,
-    studentName: "Wyndham Middis",
-    studentId: 7,
-    companyName: "O'Hara-Greenfelder",
-    internshipPosition: "Programmer Analyst III",
-    courseFeedback:
-      "nibh in quis justo maecenas rhoncus aliquam lacus morbi quis tortor id",
-    studentFeedback:
-      "vestibulum ac est lacinia nisi venenatis tristique fusce congue diam id ornare imperdiet sapien urna pretium",
-    coordinatorFeedback:
-      "odio justo sollicitudin ut suscipit a feugiat et eros vestibulum ac est lacinia nisi venenatis",
-  },
-  {
-    _id: 8,
-    studentName: "Reeta Lasty",
-    studentId: 8,
-    companyName: "Witting and Sons",
-    internshipPosition: "Database Administrator II",
-    courseFeedback:
-      "eleifend luctus ultricies eu nibh quisque id justo sit amet sapien dignissim vestibulum",
-    studentFeedback:
-      "luctus rutrum nulla tellus in sagittis dui vel nisl duis ac nibh fusce",
-    coordinatorFeedback:
-      "dignissim vestibulum vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae nulla dapibus dolor",
-  },
-  {
-    _id: 9,
-    studentName: "Bel Goade",
-    studentId: 9,
-    companyName: "Ankunding, Oberbrunner and Crona",
-    internshipPosition: "Tax Accountant",
-    courseFeedback:
-      "at nulla suspendisse potenti cras in purus eu magna vulputate luctus cum",
-    studentFeedback:
-      "orci pede venenatis non sodales sed tincidunt eu felis fusce posuere felis sed lacus morbi",
-    coordinatorFeedback:
-      "ut erat id mauris vulputate elementum nullam varius nulla facilisi cras non velit nec nisi vulputate nonummy maecenas tincidunt",
+    studentId: "ITITIU17133",
+    companyName: "TMA solution",
+    internshipPosition: "Fullstack developer",
+    courseFeedback: "Course need to improve on A, B",
+    studentFeedback: "Student need to improve on C, D",
+    coordinatorFeedback: "Coordinator is good",
   },
 ];
 

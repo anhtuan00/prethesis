@@ -17,6 +17,8 @@ import ManageCompanyPartnershipProposal from "./ManageCompanyPartnershipProposal
 import InternshipConfirmation from "./InternshipConfirmation";
 import StudentFeedback from "./StudentFeedback";
 import CoordinatorFeedback from "./CoordinatorFeedback";
+import InternshipSearch from "./InternshipSearch";
+import JobSearch from "./JobSearch";
 export {
   AllJobs,
   Profile,
@@ -37,4 +39,6 @@ export {
   InternshipConfirmation,
   StudentFeedback,
   CoordinatorFeedback,
+  InternshipSearch,
+  JobSearch,
 }; // export the GetHelp component
