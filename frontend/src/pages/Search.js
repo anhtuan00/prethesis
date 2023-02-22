@@ -161,6 +161,7 @@ const Search = () => {
                 <div>
                   <div style={{ fontSize: '1.25rem', fontWeight: 600 }}>{job.JobTitle}</div>
                   <div>{job.RecruitCompID?.Name}</div>
+                  <Rating readonly={true} initialValue={job.rate} /> ({job.rate})
                 </div>
 
                 <div style={{ marginLeft: 'auto' }}>
@@ -185,20 +186,20 @@ const Search = () => {
             <>
               <div style={{ fontSize: '1.5rem', fontWeight: 600 }}>{currentJob.JobTitle}</div>
 
-              {user?.role === 'student' && (
+              <a
+                target="_blank"
+                href={currentJob.RecruitCompID?.Link || 'https://example.com'}
+                className="btn btn-block"
+                style={{ textAlign: 'center', marginBottom: 8 }}
+              >
+                Apply job
+              </a>
+
+              {user?.role === 'student' && currentJob.JobType?.Name === 'Internship' && (
                 <>
-                  {!!currentJob.JobType?.Name && currentJob.JobType?.Name !== 'Internship' ? (
-                    <a
-                      target="_blank"
-                      href={currentJob.RecruitCompID?.Link || 'https://example.com'}
-                      className="btn btn-block"
-                      style={{ textAlign: 'center' }}
-                    >
-                      Apply job
-                    </a>
-                  ) : user.appliedInternship.some((id) => id === currentJob._id) ? (
+                  {user.appliedInternship.some((id) => id === currentJob._id) ? (
                     <button className="btn btn-block btn-danger" style={{ pointerEvents: 'none' }}>
-                      Applied
+                      Applied internship
                     </button>
                   ) : (
                     <button className="btn btn-block btn-hipster" onClick={() => setModal(true)}>
@@ -301,30 +302,27 @@ const Search = () => {
               {feedback ? (
                 <>
                   <h5 style={{ marginTop: 12 }}>Rate</h5>
-
                   <div className="big-star">
-                    <Rating fillColor="blue" readonly={true} initialValue={feedback.rate} /> ({feedback.comments.length}{' '}
-                    reviews)
+                    <Rating fillColor="blue" readonly={true} initialValue={feedback.rate} /> ({feedback.rate}) (
+                    {feedback.comments.length} reviews)
                   </div>
-
                   <Divider variant="fullWidth" />
-
                   <p>
-                    <Rating readonly={true} initialValue={feedback.salaryRate} /> Salary Rate
+                    <Rating readonly={true} initialValue={feedback.salaryRate} /> ({feedback.salaryRate}) Salary Rate
                   </p>
                   <p>
-                    <Rating readonly={true} initialValue={feedback.trainingRate} /> Training Rate
+                    <Rating readonly={true} initialValue={feedback.trainingRate} /> ({feedback.trainingRate}) Training
+                    Rate
                   </p>
                   <p>
-                    <Rating readonly={true} initialValue={feedback.careRate} /> Care Rate
+                    <Rating readonly={true} initialValue={feedback.careRate} /> ({feedback.careRate}) Care Rate
                   </p>
                   <p>
-                    <Rating readonly={true} initialValue={feedback.cultureRate} /> Culture Rate
+                    <Rating readonly={true} initialValue={feedback.cultureRate} /> ({feedback.cultureRate}) Culture Rate
                   </p>
                   <p>
-                    <Rating readonly={true} initialValue={feedback.officeRate} /> Office Rate
+                    <Rating readonly={true} initialValue={feedback.officeRate} /> ({feedback.officeRate}) Office Rate
                   </p>
-
                   <h5 style={{ marginTop: 12 }}>Feedback</h5>
                   {feedback.comments.map(({ comment, user }) => (
                     <p>

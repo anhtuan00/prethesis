@@ -3,8 +3,10 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-      "start": "cd ./backend && npm start",
-      "build": "yarn --cwd server serve"
+        "start": "cd ./backend && npm start",
+        "build": "yarn --cwd server serve"
+    },
+    "dependencies": {
+        "serve": "^14.2.0"
     }
-  }
-  
+}
