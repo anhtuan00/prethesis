@@ -2,7 +2,7 @@
 import jwt from "jsonwebtoken";
 
 // Import the UnAuthenticatedError class
-import { UnAuthenticatedError } from "../errors/index.js";
+import {UnAuthenticatedError} from "../errors/index.js";
 
 // Define the auth middleware function
 const auth = async (req, res, next) => {
@@ -19,11 +19,10 @@ const auth = async (req, res, next) => {
 
   try {
     // Verify the token using the JWT secret
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
     // console.log("jwt: " + JSON.stringify(jwt));
     // console.log("payload: " + JSON.stringify(payload));
     // Add the userId from the payload to the request object
-    req.user = { userId: payload.userId };
+    req.user = jwt.verify(token, process.env.JWT_SECRET);
 
     // Call the next middleware function
     next();

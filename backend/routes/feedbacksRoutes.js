@@ -2,18 +2,20 @@ import express from "express";
 const router = express.Router();
 
 import {
-  createFeedback, // function for creating a new feedback
-  deleteFeedback, // function for deleting a feedback
-  getAllFeedbacks, // function for getting all feedbacks
-  updateFeedback, // function for updating a feedback
+  getFeedbackByCompany,
+  result,
 } from "../controllers/feedbacksController.js";
 
-// When a POST request is made to the '/' route, call the createFeedback function
-// When a GET request is made to the '/' route, call the getAllFeedbacks function
-router.route("/").post(createFeedback).get(getAllFeedbacks);
+const { get, gets, update, create, Delete, filterWithPaging, getbyCompanyId } =
+  result;
 
-// When a DELETE request is made to the '/:id' route, call the deleteFeedback function
-// When a PATCH request is made to the '/:id' route, call the updateFeedback function
-router.route("/:id").delete(deleteFeedback).patch(updateFeedback);
+router.route("/").get(gets);
+router.route("/search").get(filterWithPaging);
+router.route("/getbyCompanyId/:companyId").get(getbyCompanyId);
+router.route("/:id").get(get);
+router.route("/:id").put(update);
+router.route("/").post(create);
+router.route("/:id").delete(Delete);
+router.route("/company/:id").get(getFeedbackByCompany);
 
 export default router;

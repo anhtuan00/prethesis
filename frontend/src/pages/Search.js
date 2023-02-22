@@ -1,30 +1,33 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FormRow, FormRowSelect } from '../components';
 import Wrapper from '../assets/wrappers/SearchContainer';
 import usePageName from '../utils/usePageName';
 import { useAppContext } from '../context/appContext';
 import { convertDate, useOptions } from '../utils';
+import { Rating } from 'react-simple-star-rating';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Divider from '@material-ui/core/Divider';
 
 const Search = () => {
-  const {
-    authFetch,
-    user: { _id },
-  } = useAppContext();
+  const { authFetch, user: localUser } = useAppContext();
 
   const [search, setSearch] = useState('');
   const [type, setType] = useState('All');
   const [catalog, setCatalog] = useState('All');
-
-  const [isSearching, setIsSearching] = useState(true);
-  const [jobs, setJobs] = useState([]);
-  const [currentJob, setCurrentJob] = useState();
+  const [sort, setSort] = useState(true);
 
   const [jobType, setJobType] = useState([]);
   const jobTypeOptions = useOptions(jobType);
   const [jobCatalog, setJobCatalog] = useState([]);
   const jobCatalogOptions = useOptions(jobCatalog);
 
-  const [user, setUser] = useState(false);
+  const [isSearching, setIsSearching] = useState(true);
+  const [jobs, setJobs] = useState([]);
+  const [currentJob, setCurrentJob] = useState();
+  const [feedback, setFeedback] = useState(null);
+
+  const [user, setUser] = useState(null);
   const [modal, setModal] = useState(false);
 
   const jobsFetch = useCallback(async (path) => {
@@ -35,8 +38,16 @@ const Search = () => {
   }, []);
 
   const userFetch = useCallback(async () => {
-    const { data } = await authFetch.get(`user/${_id}`);
-    setUser(data);
+    if (localUser?._id) {
+      const { data } = await authFetch.get(`user/${localUser._id}`);
+      setUser(data);
+    } else setUser(null);
+  }, [localUser]);
+
+  const feedbackFetch = useCallback(async (companyId) => {
+    setFeedback(null);
+    const { data } = await authFetch.get(`feedback/company/${companyId}`);
+    setFeedback(data?.[0]);
   }, []);
 
   useEffect(() => {
@@ -47,12 +58,15 @@ const Search = () => {
       const { data: jobType } = await authFetch.get('jobType');
       setJobType(jobType);
 
-      await userFetch();
       await jobsFetch('job/search');
     };
 
     init();
   }, []);
+
+  useEffect(() => {
+    userFetch();
+  }, [localUser]);
 
   usePageName('Search Jobs');
 
@@ -60,6 +74,7 @@ const Search = () => {
     let path = `job/search?search=${search}`;
     if (type !== 'All') path = path + `&jobType=${type}`;
     if (catalog !== 'All') path = path + `&jobCatalog=${catalog}`;
+    if (sort) path = path + `&sort=true`;
     jobsFetch(path);
   };
 
@@ -77,20 +92,26 @@ const Search = () => {
       <Wrapper>
         <div className="form" style={{ padding: '3rem', margin: '0 0 2rem' }}>
           <FormRow type="text" name="search" value={search} handleChange={(event) => setSearch(event.target.value)} />
-          <div className="form-center" style={{ marginTop: '1rem' }}>
-            <FormRowSelect
-              labelText="Job Type"
-              name="searchType"
-              value={type}
-              handleChange={(event) => setType(event.target.value)}
-              list={jobTypeOptions}
-            />
-            <FormRowSelect
-              labelText="Job Catalog"
-              name="searchCatalog"
-              value={catalog}
-              handleChange={(event) => setCatalog(event.target.value)}
-              list={jobCatalogOptions}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
+            <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '1fr 1fr' }}>
+              <FormRowSelect
+                labelText="Job Type"
+                name="searchType"
+                value={type}
+                handleChange={(event) => setType(event.target.value)}
+                list={jobTypeOptions}
+              />
+              <FormRowSelect
+                labelText="Job Catalog"
+                name="searchCatalog"
+                value={catalog}
+                handleChange={(event) => setCatalog(event.target.value)}
+                list={jobCatalogOptions}
+              />
+            </div>
+            <FormControlLabel
+              control={<Checkbox checked={sort} onChange={(event) => setSort(event.target.checked)} name="sort" />}
+              label="Priority high rate company"
             />
           </div>
           <div style={{ display: 'flex', gap: '3rem', marginTop: '1rem' }}>
@@ -118,7 +139,10 @@ const Search = () => {
             <div
               key={job._id}
               style={{ marginBottom: '2rem', background: 'white', padding: '1rem 3rem', cursor: 'pointer' }}
-              onClick={() => setCurrentJob(job)}
+              onClick={() => {
+                feedbackFetch(job.RecruitCompID._id);
+                setCurrentJob(job);
+              }}
             >
               <div
                 style={{
@@ -161,65 +185,78 @@ const Search = () => {
             <>
               <div style={{ fontSize: '1.5rem', fontWeight: 600 }}>{currentJob.JobTitle}</div>
 
-              {user.appliedInternship.some((id) => id === currentJob._id) ? (
-                <button className="btn btn-block btn-danger" style={{ pointerEvents: 'none' }}>
-                  Applied
-                </button>
-              ) : (
-                <button className="btn btn-block btn-hipster" onClick={() => setModal(true)}>
-                  Apply internship
-                </button>
-              )}
-
-              <div className="modal" style={modal ? { display: 'flex' } : {}}>
-                <div className="modal-content">
-                  <h2>Apply Intership</h2>
-
-                  <p>
-                    <b>Company: </b>
-                    {currentJob.RecruitCompID?.Name}
-                  </p>
-                  <p>
-                    <b>Job Title: </b>
-                    {currentJob.JobTitle}
-                  </p>
-                  <p>
-                    <b>Student ID: </b>
-                    {user.IDNumber}
-                  </p>
-                  <p>
-                    <b>Student Name: </b>
-                    {user.name}
-                  </p>
-                  <p>
-                    <b>Course: </b>
-                    {user.CourseNumber}
-                  </p>
-                  <p>
-                    <b>Class: </b>
-                    {user.ClassName}
-                  </p>
-                  <p>
-                    <b>Teacher: </b>
-                    {user.HeadTeacher?.name}
-                  </p>
-
-                  <div style={{ display: 'flex', gap: '3rem', marginTop: '1rem' }}>
-                    <button className="btn btn-block btn-danger" onClick={() => setModal(false)}>
-                      Cancel
-                    </button>
-                    <button
+              {user?.role === 'student' && (
+                <>
+                  {!!currentJob.JobType?.Name && currentJob.JobType?.Name !== 'Internship' ? (
+                    <a
+                      target="_blank"
+                      href={currentJob.RecruitCompID?.Link || 'https://example.com'}
                       className="btn btn-block"
-                      onClick={() => {
-                        onApply();
-                        setModal(false);
-                      }}
+                      style={{ textAlign: 'center' }}
                     >
-                      Confirm
+                      Apply job
+                    </a>
+                  ) : user.appliedInternship.some((id) => id === currentJob._id) ? (
+                    <button className="btn btn-block btn-danger" style={{ pointerEvents: 'none' }}>
+                      Applied
                     </button>
+                  ) : (
+                    <button className="btn btn-block btn-hipster" onClick={() => setModal(true)}>
+                      Apply internship
+                    </button>
+                  )}
+
+                  <div className="modal" style={modal ? { display: 'flex' } : {}}>
+                    <div className="modal-content">
+                      <h2>Apply Internship</h2>
+
+                      <p>
+                        <b>Company: </b>
+                        {currentJob.RecruitCompID?.Name}
+                      </p>
+                      <p>
+                        <b>Job Title: </b>
+                        {currentJob.JobTitle}
+                      </p>
+                      <p>
+                        <b>Student ID: </b>
+                        {user.IDNumber}
+                      </p>
+                      <p>
+                        <b>Student Name: </b>
+                        {user.name}
+                      </p>
+                      <p>
+                        <b>Course: </b>
+                        {user.CourseNumber}
+                      </p>
+                      <p>
+                        <b>Class: </b>
+                        {user.ClassName}
+                      </p>
+                      <p>
+                        <b>Teacher: </b>
+                        {user.HeadTeacher?.name}
+                      </p>
+
+                      <div style={{ display: 'flex', gap: '3rem', marginTop: '1rem' }}>
+                        <button className="btn btn-block btn-danger" onClick={() => setModal(false)}>
+                          Cancel
+                        </button>
+                        <button
+                          className="btn btn-block"
+                          onClick={() => {
+                            onApply();
+                            setModal(false);
+                          }}
+                        >
+                          Confirm
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                </>
+              )}
 
               <p>
                 Valid date: {convertDate(currentJob.JobValidFromDate)} - {convertDate(currentJob.JobValidToDate)}
@@ -260,6 +297,45 @@ const Search = () => {
                 <div>{currentJob.RecruitCompID?.ContactPerTel}</div>
                 <div>{currentJob.RecruitCompID?.ContactEmail}</div>
               </div>
+
+              {feedback ? (
+                <>
+                  <h5 style={{ marginTop: 12 }}>Rate</h5>
+
+                  <div className="big-star">
+                    <Rating fillColor="blue" readonly={true} initialValue={feedback.rate} /> ({feedback.comments.length}{' '}
+                    reviews)
+                  </div>
+
+                  <Divider variant="fullWidth" />
+
+                  <p>
+                    <Rating readonly={true} initialValue={feedback.salaryRate} /> Salary Rate
+                  </p>
+                  <p>
+                    <Rating readonly={true} initialValue={feedback.trainingRate} /> Training Rate
+                  </p>
+                  <p>
+                    <Rating readonly={true} initialValue={feedback.careRate} /> Care Rate
+                  </p>
+                  <p>
+                    <Rating readonly={true} initialValue={feedback.cultureRate} /> Culture Rate
+                  </p>
+                  <p>
+                    <Rating readonly={true} initialValue={feedback.officeRate} /> Office Rate
+                  </p>
+
+                  <h5 style={{ marginTop: 12 }}>Feedback</h5>
+                  {feedback.comments.map(({ comment, user }) => (
+                    <p>
+                      <div style={{ fontWeight: 600 }}>{user}</div>
+                      <div>{comment}</div>
+                    </p>
+                  ))}
+                </>
+              ) : (
+                <p style={{ fontStyle: 'italic' }}>Don't have any feedback yet.</p>
+              )}
             </>
           ) : (
             <div>Select a job</div>

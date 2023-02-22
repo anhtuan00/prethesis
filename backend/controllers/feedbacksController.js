@@ -1,194 +1,125 @@
-import Feedback from "../models/Feedback.js";
+import mongoose from "mongoose";
 import { StatusCodes } from "http-status-codes";
-import { BadRequestError, NotFoundError } from "../errors/index.js";
-import User from "../models/User.js";
-import checkPermissions from "../utils/checkPermissions.js";
+import Company from "../models/Company.js";
+import Feedback from "../models/Feedback.js";
+import {
+  get,
+  gets,
+  create,
+  Delete,
+  filterWithPaging,
+} from "./BaseController.js";
 
-// This function handles the request to submit a new feedback.
-// It expects the request body to contain fbstudentName, fbstudentId, fbstudentPhone, fbcompanyName, fbcompanyPhone, fbposition, fblocation, fbstartDate, fbendDate, and fbComment fields.
-// If any of these fields are missing, it will throw a BadRequestError.
-// Otherwise, it will create a new feedback in the database using the provided information
-// and return the created feedback in the response.
-const createFeedback = async (req, res) => {
-  // Extract the feedback fields from the request body
-  const {
-    fbstudentName,
-    fbstudentId,
-    fbposition,
-    fbstudentPhone,
-    fbcompanyName,
-    fblocation,
-    fbcompanyPhone,
-    fbstartDate,
-    fbendDate,
-    fbComment,
-  } = req.body;
+const modelName = "Feedback";
 
-  // Validate that all required fields are present in the request body
-  if (
-    !fbstudentName ||
-    !fbstudentId ||
-    !fbstudentPhone ||
-    !fbcompanyName ||
-    !fbcompanyPhone ||
-    !fbposition ||
-    !fblocation ||
-    !fbstartDate ||
-    !fbendDate ||
-    !fbComment
-  ) {
-    throw new BadRequestError("Please provide all values");
-  }
-
-  // Check if the user has already sent a feedback
-  const user = await User.findOne({
-    _id: req.user.userId,
-    hasSentFeedback: true,
-  });
-  if (user) {
-    throw new BadRequestError("You can only send one feedback");
-  }
-
-  // Set the user ID of the authenticated user as the creator of the feedback
-  req.body.createdBy = req.user.userId;
-  // Create a new feedback in the database using the provided information
-  const feedback = await Feedback.create(req.body);
-
-  // Update the user's hasSentFeedback field to true
-  await User.findByIdAndUpdate(req.user.userId, { hasSentFeedback: true });
-
-  res.status(StatusCodes.CREATED).json({ feedback });
-};
-
-// This function handles the request to retrieve a list of all feedbacks.
-// It expects the request query to contain optional status, sort, search, page, and limit fields.
-// It uses these query parameters to filter and sort the feedbacks and paginate the result.
-// It returns the matching feedbacks, total number of feedbacks, and total number of pages in the response.
-const getAllFeedbacks = async (req, res) => {
-  // Set the user ID of the authenticated user as the creator of the feedback
-  const queryObject = {
-    createdBy: req.user.userId,
-  };
-
-  // Find all feedbacks that match the query object
-  let result = Feedback.find(queryObject);
-
-  // Set up pagination by skipping and limiting the number of results
-  // If no page or limit query parameters are provided, default to page 1 with 10 results per page
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 10;
-  const skip = (page - 1) * limit;
-  result = result.skip(skip).limit(limit);
-
-  // Execute the query and store the results in the 'feedbacks' variable
-  const feedbacks = await result;
-
-  // Count the total number of feedbacks that match the query object
-  const totalFeedbacks = await Feedback.countDocuments(queryObject);
-
-  // Calculate the number of pages needed to display all of the results
-  const numOfPages = Math.ceil(totalFeedbacks / limit);
-
-  // Return the results, total number of feedbacks, and number of pages in the response
-  res.status(StatusCodes.OK).json({ feedbacks, totalFeedbacks, numOfPages });
-};
-
-// This function handles the request to update a feedback.
-// It expects the request params to contain a feedback ID and the request body to contain the updated values.
-// It first checks that the feedback exists and throws a NotFoundError if it does not.
-// It then checks that the authenticated user has permission to update the feedback.
-// If the user does not have permission, it throws a BadRequestError.
-// Otherwise, it updates the feedback and returns the updated feedback in the response.
-const updateFeedback = async (req, res) => {
-  console.log("Received data:", req.body);
-  // Extract the feedback ID and updated values from the request params and body
-  const { id: feedbackId } = req.params;
-  const {
-    fbstudentName,
-    fbstudentId,
-    fbstudentPhone,
-    fbcompanyName,
-    fbcompanyPhone,
-    fbposition,
-    fblocation,
-    fbstartDate,
-    fbendDate,
-    fbComment,
-  } = req.body;
-
-  // Find the feedback by its ID
-  const feedback = await Feedback.findById(feedbackId);
-  console.log("Feedback: ", feedback);
-  // If the feedback does not exist, throw a NotFoundError
-  if (!feedback) {
-    throw new NotFoundError("Feedback not found");
-  }
-
-  // Check that the authenticated user has permission to update the feedback
-  checkPermissions(req.user, feedback.createdBy);
-
-  // Update the feedback with the provided values using the $set operator
-  // This will only update the fields that are present in the request body, leaving the other fields unchanged
-  const updatedFeedback = await Feedback.findOneAndUpdate(
-    { _id: feedbackId },
-    {
-      $set: {
-        fbstudentName,
-        fbstudentId,
-        fbstudentPhone,
-        fbcompanyName,
-        fbcompanyPhone,
-        fbposition,
-        fblocation,
-        fbstartDate,
-        fbendDate,
-        fbComment,
-      },
-    },
-    {
-      // Return the updated document as the result
-      new: true,
-      // Run the validators on the update operation
-      runValidators: true,
-    }
+const averageOfArray = (arr) => {
+  let sum = numbers.reduce(
+    (accumulator, currentValue) => accumulator + currentValue
   );
-
-  // Return the updated feedback in the response
-  res.status(StatusCodes.OK).json({ feedback: updatedFeedback });
+  let average = (sum * 1.0) / numbers.length;
+  return average;
 };
 
-// This function handles the request to delete a feedback.
-// It expects the request params to contain a feedback ID.
-// It first checks that the feedback exists and throws a NotFoundError if it does not.
-// It then checks that the authenticated user has permission to delete the feedback.
-// If the user does not have permission, it throws a BadRequestError.
-// Otherwise, it deletes the feedback and returns a success message in the response.
-// This function handles the request to delete a feedback.
-// It expects the request params to contain a feedback ID.
-// If the feedback does not exist or the authenticated user is not the creator of the feedback, it will throw a NotFoundError.
-// Otherwise, it will delete the feedback from the database and return the deleted feedback in the response.
-const deleteFeedback = async (req, res) => {
-  // Extract the feedback ID from the request params
-  const { id: feedbackId } = req.params;
+export const result = {
+  get: get(modelName),
+  gets: gets(modelName),
+  update: async (req, res, next) => {
+    const {
+      companyId,
+      createdBy,
+      content,
+      salaryRate,
+      trainingRate,
+      careRate,
+      cultureRate,
+      officeRate,
+    } = neq.body;
 
-  // Find the feedback by its ID and the authenticated user's ID
-  const feedback = await Feedback.findOne({
-    _id: feedbackId,
-    createdBy: req.user.userId,
-  });
+    const fb = await Feedback.findOne({
+      companyId: companyId,
+      createdBy: createdBy,
+    });
+    if (fb.exists()) {
+      res.status(400).send("Bad Request");
+      return;
+    }
 
-  // If the feedback does not exist, throw a NotFoundError
-  if (!feedback) {
-    throw new NotFoundError("Feedback not found");
+    const result = await Feedback.create({
+      companyId,
+      createdBy,
+      content,
+      rate: averageOfArray([
+        salaryRate,
+        trainingRate,
+        careRate,
+        cultureRate,
+        officeRate,
+      ]),
+      salaryRate,
+      trainingRate,
+      careRate,
+      cultureRate,
+      officeRate,
+    });
+
+    const allFbOfCompany = await Feedback.find({ companyId: companyId });
+
+    const rates = {
+      salaryRate: averageOfArray(allFbOfCompany.map((x) => x.salaryRate)),
+      trainingRate: averageOfArray(allFbOfCompany.map((x) => x.trainingRate)),
+      careRate: averageOfArray(allFbOfCompany.map((x) => x.careRate)),
+      cultureRate: averageOfArray(allFbOfCompany.map((x) => x.cultureRate)),
+      officeRate: averageOfArray(allFbOfCompany.map((x) => x.officeRate)),
+    };
+
+    const setData = { rate: averageOfArray(Object.values(rates)), ...rates };
+
+    await Company.findByIdAndUpdate(companyId, { $set: setData });
+
+    req.status(200).json(result);
+  },
+  create: create(modelName),
+  Delete: Delete(modelName),
+  filterWithPaging: filterWithPaging(modelName),
+  getbyCompanyId: async (req, res, next) => {
+    const { companyId } = req.params;
+
+    var result = await Feedback.find({ companyId: companyId });
+
+    res.status(StatusCodes.OK).json(result);
+  },
+};
+
+export const getFeedbackByCompany = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await Feedback.aggregate([
+      { $match: { companyId: new mongoose.Types.ObjectId(id) } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "createdBy",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      { $unwind: "$user" },
+      {
+        $group: {
+          _id: null,
+          rate: { $avg: "$rate" },
+          salaryRate: { $avg: "$salaryRate" },
+          trainingRate: { $avg: "$trainingRate" },
+          careRate: { $avg: "$careRate" },
+          cultureRate: { $avg: "$cultureRate" },
+          officeRate: { $avg: "$officeRate" },
+          comments: { $push: { comment: "$comment", user: "$user.name" } },
+        },
+      },
+      { $unset: "_id" },
+    ]);
+    res.status(StatusCodes.OK).json(result);
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST).json(error);
   }
-
-  // Delete the feedback from the database
-  await feedback.remove();
-
-  // Update the user's hasSentFeedback field to false
-  await User.findByIdAndUpdate(req.user.userId, { hasSentFeedback: false });
-
-  res.status(StatusCodes.OK).json({ feedback });
 };
-
-export { createFeedback, getAllFeedbacks, updateFeedback, deleteFeedback };

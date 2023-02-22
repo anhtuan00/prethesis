@@ -21,10 +21,15 @@ function Users() {
 
   const columns = [
     { title: 'Email', field: 'email' },
-    { title: 'Password', field: 'password' },
+    { title: 'Password', field: 'password', render: () => '******' },
     { title: 'Role', field: 'role', lookup: { student: 'student', teacher: 'teacher', officer: 'officer' } },
     { title: 'Name', field: 'name' },
     { title: 'Student ID', field: 'IDNumber' },
+    {
+      title: 'Applied Internship',
+      render: (data) => data.appliedInternship.length,
+      editable: 'never',
+    },
     { title: 'DOB', field: 'DOB', type: 'date' },
     { title: 'Address', field: 'Address' },
     { title: 'District', field: 'District' },
@@ -35,7 +40,7 @@ function Users() {
     { title: 'Class Code', field: 'ClassCode' },
     { title: 'Class Name', field: 'ClassName' },
     { title: 'Faculty', field: 'Faculty' },
-    { title: 'Head Teacher', field: 'HeadTeacher', lookup: convertMasterData(data) },
+    { title: 'Head Teacher', field: 'HeadTeacher', lookup: convertMasterData(data, 'name') },
     { title: 'Admit Date', field: 'AdmitDate', type: 'date' },
     { title: 'Graduate Date', field: 'GradDate', type: 'date' },
   ];

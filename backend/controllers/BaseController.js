@@ -1,5 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import Company from "../models/Company.js";
+import Feedback from "../models/Feedback.js";
 import Internship from "../models/Internship.js";
 import Job from "../models/Job.js";
 import JobCatalog from "../models/JobCatalog.js";
@@ -9,6 +10,7 @@ import WorkCatalog from "../models/WorkCatalog.js";
 
 const MODELS = {
   Company,
+  Feedback,
   Internship,
   Job,
   JobCatalog,
@@ -17,12 +19,12 @@ const MODELS = {
   WorkCatalog,
 };
 
-const getModel = async (modelName) => MODELS[modelName];
+const getModel = (modelName) => MODELS[modelName];
 
 const get = (modelName) => {
   return async (req, res) => {
     try {
-      const m = await getModel(modelName);
+      const m = getModel(modelName);
       const { id } = req.params;
       let query = await m.findById(id);
 
@@ -41,10 +43,47 @@ const get = (modelName) => {
 const gets = (modelName) => {
   return async (req, res) => {
     try {
-      const m = await getModel(modelName);
-      const result = await m.find();
+      const m = getModel(modelName);
+      let result;
+
+      switch (modelName) {
+        case "Internship":
+          switch (req.user.role) {
+            case "student":
+              result = await m.find({ Student: req.user._id });
+              break;
+            case "teacher":
+              result = await m.find({ IsChosen: true }).populate("Student");
+              result = result
+                .filter(
+                  ({ Student: { HeadTeacher } }) =>
+                    HeadTeacher?.toString() === req.user._id
+                )
+                .map(({ Student, ...rest }) => ({
+                  ...rest,
+                  Student: Student._id,
+                }));
+              break;
+            default:
+              result = await m.find({ IsChosen: true });
+          }
+          break;
+        case "User":
+          switch (req.user.role) {
+            case "teacher":
+              result = await m.find({ HeadTeacher: req.user._id });
+              break;
+            default:
+              result = await m.find();
+          }
+          break;
+        default:
+          result = await m.find();
+      }
+
       res.status(StatusCodes.OK).json(result);
     } catch (error) {
+      console.log(error);
       res.status(StatusCodes.BAD_REQUEST).json(error);
     }
   };
@@ -53,27 +92,63 @@ const gets = (modelName) => {
 const filterWithPaging = (modelName) => {
   return async (req, res) => {
     try {
-      const m = await getModel(modelName);
-      const { search, jobType, jobCatalog } = req.query;
+      const m = getModel(modelName);
+      const { search, jobType, jobCatalog, sort } = req.query;
       const $regex = new RegExp(search, "i");
 
-      let result = await m
-        .find({
-          $or: [{ JobTitle: { $regex } }, { JobDescription: { $regex } }],
-        })
-        .populate("JobCatalog")
-        .populate("JobType")
-        .populate("RecruitCompID");
-
-      if (jobType) {
-        result = result.filter(({ JobType }) => JobType.Name === jobType);
-      }
-
-      if (jobCatalog) {
-        result = result.filter(({ JobCatalog }) => {
-          return JobCatalog.some(({ Name }) => Name === jobCatalog);
-        });
-      }
+      const result = await m.aggregate(
+        [
+          {
+            $match: {
+              $or: [{ JobTitle: { $regex } }, { JobDescription: { $regex } }],
+            },
+          },
+          {
+            $lookup: {
+              from: MODELS.JobType.collection.collectionName,
+              localField: "JobType",
+              foreignField: "_id",
+              as: "JobType",
+            },
+          },
+          { $unwind: "$JobType" },
+          jobType && { $match: { "JobType.Name": jobType } },
+          {
+            $lookup: {
+              from: MODELS.JobCatalog.collection.collectionName,
+              localField: "JobCatalog",
+              foreignField: "_id",
+              as: "JobCatalog",
+            },
+          },
+          jobCatalog && {
+            $match: { JobCatalog: { $elemMatch: { Name: jobCatalog } } },
+          },
+          sort && [
+            {
+              $lookup: {
+                from: MODELS.Feedback.collection.collectionName,
+                localField: "RecruitCompID",
+                foreignField: "companyId",
+                as: "feedbacks",
+              },
+            },
+            { $addFields: { rate: { $avg: "$feedbacks.rate" } } },
+            { $sort: { rate: -1 } },
+          ],
+          {
+            $lookup: {
+              from: MODELS.Company.collection.collectionName,
+              localField: "RecruitCompID",
+              foreignField: "_id",
+              as: "RecruitCompID",
+            },
+          },
+          { $unwind: "$RecruitCompID" },
+        ]
+          .flat()
+          .filter((v) => v)
+      );
 
       res.status(StatusCodes.OK).json(result);
 
@@ -123,16 +198,23 @@ const filterWithPaging = (modelName) => {
 const create = (modelName) => {
   return async (req, res) => {
     try {
-      const m = await getModel(modelName);
+      const m = getModel(modelName);
       const data = req.body;
-      const result = await m.create(data);
 
       if (modelName === "Internship") {
-        const student = await MODELS.User.findById(data.Student);
-        student.appliedInternship = student.appliedInternship.concat(data.Job);
-        await student.save();
+        if (data.Job) {
+          const student = await MODELS.User.findById(data.Student);
+          student.appliedInternship = student.appliedInternship.concat(
+            data.Job
+          );
+          await student.save();
+        } else {
+          data.Student = req.user._id;
+          data.Company = "63f333a40b7ce2458b3796bb";
+        }
       }
 
+      const result = await m.create(data);
       res.status(StatusCodes.OK).json(result);
     } catch (error) {
       res.status(StatusCodes.BAD_REQUEST).json(error);
@@ -143,7 +225,7 @@ const create = (modelName) => {
 const update = (modelName) => {
   return async (req, res) => {
     try {
-      const m = await getModel(modelName);
+      const m = getModel(modelName);
       const { id } = req.params;
       const data = req.body;
       const result = await m.findOneAndUpdate(
@@ -161,6 +243,20 @@ const update = (modelName) => {
         }
       );
 
+      if (
+        modelName === "Internship" &&
+        req.user.role === "student" &&
+        data.IsChosen
+      ) {
+        const items = await m.find({ Student: req.user._id });
+        for (const item of items) {
+          if (item.IsChosen && item._id.toString() !== data._id) {
+            item.IsChosen = false;
+            await item.save();
+          }
+        }
+      }
+
       res.status(StatusCodes.OK).json(result);
     } catch (error) {
       res.status(StatusCodes.BAD_REQUEST).json(error);
@@ -171,14 +267,14 @@ const update = (modelName) => {
 const Delete = (modelName) => {
   return async (req, res) => {
     try {
-      const m = await getModel(modelName);
+      const m = getModel(modelName);
       const { id } = req.params;
       const data = await m.findOneAndDelete({ _id: id });
 
       if (modelName === "Internship") {
         const student = await MODELS.User.findById(data.Student);
         student.appliedInternship = student.appliedInternship.filter((id) => {
-          return id.toString() !== data.Job.toString();
+          return id.toString() !== data.Job?.toString();
         });
         await student.save();
       }

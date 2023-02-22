@@ -57,7 +57,8 @@ UserSchema.pre("save", async function () {
 // The token contains the user's id as the payload, which can be used to identify the user on subsequent requests.
 // The method returns the generated token.
 UserSchema.methods.createJWT = function () {
-  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
+  const { _id, role } = this;
+  return jwt.sign({ _id, role }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_LIFETIME,
   });
 };

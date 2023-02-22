@@ -13,6 +13,11 @@ const Landing = () => {
           <Link to="/register" className="btn btn-hero">
             Login/Register
           </Link>
+          <div style={{ marginTop: 8 }}>
+            <Link to="/search-jobs" className="btn btn-hero">
+              Search jobs
+            </Link>
+          </div>
         </div>
       </div>
     </Wrapper>

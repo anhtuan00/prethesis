@@ -2,6 +2,8 @@ import express from "express";
 
 import { authRouter } from "./authRoutes.js";
 import { baseRoute } from "./baseRoute.js";
+import authenticateUser from "../middleware/auth.js";
+import feedbackRoute from "./feedbacksRoutes.js";
 
 const route = express.Router();
 
@@ -20,8 +22,20 @@ const modelNames = [
   "workCatalog",
 ];
 
+const auths = ["internship", "user"];
+
 modelNames.forEach((name) => {
-  route.use(`/${name}`, baseRoute(name[0].toUpperCase() + name.slice(1)));
+  route.use(
+    `/${name}`,
+    auths.includes(name)
+      ? authenticateUser
+      : (_, __, next) => {
+          next();
+        },
+    baseRoute(name[0].toUpperCase() + name.slice(1))
+  );
 });
+
+route.use("/feedback", feedbackRoute);
 
 export const rootRouter = route;

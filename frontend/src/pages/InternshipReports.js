@@ -55,6 +55,10 @@ function InternshipReports() {
       data={data}
       isLoading={!data}
       editable={getEditableConfig(authFetch, path, data, setData)}
+      options={{
+        filtering: true,
+        columnsButton: true,
+      }}
     />
   );
 }

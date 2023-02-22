@@ -27,7 +27,7 @@ function Jobs() {
 
       const { data } = await authFetch.get(path);
       data.forEach((company) => {
-        company.JobCatalog = company.JobCatalog.map((id) => jobCatalog.find(({ _id }) => _id === id));
+        company.JobCatalog = company.JobCatalog.map((id) => jobCatalog.find(({ _id }) => _id === id)).filter((v) => v);
       });
       setData(data);
     };

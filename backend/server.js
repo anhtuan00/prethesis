@@ -1,4 +1,5 @@
 // Import express
+import path from "path";
 import express from "express";
 import cors from "cors";
 
@@ -52,17 +53,23 @@ app.use("/swagger", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 // Use express.json to parse JSON bodies in requests
 app.use(express.json());
 // Use helmet to secure the app with various HTTP headers
-app.use(helmet());
+// app.use(helmet({ contentSecurityPolicy: false }));
 // Use xss-clean to prevent cross-site scripting attacks
 app.use(xss());
 // Use mongo-sanitize to sanitize user input to prevent NoSQL injection attacks
 app.use(mongoSanitize());
+
+app.use(express.static(path.resolve("../frontend/build")));
 
 app.use("/api/v1", rootRouter);
 // app.use("/api/v1/auth", authRouter);
 // app.use("/api/v1/jobs", authenticateUser, jobsRouter);
 // app.use("/api/v1/feedbacks", authenticateUser, feedbacksRouter);
 // app.use("/api/v1/users", authenticateUser, usersRouter);
+
+app.get("*", function (req, res) {
+  res.sendFile(path.resolve("../frontend/build/index.html"));
+});
 
 // Use the notFoundMiddleware for any requests that do not match any of the above routes
 app.use(notFoundMiddleware);

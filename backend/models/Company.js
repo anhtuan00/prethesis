@@ -13,10 +13,16 @@ const companySchema = new mongoose.Schema({
   Nationality: { type: String, maxLength: 25 },
   ContactPerson: { type: String, maxLength: 25 },
   ContactPerTel: { type: String, maxLength: 12 },
-  // ContactPerEmail: { type: String, maxLength: 30 },
+  link: { type: String, default: "https://example.com" },
   ContactEmail: { type: String, maxLength: 30 },
 
-  Rate: { type: Number },
+  rate: { type: Number },
+  salaryRate: { type: Number },
+  trainningRate: { type: Number },
+  careRate: { type: Number },
+  cultureRate: { type: Number },
+  officeRate: { type: Number },
+
   Logo: { type: String },
 
   WorkCatalogId: [{ type: mongoose.Schema.Types.ObjectId, ref: "workCatalog" }],
@@ -24,6 +30,17 @@ const companySchema = new mongoose.Schema({
   // _id: { type: String },
 
   Description: { type: String, maxLength: 500 },
+
+  Feedback: [{
+    createdBy: {
+      type: mongoose.Types.ObjectId,
+      ref: "user"
+    },
+    comment: {
+      type: String,
+    },
+    rate: { type: Number }
+  }]
   // CreatedDate: { type: Date },
   // CreatedBy: { type: Schema.Types.ObjectId, ref: "user" },
 });

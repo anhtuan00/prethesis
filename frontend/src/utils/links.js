@@ -9,11 +9,11 @@ import { IoIosBook } from 'react-icons/io';
 
 export const LINKS = [
   { id: 'search-jobs', text: 'Search Jobs', path: 'search-jobs' },
-  { id: 'companies', text: 'Companies', path: 'companies' },
-  { id: 'jobs', text: 'Jobs', path: 'jobs' },
-  { id: 'internship-reports', text: 'Internship Reports', path: 'internship-reports' },
-  { id: 'master-data', text: 'Master Data', path: 'master-data' },
-  { id: 'users', text: 'Users', path: 'users' },
+  { id: 'internship-list', text: 'Internship List', path: 'internship-list' },
+  { id: 'jobs', text: 'Jobs', path: 'jobs', roles: ['officer', 'teacher'] },
+  { id: 'companies', text: 'Companies', path: 'companies', roles: ['officer'] },
+  { id: 'master-data', text: 'Master Data', path: 'master-data', roles: ['officer'] },
+  { id: 'users', text: 'Users', path: 'users', roles: ['officer', 'teacher'] },
 ];
 
 export const adminLinks = [

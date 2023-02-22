@@ -4,7 +4,7 @@ import moment from 'moment/moment';
 const convertArrayData = (newData, arrayKeys) => {
   const result = { ...newData };
   for (const arrayKey of arrayKeys) {
-    result[arrayKey] = result[arrayKey].map(({ _id }) => _id);
+    if (result[arrayKey]) result[arrayKey] = result[arrayKey].map(({ _id }) => _id);
   }
   return result;
 };
@@ -14,26 +14,26 @@ export const getEditableConfig = (fetch, path, data, setData, arrayKeys = [], up
     onRowAdd: async (newData) => {
       try {
         await fetch.post(path, convertArrayData(newData, arrayKeys));
-        await update();
         setData([...data, newData]);
+        await update();
       } catch (e) {}
     },
     onRowUpdate: async (newData, oldData) => {
       try {
         await fetch.put(`${path}/${newData._id}`, convertArrayData(newData, arrayKeys));
-        await update();
         const dataUpdate = [...data];
         dataUpdate[oldData.tableData.id] = newData;
         setData(dataUpdate);
+        await update();
       } catch (e) {}
     },
     onRowDelete: async (oldData) => {
       try {
         await fetch.delete(`${path}/${oldData._id}`);
-        await update();
         const dataDelete = [...data];
         dataDelete.splice(oldData.tableData.id, 1);
         setData(dataDelete);
+        await update();
       } catch (e) {}
     },
   };

@@ -2,9 +2,12 @@ import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Wrapper from '../../assets/wrappers/SharedLayout';
 import { BigSidebar, Navbar, SmallSidebar } from '../../components';
+import { useAppContext } from '../../context/appContext';
 
 const SharedLayout = () => {
   const navigate = useNavigate();
+  const { user } = useAppContext();
+
   useEffect(() => {
     if (window.location.pathname === '/') {
       navigate('/search-jobs');
@@ -13,9 +16,13 @@ const SharedLayout = () => {
 
   return (
     <Wrapper>
-      <main className="dashboard">
-        <SmallSidebar />
-        <BigSidebar />
+      <main style={user ? {} : { display: 'block' }} className="dashboard">
+        {!!user && (
+          <>
+            <SmallSidebar />
+            <BigSidebar />
+          </>
+        )}
         <div>
           <Navbar />
           <div className="dashboard-page">
