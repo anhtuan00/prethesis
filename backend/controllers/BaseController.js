@@ -7,6 +7,7 @@ import JobCatalog from "../models/JobCatalog.js";
 import JobType from "../models/JobType.js";
 import User from "../models/User.js";
 import WorkCatalog from "../models/WorkCatalog.js";
+import mongoose from "mongoose";
 
 const MODELS = {
   Company,
@@ -53,16 +54,26 @@ const gets = (modelName) => {
               result = await m.find({ Student: req.user._id });
               break;
             case "teacher":
-              result = await m.find({ IsChosen: true }).populate("Student");
-              result = result
-                .filter(
-                  ({ Student: { HeadTeacher } }) =>
-                    HeadTeacher?.toString() === req.user._id
-                )
-                .map(({ Student, ...rest }) => ({
-                  ...rest,
-                  Student: Student._id,
-                }));
+              result = await m.aggregate([
+                { $match: { IsChosen: true } },
+                {
+                  $lookup: {
+                    from: MODELS.User.collection.collectionName,
+                    localField: "Student",
+                    foreignField: "_id",
+                    as: "student",
+                  },
+                },
+                { $unwind: "$student" },
+                {
+                  $match: {
+                    "student.HeadTeacher": new mongoose.Types.ObjectId(
+                      req.user._id
+                    ),
+                  },
+                },
+                { $unset: "student" },
+              ]);
               break;
             default:
               result = await m.find({ IsChosen: true });

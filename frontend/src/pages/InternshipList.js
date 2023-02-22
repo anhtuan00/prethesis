@@ -100,6 +100,13 @@ function InternshipList() {
             disabled: rowData.InternStatus !== 'Completed',
           }),
         ]}
+        options={{
+          columnsButton: true,
+          filtering: true,
+          exportButton: true,
+          exportAllData: true,
+          exportFileName: 'Internship List',
+        }}
       />
 
       <div className="modal" style={modal ? { display: 'flex' } : {}}>
