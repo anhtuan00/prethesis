@@ -114,7 +114,7 @@ const Search = () => {
               <RadioGroup row value={sort} onChange={(event) => setSort(event.target.value)}>
                 <FormControlLabel value="" control={<Radio />} label="None" />
                 <FormControlLabel value="rate" control={<Radio />} label="Company Rate" />
-                <FormControlLabel value="applied" control={<Radio />} label="Number of applied" />
+                <FormControlLabel value="applied" control={<Radio />} label="Job Application Count" />
               </RadioGroup>
             </div>
           </div>

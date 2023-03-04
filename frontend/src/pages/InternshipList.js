@@ -240,11 +240,14 @@ function InternshipList() {
                   </IconButton>
                 )}
                 {!!report1 ? (
-                  <Link href={report1.url} target="_blank" rel="noreferrer">
-                    {report1.filename}
-                  </Link>
+                  <div>
+                    <b>1. This is the internship report: </b>
+                    <Link href={report1.url} target="_blank" rel="noreferrer">
+                      {report1.filename}
+                    </Link>
+                  </div>
                 ) : (
-                  role === 'student' && 'Upload the first report.'
+                  role === 'student' && '1. Please upload the internship report. The file size is limited to 10MB.'
                 )}
               </p>
 
@@ -260,11 +263,14 @@ function InternshipList() {
                   </IconButton>
                 )}
                 {!!report2 ? (
-                  <Link href={report2.url} target="_blank" rel="noreferrer">
-                    {report2.filename}
-                  </Link>
+                  <div>
+                    <b>2. This is the evaluation report: </b>
+                    <Link href={report2.url} target="_blank" rel="noreferrer">
+                      {report2.filename}
+                    </Link>
+                  </div>
                 ) : (
-                  role === 'student' && 'Upload the second report.'
+                  role === 'student' && '2. Please upload the evaluation report. The file size is limited to 10MB.'
                 )}
               </p>
 

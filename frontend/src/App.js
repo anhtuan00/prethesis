@@ -1,26 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Register, Landing, Error, ProtectedRoute } from './pages';
-import {
-  AllJobs,
-  Profile,
-  AddJob,
-  AddFeedback,
-  AllFeedback,
-  GetHelp,
-  JobSearchResources,
-  ViewAllFeedbacks,
-  ViewUsers,
-  AddApproval,
-  SharedLayout,
-  Grade,
-  CompanyFeedback,
-  ManageEvaluationReport,
-  ManageInternshipReport,
-  ManageCompanyPartnershipProposal,
-  InternshipConfirmation,
-  StudentFeedback,
-  CoordinatorFeedback,
-} from './pages/dashboard';
+import { JobSearchResources, SharedLayout } from './pages/dashboard';
 import Search from './pages/Search';
 import Companies from './pages/Companies';
 import Jobs from './pages/Jobs';
@@ -30,7 +10,6 @@ import { useAppContext } from './context/appContext';
 import InternshipList from './pages/InternshipList';
 import InternshipRegulations from './pages/InternshipRegulations';
 import SystemEvaluation from './pages/SystemEvaluation';
-
 
 const Authorization = ({ roles, element }) => {
   const { user } = useAppContext();
