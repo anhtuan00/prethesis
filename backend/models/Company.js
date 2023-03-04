@@ -7,7 +7,7 @@ const companySchema = new mongoose.Schema({
 
   Name: { type: String, maxLength: 100 },
   Address: { type: String, maxLength: 50 },
-  District: { type: String, maxLength: 8 },
+  District: { type: String, maxLength: 100 },
   City: { type: String, maxLength: 25 },
   Country: { type: String, maxLength: 25 },
   Nationality: { type: String, maxLength: 25 },
@@ -24,16 +24,18 @@ const companySchema = new mongoose.Schema({
 
   Description: { type: String, maxLength: 500 },
 
-  Feedback: [{
-    createdBy: {
-      type: mongoose.Types.ObjectId,
-      ref: "user"
+  Feedback: [
+    {
+      createdBy: {
+        type: mongoose.Types.ObjectId,
+        ref: "user",
+      },
+      comment: {
+        type: String,
+      },
+      rate: { type: Number },
     },
-    comment: {
-      type: String,
-    },
-    rate: { type: Number }
-  }]
+  ],
   // CreatedDate: { type: Date },
   // CreatedBy: { type: Schema.Types.ObjectId, ref: "user" },
 });
