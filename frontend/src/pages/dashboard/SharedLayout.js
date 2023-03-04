@@ -23,7 +23,7 @@ const SharedLayout = () => {
             <BigSidebar />
           </>
         )}
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <Navbar />
           <div className="dashboard-page">
             <Outlet />

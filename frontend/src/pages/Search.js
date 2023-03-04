@@ -5,9 +5,9 @@ import usePageName from '../utils/usePageName';
 import { useAppContext } from '../context/appContext';
 import { convertDate, useOptions } from '../utils';
 import { Rating } from 'react-simple-star-rating';
-import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Divider from '@material-ui/core/Divider';
+import { Radio, RadioGroup } from '@material-ui/core';
 
 const Search = () => {
   const { authFetch, user: localUser } = useAppContext();
@@ -15,7 +15,7 @@ const Search = () => {
   const [search, setSearch] = useState('');
   const [type, setType] = useState('All');
   const [catalog, setCatalog] = useState('All');
-  const [sort, setSort] = useState(true);
+  const [sort, setSort] = useState('');
 
   const [jobType, setJobType] = useState([]);
   const jobTypeOptions = useOptions(jobType);
@@ -58,7 +58,7 @@ const Search = () => {
       const { data: jobType } = await authFetch.get('jobType');
       setJobType(jobType);
 
-      await jobsFetch('job/search');
+      onSearch();
     };
 
     init();
@@ -74,7 +74,7 @@ const Search = () => {
     let path = `job/search?search=${search}`;
     if (type !== 'All') path = path + `&jobType=${type}`;
     if (catalog !== 'All') path = path + `&jobCatalog=${catalog}`;
-    if (sort) path = path + `&sort=true`;
+    if (sort) path = path + `&sort=${sort}`;
     jobsFetch(path);
   };
 
@@ -109,10 +109,14 @@ const Search = () => {
                 list={jobCatalogOptions}
               />
             </div>
-            <FormControlLabel
-              control={<Checkbox checked={sort} onChange={(event) => setSort(event.target.checked)} name="sort" />}
-              label="Priority high rate company"
-            />
+            <div>
+              <div>Sort by</div>
+              <RadioGroup row value={sort} onChange={(event) => setSort(event.target.value)}>
+                <FormControlLabel value="" control={<Radio />} label="None" />
+                <FormControlLabel value="rate" control={<Radio />} label="Company Rate" />
+                <FormControlLabel value="applied" control={<Radio />} label="Number of applied" />
+              </RadioGroup>
+            </div>
           </div>
           <div style={{ display: 'flex', gap: '3rem', marginTop: '1rem' }}>
             <button
@@ -188,7 +192,7 @@ const Search = () => {
 
               <a
                 target="_blank"
-                href={currentJob.RecruitCompID?.Link || 'https://example.com'}
+                href={currentJob.RecruitCompID?.link || 'https://example.com'}
                 className="btn btn-block"
                 style={{ textAlign: 'center', marginBottom: 8 }}
               >

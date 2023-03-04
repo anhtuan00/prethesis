@@ -3,6 +3,10 @@ import moment from 'moment/moment';
 
 const convertArrayData = (newData, arrayKeys) => {
   const result = { ...newData };
+
+  if (result.ConfirmedYN && !['Declined', 'Completed'].includes(result.InternStatus))
+    result.InternStatus = 'In-progress';
+
   for (const arrayKey of arrayKeys) {
     if (result[arrayKey]) result[arrayKey] = result[arrayKey].map(({ _id }) => _id);
   }
@@ -73,3 +77,19 @@ export const useOptions = (data) => {
     return result;
   }, [data]);
 };
+
+const client = window.filestack.init('ASADTyBVCQBBtQ05dBigAz');
+
+export const uploadFile = () =>
+  new Promise((resolve) => {
+    client
+      .picker({
+        accept: ['application/pdf'],
+        fromSources: ['local_file_system'],
+        onUploadDone: (data) => {
+          const { filename, url } = data.filesUploaded?.[0];
+          resolve({ filename, url });
+        },
+      })
+      .open();
+  });

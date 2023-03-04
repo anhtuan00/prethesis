@@ -116,7 +116,18 @@ export const getFeedbackByCompany = async (req, res) => {
           comments: { $push: { comment: "$comment", user: "$user.name" } },
         },
       },
-      { $unset: "_id" },
+      {
+        $project: {
+          rate: { $round: ["$rate", 2] },
+          salaryRate: { $round: ["$salaryRate", 2] },
+          trainingRate: { $round: ["$trainingRate", 2] },
+          careRate: { $round: ["$careRate", 2] },
+          cultureRate: { $round: ["$cultureRate", 2] },
+          officeRate: { $round: ["$officeRate", 2] },
+          comments: 1,
+          _id: 0,
+        },
+      },
     ]);
     res.status(StatusCodes.OK).json(result);
   } catch (error) {

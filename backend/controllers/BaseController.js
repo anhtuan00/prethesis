@@ -9,6 +9,37 @@ import User from "../models/User.js";
 import WorkCatalog from "../models/WorkCatalog.js";
 import mongoose from "mongoose";
 
+let TIME = {};
+
+const updateTime = () => {
+  const now = new Date();
+  TIME = {
+    year: now.getFullYear(),
+    month: now.getMonth(),
+    date: now.getDate(),
+  };
+};
+
+const checkTimeUpdated = () => {
+  const now = new Date();
+  const { year, month, date } = TIME;
+  return (
+    year === now.getFullYear() &&
+    month === now.getMonth() &&
+    date === now.getDate()
+  );
+};
+
+const getTomorrowDate = () => {
+  const date = new Date();
+  date.setDate(date.getDate() + 1);
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+  return date;
+};
+
 const MODELS = {
   Company,
   Feedback,
@@ -49,13 +80,24 @@ const gets = (modelName) => {
 
       switch (modelName) {
         case "Internship":
-          switch (req.user.role) {
-            case "student":
-              result = await m.find({ Student: req.user._id });
-              break;
-            case "teacher":
-              result = await m.aggregate([
-                { $match: { IsChosen: true } },
+          // if (!checkTimeUpdated()) {
+          await m.updateMany(
+            {
+              InternStatus: { $eq: "In-progress" },
+              InternCompleteDate: { $lt: getTomorrowDate() },
+            },
+            { $set: { InternStatus: "Completed" } }
+          );
+          //   updateTime();
+          // }
+          result = await m.aggregate(
+            [
+              req.user.role === "student" && {
+                $match: {
+                  Student: new mongoose.Types.ObjectId(req.user._id),
+                },
+              },
+              req.user.role === "teacher" && [
                 {
                   $lookup: {
                     from: MODELS.User.collection.collectionName,
@@ -73,11 +115,12 @@ const gets = (modelName) => {
                   },
                 },
                 { $unset: "student" },
-              ]);
-              break;
-            default:
-              result = await m.find({ IsChosen: true });
-          }
+              ],
+              { $sort: { updatedAt: -1 } },
+            ]
+              .flat()
+              .filter((v) => v)
+          );
           break;
         case "User":
           switch (req.user.role) {
@@ -94,7 +137,6 @@ const gets = (modelName) => {
 
       res.status(StatusCodes.OK).json(result);
     } catch (error) {
-      console.log(error);
       res.status(StatusCodes.BAD_REQUEST).json(error);
     }
   };
@@ -135,18 +177,18 @@ const filterWithPaging = (modelName) => {
           jobCatalog && {
             $match: { JobCatalog: { $elemMatch: { Name: jobCatalog } } },
           },
-          sort && [
-            {
-              $lookup: {
-                from: MODELS.Feedback.collection.collectionName,
-                localField: "RecruitCompID",
-                foreignField: "companyId",
-                as: "feedbacks",
-              },
+          {
+            $lookup: {
+              from: MODELS.Feedback.collection.collectionName,
+              localField: "RecruitCompID",
+              foreignField: "companyId",
+              as: "feedbacks",
             },
-            { $addFields: { rate: { $avg: "$feedbacks.rate" } } },
-            { $sort: { rate: -1 } },
-          ],
+          },
+          { $addFields: { rate: { $avg: "$feedbacks.rate" } } },
+          { $unset: "feedbacks" },
+          sort === "rate" && { $sort: { rate: -1 } },
+          { $addFields: { rate: { $round: ["$rate", 2] } } },
           {
             $lookup: {
               from: MODELS.Company.collection.collectionName,
@@ -156,6 +198,27 @@ const filterWithPaging = (modelName) => {
             },
           },
           { $unwind: "$RecruitCompID" },
+          sort === "applied" && [
+            {
+              $lookup: {
+                from: MODELS.Job.collection.collectionName,
+                localField: "RecruitCompID._id",
+                foreignField: "RecruitCompID",
+                as: "jobs",
+              },
+            },
+            {
+              $lookup: {
+                from: MODELS.User.collection.collectionName,
+                localField: "jobs._id",
+                foreignField: "appliedInternship",
+                as: "users",
+              },
+            },
+            { $addFields: { applied: { $size: "$users" } } },
+            { $sort: { applied: -1 } },
+            { $unset: ["jobs", "users"] },
+          ],
         ]
           .flat()
           .filter((v) => v)

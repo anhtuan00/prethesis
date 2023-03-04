@@ -14,6 +14,14 @@ export const LINKS = [
   { id: 'companies', text: 'Companies', path: 'companies', roles: ['officer'] },
   { id: 'master-data', text: 'Master Data', path: 'master-data', roles: ['officer'] },
   { id: 'users', text: 'Users', path: 'users', roles: ['officer', 'teacher'] },
+  { id: 'other-resources', text: 'Other Resources', path: 'other-resources' },
+  { id: 'internship-regulations', text: 'Internship Regulations', path: 'internship-regulations' },
+  {
+    id: 'system-evaluation',
+    text: 'system evaluation',
+    path: 'system-evaluation',
+    roles: ['student', 'teacher', 'officer'],
+  },
 ];
 
 export const adminLinks = [

@@ -28,6 +28,13 @@ const Table = ({ title, path }) => {
       data={data || []}
       isLoading={!data}
       editable={getEditableConfig(authFetch, path, data, setData)}
+      options={{
+        columnsButton: true,
+        filtering: true,
+        exportButton: true,
+        exportAllData: true,
+        exportFileName: 'Catalog',
+      }}
     />
   );
 };

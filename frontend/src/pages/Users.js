@@ -54,6 +54,13 @@ function Users() {
       data={data}
       isLoading={!data}
       editable={getEditableConfig(authFetch, path, data, setData, [], fetchData)}
+      options={{
+        columnsButton: true,
+        filtering: true,
+        exportButton: true,
+        exportAllData: true,
+        exportFileName: 'Internship List',
+      }}
     />
   );
 }

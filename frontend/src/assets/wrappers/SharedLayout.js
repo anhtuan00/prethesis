@@ -9,6 +9,7 @@ const Wrapper = styled.section`
     width: 90vw;
     margin: 0 auto;
     padding: 2rem 0;
+    flex: 1;
   }
   @media (min-width: 992px) {
     .dashboard {

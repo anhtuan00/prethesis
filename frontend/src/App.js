@@ -28,6 +28,9 @@ import MasterData from './pages/MasterData';
 import Users from './pages/Users';
 import { useAppContext } from './context/appContext';
 import InternshipList from './pages/InternshipList';
+import InternshipRegulations from './pages/InternshipRegulations';
+import SystemEvaluation from './pages/SystemEvaluation';
+
 
 const Authorization = ({ roles, element }) => {
   const { user } = useAppContext();
@@ -53,6 +56,10 @@ function App() {
           <Route path="companies" element={<Authorization roles={['officer']} element={<Companies />} />} />
           <Route path="master-data" element={<Authorization roles={['officer']} element={<MasterData />} />} />
           <Route path="users" element={<Authorization roles={['officer', 'teacher']} element={<Users />} />} />
+          <Route
+            path="system-evaluation"
+            element={<Authorization roles={['student', 'teacher', 'officer']} element={<SystemEvaluation />} />}
+          />
 
           {/*/!* Routes available to both users and admins *!/*/}
           {/*<Route path="get-help" element={<GetHelp />} />*/}
@@ -62,7 +69,8 @@ function App() {
           {/*<Route path="add-job" element={<AddJob />} />*/}
           {/*<Route path="all-feedback" element={<AllFeedback />} />*/}
           {/*<Route path="add-feedback" element={<AddFeedback />} />*/}
-          {/*<Route path="job-search-resources" element={<JobSearchResources />} />*/}
+          <Route path="other-resources" element={<JobSearchResources />} />
+          <Route path="internship-regulations" element={<InternshipRegulations />} />
           {/*<Route path="internship-confirmation" element={<InternshipConfirmation />} />*/}
           {/*<Route path="student-feedback" element={<StudentFeedback />} />*/}
           {/*/!* Routes available to admins *!/*/}

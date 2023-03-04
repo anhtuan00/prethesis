@@ -79,6 +79,13 @@ function Companies() {
       data={data}
       isLoading={!data}
       editable={getEditableConfig(authFetch, path, data, setData, ['WorkCatalogId'])}
+      options={{
+        columnsButton: true,
+        filtering: true,
+        exportButton: true,
+        exportAllData: true,
+        exportFileName: 'Company List',
+      }}
     />
   );
 }

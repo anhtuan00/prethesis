@@ -25,6 +25,8 @@ const internshipSchema = new mongoose.Schema(
     InternStatus: { type: String, default: "Pending" },
     InternCompleteDate: { type: Date },
     InternTime: { type: Number },
+    grade: { type: Number },
+    reports: [{ filename: String, url: String }],
   },
   { timestamps: true }
 );

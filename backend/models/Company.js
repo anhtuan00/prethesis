@@ -16,13 +16,6 @@ const companySchema = new mongoose.Schema({
   link: { type: String, default: "https://example.com" },
   ContactEmail: { type: String, maxLength: 30 },
 
-  rate: { type: Number },
-  salaryRate: { type: Number },
-  trainningRate: { type: Number },
-  careRate: { type: Number },
-  cultureRate: { type: Number },
-  officeRate: { type: Number },
-
   Logo: { type: String },
 
   WorkCatalogId: [{ type: mongoose.Schema.Types.ObjectId, ref: "workCatalog" }],
