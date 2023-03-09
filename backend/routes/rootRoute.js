@@ -4,7 +4,7 @@ import { authRouter } from "./authRoutes.js";
 import { baseRoute } from "./baseRoute.js";
 import authenticateUser from "../middleware/auth.js";
 import feedbackRoute from "./feedbacksRoutes.js";
-
+// systemEvaluationRoute from "./systemEvaluationsRoutes.js";
 const route = express.Router();
 
 route.use("/auth", authRouter);
@@ -37,5 +37,6 @@ modelNames.forEach((name) => {
 });
 
 route.use("/feedback", feedbackRoute);
+// route.use("/system-evaluations", systemEvaluationRoute);
 
 export const rootRouter = route;

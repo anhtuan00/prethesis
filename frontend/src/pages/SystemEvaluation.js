@@ -20,29 +20,34 @@ const studentQuestions = {
 };
 
 const teacherQuestions = {
-  question1: '',
-  question2: '',
-  question3: '',
-  question4: '',
-  question5: '',
-  question6: '',
-  question7: '',
-  question8: '',
-  question9: '',
-  question10: '',
+  question1: '1. Was the process of creating an account and logging in to the system perceived as easy?',
+  question2: '2. Was the interface easy to navigate and use?',
+  question3:
+    '3. How helpful was the search function in finding internships and jobs that match the user interests and qualifications that teacher can view as reference?',
+  question4: '4. Were there any technical issues experienced while using the system?',
+  question5: '5. Was it possible to view and manage internship and job applications of students within the system?',
+  question6:
+    '6. How satisfied was the teacher with the communication between the student and the school internship coordinator through the system?',
+  question7: '7. Was it easy to see student updated information about internship through the system?',
+  question8: '8. Was useful feedback provided on internship or job applications through the system?',
+  question9: '9. Would the user recommend this system to their peers?',
+  question10: '10. Are there any features that the user would like to see added or improved in the system?',
 };
 
 const officerQuestions = {
-  question1: '',
-  question2: '',
-  question3: '',
-  question4: '',
-  question5: '',
-  question6: '',
-  question7: '',
-  question8: '',
-  question9: '',
-  question10: '',
+  question1: '1. Was the process of creating an account and logging in to the system perceived as easy?',
+  question2: '2. Was the interface easy to navigate and use?',
+  question3:
+    '3. How helpful was the search function in finding internships and jobs that match the user interests and qualifications?',
+  question4: '4. Were there any technical issues experienced while using the system?',
+  question5: '5. Was it possible manage internship and job applications within the system?',
+  question6:
+    '6. How satisfied was the officer with the communication between the student and the school internship coordinator through the system?',
+  question7: '7. Was it easy to communicate with teacher through the system?',
+  question8:
+    '8. Was useful officer view student internship or job applications and notify to teacher through the system?',
+  question9: '9. Would the user recommend this system to their peers?',
+  question10: '10. Are there any features that the user would like to see added or improved in the system?',
 };
 
 const SystemEvaluation = () => {
@@ -177,21 +182,23 @@ const SystemEvaluation = () => {
       question10 &&
       otherComment
     ) {
-      console.log('Question1:', question1.value);
-      console.log('Question2:', question2.value);
-      console.log('Question3:', question3.value);
-      console.log('Question4:', question4.value);
-      console.log('Question5:', question5.value);
-      console.log('Question6:', question6.value);
-      console.log('Question7:', question7.value);
-      console.log('Question8:', question8.value);
-      console.log('Question9:', question9.value);
-      console.log('Question10:', question10.value);
-      console.log('Other Comment:', otherComment);
-      // console.log(question10);
-      // <Alert severity="success">User: {user.name} has submitted feedback</Alert>;
-      // setShowAlert(true);
-      // setSubmitSuccess(false);
+      const data = {
+        question1: question1.value,
+        question2: question2.value,
+        question3: question3.value,
+        question4: question4.value,
+        question5: question5.value,
+        question6: question6.value,
+        question7: question7.value,
+        question8: question8.value,
+        question9: question9.value,
+        question10: question10.value,
+        otherComment: otherComment,
+        userName: user.name,
+        userEmail: user.email,
+        userRole: user.role,
+      };
+      console.log(data);
       alert('User: ' + user.name + ' has submitted feedback');
       // you can then send this data to the backend
     } else {
@@ -214,9 +221,15 @@ const SystemEvaluation = () => {
           <>
             <h1>Student System Evaluation</h1>
             <h3>Student Information</h3>
-            <p>Student name: {user.name}</p>
-            <p>Student email: {user.email}</p>
-            <p>Role: {user.role}</p>
+            <b>Student name: </b>
+            <span>{user.name}</span>
+            <br />
+            <b>Student email: </b>
+            <span>{user.email}</span>
+            <br />
+            <b>Role: </b>
+            <span>{user.role}</span>
+            <br />
           </>
         )}
         {user.role === 'teacher' && (

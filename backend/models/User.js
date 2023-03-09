@@ -3,43 +3,43 @@ import validator from "validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const UserSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: [true, "Please provide email"],
-    validate: {
-      validator: validator.isEmail,
-      message: "Please provide a valid email",
+  const UserSchema = new mongoose.Schema({
+    email: {
+      type: String,
+      required: [true, "Please provide email"],
+      validate: {
+        validator: validator.isEmail,
+        message: "Please provide a valid email",
+      },
+      unique: true,
     },
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: [true, "Please provide password"],
-    minlength: 6,
-    select: false,
-  },
-  role: {
-    type: String,
-    default: "student",
-  },
-  name: { type: String },
-  IDNumber: { type: String },
-  DOB: { type: Date },
-  Address: { type: String },
-  District: { type: String },
-  City: { type: String },
-  Country: { type: String },
-  Tel: { type: String },
-  CourseNumber: { type: String },
-  ClassCode: { type: String },
-  ClassName: { type: String },
-  Faculty: { type: String },
-  HeadTeacher: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
-  appliedInternship: [{ type: mongoose.Schema.Types.ObjectId, ref: "job" }],
-  AdmitDate: { type: Date },
-  GradDate: { type: Date },
-});
+    password: {
+      type: String,
+      required: [true, "Please provide password"],
+      minlength: 6,
+      select: false,
+    },
+    role: {
+      type: String,
+      default: "student",
+    },
+    name: { type: String },
+    IDNumber: { type: String },
+    DOB: { type: Date },
+    Address: { type: String },
+    District: { type: String },
+    City: { type: String },
+    Country: { type: String },
+    Tel: { type: String },
+    CourseNumber: { type: String },
+    ClassCode: { type: String },
+    ClassName: { type: String },
+    Faculty: { type: String },
+    HeadTeacher: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+    appliedInternship: [{ type: mongoose.Schema.Types.ObjectId, ref: "job" }],
+    AdmitDate: { type: Date },
+    GradDate: { type: Date },
+  });
 
 // This middleware function is run before saving the user to the database.
 // It hashes the user's password if it has been modified.

@@ -19,6 +19,15 @@ function Users() {
     fetchData();
   }, []);
 
+  // const fetchData = useCallback(async () => {
+  //   const { data } = await authFetch.get(path);
+  //   setData(data);
+  // }, [authFetch, path]);
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, [fetchData]);
+
   const columns = [
     { title: 'Email', field: 'email' },
     { title: 'Password', field: 'password', render: () => '******' },
