@@ -10,7 +10,7 @@ import { IoIosBook } from 'react-icons/io';
 export const LINKS = [
   { id: 'search-jobs', text: 'Search Jobs', path: 'search-jobs', icon: <IoBarChartSharp /> },
   { id: 'internship-list', text: 'Internship List', path: 'internship-list', icon: <MdQueryStats /> },
-  { id: 'jobs', text: 'Jobs', path: 'jobs', roles: ['officer', 'teacher'], icon: <FaWpforms /> },
+  { id: 'jobs', text: 'Jobs', path: 'jobs', roles: ['officer'], icon: <FaWpforms /> },
   { id: 'companies', text: 'Companies', path: 'companies', roles: ['officer'], icon: <ImProfile /> },
   { id: 'master-data', text: 'Master Data', path: 'master-data', roles: ['officer'], icon: <FaCommentDots /> },
   { id: 'users', text: 'Users', path: 'users', roles: ['officer', 'teacher'], icon: <FaCommentAlt /> },

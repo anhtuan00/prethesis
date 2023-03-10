@@ -31,7 +31,7 @@ function App() {
           }
         >
           <Route path="internship-list" element={<InternshipList />} />
-          <Route path="jobs" element={<Authorization roles={['officer', 'teacher']} element={<Jobs />} />} />
+          <Route path="jobs" element={<Authorization roles={['officer']} element={<Jobs />} />} />
           <Route path="companies" element={<Authorization roles={['officer']} element={<Companies />} />} />
           <Route path="master-data" element={<Authorization roles={['officer']} element={<MasterData />} />} />
           <Route path="users" element={<Authorization roles={['officer', 'teacher']} element={<Users />} />} />
