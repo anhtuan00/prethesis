@@ -7,9 +7,11 @@ const Landing = () => {
         {/* info */}
         <div className="info">
           <h1>
-            Job <span>Assistance</span> App
+            A <span>Student Internship</span> and <span>Job Assistance</span> App
           </h1>
-          <p>Welcome to our iSIS</p>
+          <h3>
+            Welcome to our <span>iSIS</span>
+          </h3>
           <Link to="/register" className="btn btn-hero">
             Login/Register
           </Link>
