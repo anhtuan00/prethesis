@@ -5,49 +5,67 @@ import { useAppContext } from '../context/appContext';
 import { Alert } from '@mui/material';
 
 const studentQuestions = {
-  question1: '1. Was the process of creating an account and logging in to the system perceived as easy?',
-  question2: '2. Was the interface easy to navigate and use?',
-  question3:
-    '3. How helpful was the search function in finding internships and jobs that match the user interests and qualifications?',
-  question4: '4. Were there any technical issues experienced while using the system?',
-  question5: '5. Was it possible to save and manage internship and job applications within the system?',
-  question6:
-    '6. How satisfied was the user with the communication between the user and the school internship coordinator through the system?',
-  question7: '7. Was it easy to communicate with potential employers through the system?',
-  question8: '8. Was useful feedback provided on internship or job applications through the system?',
-  question9: '9. Would the user recommend this system to their peers?',
-  question10: '10. Are there any features that the user would like to see added or improved in the system?',
+  question1:
+    '1. The student website provides easy access to the necessary information for signing up for internships and jobs',
+  question2: '2. It was easy to register and create a student account on the website',
+  question3: '3. I am satisfied with the job search functionality on the website',
+  question4: '4. The job and internship application process is clear and straightforward',
+  question5: '5. I am satisfied with the confirmation process after submitting my job or internship application',
+  question6: '6. It was easy to submit my feedback to the company after applying for a job or internship',
+  question7:
+    '7. I am satisfied with the process of submitting my evaluation report and internship report for an internship',
+  question8: '8. The system provides easy access to view my grades',
+  question9: '9. I am satisfied with the process of submitting my system evaluation report',
+  question10: '10. It was easy to submit my internship report through the website',
+  question11: '11. Overall, the website role in assisting me with finding internships and jobs is satisfactory',
+  question12: '12. Are there any features that the user would like to see added or improved in the system?',
+  question13: '13. Are there any features that the user would like to see added or improved in the system?',
+  question14: '14. Are there any features that the user would like to see added or improved in the system?',
+  question15: '15. Are there any features that the user would like to see added or improved in the system?',
 };
 
 const teacherQuestions = {
-  question1: '1. Was the process of creating an account and logging in to the system perceived as easy?',
-  question2: '2. Was the interface easy to navigate and use?',
-  question3:
-    '3. How helpful was the search function in finding internships and jobs that match the user interests and qualifications that teacher can view as reference?',
-  question4: '4. Were there any technical issues experienced while using the system?',
-  question5: '5. Was it possible to view and manage internship and job applications of students within the system?',
-  question6:
-    '6. How satisfied was the teacher with the communication between the student and the school internship coordinator through the system?',
-  question7: '7. Was it easy to see student updated information about internship through the system?',
-  question8: '8. Was useful feedback provided on internship or job applications through the system?',
-  question9: '9. Would the user recommend this system to their peers?',
-  question10: '10. Are there any features that the user would like to see added or improved in the system?',
+  question1:
+    '1. The teacher website provides easy access to the necessary information for viewing for internships and jobs',
+  question2: '2. It was easy to register and create a teacher account on the website',
+  question3: '3. I am satisfied with the job search functionality on the website',
+  question4: '4. The viewing internship application process is clear and straightforward',
+  question5: '5. I am satisfied with the confirmation process after viewing my student internship application',
+  question6: '6. It was easy to view my student feedback to the company after applying for a internship',
+  question7: '7. I am satisfied with the process of viewing my student evaluation report for an internship',
+  question8: '8. The system provides easy access to submit my student grades',
+  question9: '9. I am satisfied with the process of submitting my system evaluation report',
+  question10: '10. It was easy to view my student internship report through the website',
+  question11:
+    '11. Overall, the website role in assisting me with tracking student internships and jobs is satisfactory',
+  question12: '12. I am likely to recommend the website to my peers who are also searching for internships and jobs',
+  question13:
+    '13. There are additional features or functionalities that I would like to see added to the website to better assist me in my job and internship search',
+  question14:
+    '14. The website adequately communicates the expectations and requirements for internships and jobs to teachers',
+  question15: '15. I am satisfied with the support and assistance provided by the website customer service team',
 };
 
 const officerQuestions = {
-  question1: '1. Was the process of creating an account and logging in to the system perceived as easy?',
-  question2: '2. Was the interface easy to navigate and use?',
-  question3:
-    '3. How helpful was the search function in finding internships and jobs that match the user interests and qualifications?',
-  question4: '4. Were there any technical issues experienced while using the system?',
-  question5: '5. Was it possible manage internship and job applications within the system?',
-  question6:
-    '6. How satisfied was the officer with the communication between the student and the school internship coordinator through the system?',
-  question7: '7. Was it easy to communicate with teacher through the system?',
-  question8:
-    '8. Was useful officer view student internship or job applications and notify to teacher through the system?',
-  question9: '9. Would the user recommend this system to their peers?',
-  question10: '10. Are there any features that the user would like to see added or improved in the system?',
+  question1:
+    '1. The officer website provides easy access to the necessary information for viewing for internships and jobs',
+  question2: '2. It was easy to register and create a officer account on the website',
+  question3: '3. I am satisfied with adding information to the job search functionality on the website',
+  question4: '4. The viewing internship application process is clear and straightforward',
+  question5: '5. I am satisfied with the confirmation process after viewing my student internship application',
+  question6: '6. It was easy to view my student feedback to the company after applying for a internship',
+  question7: '7. I am satisfied with the process of viewing my student evaluation report for an internship',
+  question8: '8. The system provides easy access to view my student grades',
+  question9: '9. I am satisfied with the process of submitting my system evaluation report',
+  question10: '10. It was easy to view my student internship report through the website',
+  question11:
+    '11. Overall, the website role in assisting me with tracking student internships and manage users information is satisfactory',
+  question12: '12. I am likely to recommend the website to my peers who are also searching for internships and jobs',
+  question13:
+    '13. There are additional features or functionalities that I would like to see added to the website to better assist me in my job and internship search',
+  question14:
+    '14. The website adequately communicates the expectations and requirements for internships and jobs to teachers',
+  question15: '15. I am satisfied with the support and assistance provided by the website customer service team',
 };
 
 const SystemEvaluation = () => {
@@ -71,6 +89,15 @@ const SystemEvaluation = () => {
   const [question9, setQuestion9] = useState(null);
 
   const [question10, setQuestion10] = useState(null);
+  const [question11, setQuestion11] = useState(null);
+
+  const [question12, setQuestion12] = useState(null);
+
+  const [question13, setQuestion13] = useState(null);
+
+  const [question14, setQuestion14] = useState(null);
+
+  const [question15, setQuestion15] = useState(null);
 
   const [otherComment, setOtherComment] = useState(null);
 
@@ -165,6 +192,61 @@ const SystemEvaluation = () => {
       setQuestion10(val);
     },
   };
+  const likertOptions11 = {
+    question: currentQuestions.question11,
+    responses: defaultResponse,
+    onChange: (val) => {
+      setQuestion11(val);
+    },
+  };
+  const likertOptions12 = {
+    question: currentQuestions.question12,
+    responses: defaultResponse,
+    onChange: (val) => {
+      setQuestion12(val);
+    },
+  };
+  const likertOptions13 = {
+    question: currentQuestions.question13,
+    responses: defaultResponse,
+    onChange: (val) => {
+      setQuestion13(val);
+    },
+  };
+  const likertOptions14 = {
+    question: currentQuestions.question14,
+    responses: defaultResponse,
+    onChange: (val) => {
+      setQuestion14(val);
+    },
+  };
+
+  const likertOptions15 = {
+    question: currentQuestions.question15,
+    responses: defaultResponse,
+    onChange: (val) => {
+      setQuestion15(val);
+    },
+  };
+
+  const resetForm = () => {
+    setQuestion1(null);
+    setQuestion2(null);
+    setQuestion3(null);
+    setQuestion4(null);
+    setQuestion5(null);
+    setQuestion6(null);
+    setQuestion7(null);
+    setQuestion8(null);
+    setQuestion9(null);
+    setQuestion10(null);
+    setQuestion11(null);
+    setQuestion12(null);
+    setQuestion13(null);
+    setQuestion14(null);
+    setQuestion15(null);
+    setOtherComment(null);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -180,6 +262,11 @@ const SystemEvaluation = () => {
       question8 &&
       question9 &&
       question10 &&
+      question11 &&
+      question12 &&
+      question13 &&
+      question14 &&
+      question15 &&
       otherComment
     ) {
       const data = {
@@ -193,14 +280,19 @@ const SystemEvaluation = () => {
         question8: question8.value,
         question9: question9.value,
         question10: question10.value,
+        question11: question11.value,
+        question12: question12.value,
+        question13: question13.value,
+        question14: question14.value,
+        question15: question15.value,
         otherComment: otherComment,
         userName: user.name,
         userEmail: user.email,
         userRole: user.role,
       };
       console.log(data);
+      resetForm();
       alert('User: ' + user.name + ' has submitted feedback');
-      // you can then send this data to the backend
     } else {
       alert('Please select all the questions');
     }
@@ -221,67 +313,57 @@ const SystemEvaluation = () => {
           <>
             <h1>Student System Evaluation</h1>
             <h3>Student Information</h3>
-            <b>Student name: </b>
-            <span>{user.name}</span>
-            <br />
-            <b>Student email: </b>
-            <span>{user.email}</span>
-            <br />
-            <b>Role: </b>
-            <span>{user.role}</span>
-            <br />
+            <p>
+              <b style={{ display: 'inline-block', minWidth: '150px' }}>Student name: </b>
+              <span style={{ display: 'inline-block' }}>{user.name}</span>
+            </p>
+            <p>
+              <b style={{ display: 'inline-block', minWidth: '150px' }}>Student email: </b>
+              <span style={{ display: 'inline-block' }}>{user.email}</span>
+            </p>
+            <p>
+              <b style={{ display: 'inline-block', minWidth: '150px' }}>Role: </b>
+              <span style={{ display: 'inline-block' }}>{user.role}</span>
+            </p>
           </>
         )}
         {user.role === 'teacher' && (
           <>
             <h1>Teacher System Evaluation</h1>
             <h3>Teacher Information</h3>
-            <p>Teacher name: {user.name}</p>
-            <p>Teacher email: {user.email}</p>
-            <p>Role: {user.role}</p>
+            <p>
+              <b style={{ display: 'inline-block', minWidth: '150px' }}>Teacher name: </b>
+              <span style={{ display: 'inline-block' }}>{user.name}</span>
+            </p>
+            <p>
+              <b style={{ display: 'inline-block', minWidth: '150px' }}>Teacher email: </b>
+              <span style={{ display: 'inline-block' }}>{user.email}</span>
+            </p>
+            <p>
+              <b style={{ display: 'inline-block', minWidth: '150px' }}>Role: </b>
+              <span style={{ display: 'inline-block' }}>{user.role}</span>
+            </p>
           </>
         )}
         {user.role === 'officer' && (
           <>
             <h1>Officer System Evaluation</h1>
             <h3>Officer Information</h3>
-            <p>Officer name: {user.name}</p>
-            <p>Officer email: {user.email}</p>
-            <p>Role: {user.role}</p>
+            <p>
+              <b style={{ display: 'inline-block', minWidth: '150px' }}>Officer name: </b>
+              <span style={{ display: 'inline-block' }}>{user.name}</span>
+            </p>
+            <p>
+              <b style={{ display: 'inline-block', minWidth: '150px' }}>Officer email: </b>
+              <span style={{ display: 'inline-block' }}>{user.email}</span>
+            </p>
+            <p>
+              <b style={{ display: 'inline-block', minWidth: '150px' }}>Role: </b>
+              <span style={{ display: 'inline-block' }}>{user.role}</span>
+            </p>
           </>
         )}
 
-        {/* <div>
-        {Object.keys(user).map((key) => (
-          <p key={key}>
-            {key}: {user[key]}
-          </p>
-        ))}
-      </div> */}
-
-        {/* <TextareaAutosize
-        style={{ width: '40%', padding: 8 }}
-        minRows={1}
-        value={studentName}
-        onChange={(event) => setStudentName(event.target.value)}
-        placeholder="Student Name"
-      />
-      <br />
-      <TextareaAutosize
-        style={{ width: '40%', padding: 8 }}
-        minRows={1}
-        value={studentEmail}
-        onChange={(event) => setStudentEmail(event.target.value)}
-        placeholder="Student Email"
-      />
-      <br />
-      <TextareaAutosize
-        style={{ width: '40%', padding: 8 }}
-        minRows={1}
-        value={studentId}
-        onChange={(event) => setStudentId(event.target.value)}
-        placeholder="Student ID"
-      /> */}
         <h3>Questions</h3>
 
         <Likert {...likertOptions1} />
@@ -294,6 +376,11 @@ const SystemEvaluation = () => {
         <Likert {...likertOptions8} />
         <Likert {...likertOptions9} />
         <Likert {...likertOptions10} />
+        <Likert {...likertOptions11} />
+        <Likert {...likertOptions12} />
+        <Likert {...likertOptions13} />
+        <Likert {...likertOptions14} />
+        <Likert {...likertOptions15} />
 
         <h3>Other Comments</h3>
         <TextareaAutosize
@@ -307,13 +394,6 @@ const SystemEvaluation = () => {
         <button style={{ width: '40%' }} className="btn btn-block" type="submit">
           Submit
         </button>
-        {/* {showAlert && (
-          <Alert severity="success" onClose={() => setShowAlert(false)}>
-            User: {user.name} has submitted feedback
-          </Alert>
-        )} */}
-        {/* {submitSuccess === true && <Alert severity="success">User: {user.name} has submitted feedback</Alert>}
-        {submitSuccess === false && <Alert severity="error">Failed to submit feedback. Please try again later.</Alert>} */}
       </form>
     </div>
   );

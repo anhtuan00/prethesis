@@ -100,8 +100,13 @@ function InternshipList() {
       field: 'grade',
       type: 'numeric',
       editable: role === 'student' ? 'never' : undefined,
+      // editComponent: (props) => {
+      //   if (!props.rowData.reports.length) return props.value;
+      //   return <Input type="number" value={props.value} onChange={(event) => props.onChange(event.target.value)} />;
+      // },
       editComponent: (props) => {
-        if (!props.rowData.reports.length) return props.value;
+        console.log('props.rowData.reports:', props.rowData.reports);
+        if (!Array.isArray(props.rowData.reports)) return props.value;
         return <Input type="number" value={props.value} onChange={(event) => props.onChange(event.target.value)} />;
       },
     },
@@ -205,6 +210,7 @@ function InternshipList() {
                   Cancel
                 </button>
                 <button
+                  className="btn btn-block"
                   onClick={() => {
                     authFetch.post('feedback', {
                       companyId: companyId.current,

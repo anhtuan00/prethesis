@@ -225,44 +225,6 @@ const filterWithPaging = (modelName) => {
       );
 
       res.status(StatusCodes.OK).json(result);
-
-      /*let { pageSize, pageNumber, orderBy, ...filter } = req.query;
-      // console.log(pageSize)
-      // console.log(pageNumber)
-
-      Object.keys(filter).forEach(key => {
-        try {
-
-          filter[key] = JSON.parse(filter[key])
-        }
-        catch {
-          filter[key] = filter[key]
-        }
-      });
-
-      // console.log(JSON.stringify(req.query))
-      // console.log(JSON.stringify(filter))
-      let query;
-      if (filter !== null)
-        query = m.find(filter);
-      else
-        query = m.find({});
-
-      if (orderBy) {
-        query = query.sort(orderBy);
-      }
-      pageSize = pageSize || 20;
-      pageNumber = pageNumber || 1
-      const skip = (pageNumber - 1) * pageSize;
-      const result = await query.skip(skip).limit(pageSize).exec();
-
-      // Count the total number of jobs that match the query object
-      const total = await m.countDocuments(query);
-
-      // Calculate the number of pages needed to display all the results
-      const numOfPages = Math.ceil(totalJobs / limit);
-
-      res.status(StatusCodes.OK).json({data: result, totalPage: numOfPages, totalRecord: total});*/
     } catch (error) {
       res.status(StatusCodes.BAD_REQUEST).json(error);
     }

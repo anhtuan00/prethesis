@@ -30,6 +30,21 @@ const Search = () => {
   const [user, setUser] = useState(null);
   const [modal, setModal] = useState(false);
 
+  const appliedCounts = {};
+
+  if (sort === 'applied') {
+    jobs.forEach((job) => {
+      const companyId = job.RecruitCompID?._id;
+      if (companyId) {
+        if (!appliedCounts[companyId]) {
+          appliedCounts[companyId] = 1;
+        } else {
+          appliedCounts[companyId]++;
+        }
+      }
+    });
+  }
+
   const jobsFetch = useCallback(async (path) => {
     setIsSearching(true);
     const { data } = await authFetch.get(path);
@@ -160,14 +175,15 @@ const Search = () => {
                   alt={job.RecruitCompID?.Name}
                   src={job.RecruitCompID?.Logo}
                   style={{ width: 75, height: 75, objectFit: 'contain', marginRight: '2rem' }}
-                ></img>
-
+                />
                 <div>
                   <div style={{ fontSize: '1.25rem', fontWeight: 600 }}>{job.JobTitle}</div>
                   <div>{job.RecruitCompID?.Name}</div>
-                  <Rating readonly={true} initialValue={job.rate} /> ({job.rate})
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Rating readonly={true} initialValue={job.rate} /> ({job.rate})
+                    {/* <div style={{ marginLeft: '1rem' }}>Applied Count: {job.appliedCount}</div> */}
+                  </div>
                 </div>
-
                 <div style={{ marginLeft: 'auto' }}>
                   <div>{convertDate(job.createdAt)}</div>
                 </div>
