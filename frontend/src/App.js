@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Register, Landing, Error, ProtectedRoute } from './pages';
-import { JobSearchResources, SharedLayout } from './pages/dashboard';
+import { JobSearchResources, SharedLayout, GetHelp } from './pages/dashboard';
 import Search from './pages/Search';
 import Companies from './pages/Companies';
 import Jobs from './pages/Jobs';
@@ -41,7 +41,6 @@ function App() {
           />
 
           {/*/!* Routes available to both users and admins *!/*/}
-          {/*<Route path="get-help" element={<GetHelp />} />*/}
           {/*<Route path="profile" element={<Profile />} />*/}
           {/*/!* Routes available to users *!/*/}
           {/*<Route path="all-jobs" element={<AllJobs />} />*/}
@@ -49,6 +48,8 @@ function App() {
           {/*<Route path="all-feedback" element={<AllFeedback />} />*/}
           {/*<Route path="add-feedback" element={<AddFeedback />} />*/}
           <Route path="other-resources" element={<JobSearchResources />} />
+          <Route path="get-help" element={<GetHelp />} />
+
           <Route path="internship-regulations" element={<InternshipRegulations />} />
           {/*<Route path="internship-confirmation" element={<InternshipConfirmation />} />*/}
           {/*<Route path="student-feedback" element={<StudentFeedback />} />*/}

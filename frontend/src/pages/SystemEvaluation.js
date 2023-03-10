@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Likert from 'react-likert-scale';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { useAppContext } from '../context/appContext';
-import { Alert } from '@mui/material';
+// import { Alert } from '@mui/material';
+import usePageName from '../utils/usePageName';
 
 const studentQuestions = {
   question1:
@@ -37,7 +38,7 @@ const teacherQuestions = {
   question9: '9. I am satisfied with the process of submitting my system evaluation report',
   question10: '10. It was easy to view my student internship report through the website',
   question11:
-    '11. Overall, the website role in assisting me with tracking student internships and jobs is satisfactory',
+    '11. Overall, the website role in assisting me with tracking student internships and manage student list is satisfactory',
   question12: '12. I am likely to recommend the website to my peers who are also searching for internships and jobs',
   question13:
     '13. There are additional features or functionalities that I would like to see added to the website to better assist me in my job and internship search',
@@ -71,6 +72,9 @@ const officerQuestions = {
 const SystemEvaluation = () => {
   // const [showAlert, setShowAlert] = useState(false);
   // const [submitSuccess, setSubmitSuccess] = useState(null);
+
+  const formRef = useRef(null);
+
   const [question1, setQuestion1] = useState(null);
   const [question2, setQuestion2] = useState(null);
 
@@ -230,6 +234,7 @@ const SystemEvaluation = () => {
   };
 
   const resetForm = () => {
+    formRef.current.reset();
     setQuestion1(null);
     setQuestion2(null);
     setQuestion3(null);
@@ -298,20 +303,22 @@ const SystemEvaluation = () => {
     }
   };
 
+  usePageName('System Evaluation');
+
   return (
     <div
       style={{
         backgroundColor: 'white',
         padding: '16px',
-        borderRadius: '16px',
+        borderRadius: '5px',
         display: 'inline-grid',
         gridTemplateColumns: 'auto auto',
       }}
     >
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} ref={formRef}>
         {user.role === 'student' && (
           <>
-            <h1>Student System Evaluation</h1>
+            <h1 style={{ textAlign: 'center' }}>Student System Evaluation</h1>
             <h3>Student Information</h3>
             <p>
               <b style={{ display: 'inline-block', minWidth: '150px' }}>Student name: </b>
@@ -329,7 +336,7 @@ const SystemEvaluation = () => {
         )}
         {user.role === 'teacher' && (
           <>
-            <h1>Teacher System Evaluation</h1>
+            <h1 style={{ textAlign: 'center' }}>Teacher System Evaluation</h1>
             <h3>Teacher Information</h3>
             <p>
               <b style={{ display: 'inline-block', minWidth: '150px' }}>Teacher name: </b>
@@ -347,7 +354,7 @@ const SystemEvaluation = () => {
         )}
         {user.role === 'officer' && (
           <>
-            <h1>Officer System Evaluation</h1>
+            <h1 style={{ textAlign: 'center' }}>Officer System Evaluation</h1>
             <h3>Officer Information</h3>
             <p>
               <b style={{ display: 'inline-block', minWidth: '150px' }}>Officer name: </b>

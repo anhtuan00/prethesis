@@ -8,20 +8,22 @@ import { FaQuestionCircle } from 'react-icons/fa';
 import { IoIosBook } from 'react-icons/io';
 
 export const LINKS = [
-  { id: 'search-jobs', text: 'Search Jobs', path: 'search-jobs' },
-  { id: 'internship-list', text: 'Internship List', path: 'internship-list' },
-  { id: 'jobs', text: 'Jobs', path: 'jobs', roles: ['officer', 'teacher'] },
-  { id: 'companies', text: 'Companies', path: 'companies', roles: ['officer'] },
-  { id: 'master-data', text: 'Master Data', path: 'master-data', roles: ['officer'] },
-  { id: 'users', text: 'Users', path: 'users', roles: ['officer', 'teacher'] },
-  { id: 'other-resources', text: 'Other Resources', path: 'other-resources' },
-  { id: 'internship-regulations', text: 'Internship Regulations', path: 'internship-regulations' },
+  { id: 'search-jobs', text: 'Search Jobs', path: 'search-jobs', icon: <IoBarChartSharp /> },
+  { id: 'internship-list', text: 'Internship List', path: 'internship-list', icon: <MdQueryStats /> },
+  { id: 'jobs', text: 'Jobs', path: 'jobs', roles: ['officer', 'teacher'], icon: <FaWpforms /> },
+  { id: 'companies', text: 'Companies', path: 'companies', roles: ['officer'], icon: <ImProfile /> },
+  { id: 'master-data', text: 'Master Data', path: 'master-data', roles: ['officer'], icon: <FaCommentDots /> },
+  { id: 'users', text: 'Users', path: 'users', roles: ['officer', 'teacher'], icon: <FaCommentAlt /> },
+  { id: 'other-resources', text: 'Other Resources', path: 'other-resources', icon: <FaQuestionCircle /> },
+  { id: 'internship-regulations', text: 'Internship Regulations', path: 'internship-regulations', icon: <IoIosBook /> },
   {
     id: 'system-evaluation',
     text: 'system evaluation',
     path: 'system-evaluation',
     roles: ['student', 'teacher', 'officer'],
+    icon: <MdQueryStats />,
   },
+  { id: 'get-help', text: 'Get Help', path: 'get-help', icon: <FaQuestionCircle /> },
 ];
 
 export const adminLinks = [

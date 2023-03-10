@@ -4,7 +4,7 @@ import Profile from './Profile';
 import SharedLayout from './SharedLayout';
 import AddFeedback from './AddFeedback';
 import AllFeedback from './AllFeedback';
-import GetHelp from './GetHelp'; // import the GetHelp component
+import GetHelp from './GetHelp';
 import JobSearchResources from './JobSearchResources';
 import ViewAllFeedbacks from './ViewAllFeedbacks';
 import ViewUsers from './ViewUsers';
