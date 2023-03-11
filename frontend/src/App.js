@@ -39,7 +39,10 @@ function App() {
             path="system-evaluation"
             element={<Authorization roles={['student', 'teacher', 'officer']} element={<SystemEvaluation />} />}
           />
+          <Route path="other-resources" element={<JobSearchResources />} />
+          <Route path="get-help" element={<GetHelp />} />
 
+          <Route path="internship-regulations" element={<InternshipRegulations />} />
           {/*/!* Routes available to both users and admins *!/*/}
           {/*<Route path="profile" element={<Profile />} />*/}
           {/*/!* Routes available to users *!/*/}
@@ -47,10 +50,7 @@ function App() {
           {/*<Route path="add-job" element={<AddJob />} />*/}
           {/*<Route path="all-feedback" element={<AllFeedback />} />*/}
           {/*<Route path="add-feedback" element={<AddFeedback />} />*/}
-          <Route path="other-resources" element={<JobSearchResources />} />
-          <Route path="get-help" element={<GetHelp />} />
-
-          <Route path="internship-regulations" element={<InternshipRegulations />} />
+         
           {/*<Route path="internship-confirmation" element={<InternshipConfirmation />} />*/}
           {/*<Route path="student-feedback" element={<StudentFeedback />} />*/}
           {/*/!* Routes available to admins *!/*/}

@@ -186,7 +186,7 @@ const filterWithPaging = (modelName) => {
             },
           },
           { $addFields: { rate: { $avg: "$feedbacks.rate" } } },
-          { $unset: "feedbacks" },
+          // { $unset: "feedbacks" },
           sort === "rate" && { $sort: { rate: -1 } },
           { $addFields: { rate: { $round: ["$rate", 2] } } },
           {

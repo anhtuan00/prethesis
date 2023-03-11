@@ -30,20 +30,20 @@ const Search = () => {
   const [user, setUser] = useState(null);
   const [modal, setModal] = useState(false);
 
-  const appliedCounts = {};
+  // const appliedCounts = {};
 
-  if (sort === 'applied') {
-    jobs.forEach((job) => {
-      const companyId = job.RecruitCompID?._id;
-      if (companyId) {
-        if (!appliedCounts[companyId]) {
-          appliedCounts[companyId] = 1;
-        } else {
-          appliedCounts[companyId]++;
-        }
-      }
-    });
-  }
+  // if (sort === 'applied') {
+  //   jobs.forEach((job) => {
+  //     const companyId = job.RecruitCompID?._id;
+  //     if (companyId) {
+  //       if (!appliedCounts[companyId]) {
+  //         appliedCounts[companyId] = 1;
+  //       } else {
+  //         appliedCounts[companyId]++;
+  //       }
+  //     }
+  //   });
+  // }
 
   const jobsFetch = useCallback(async (path) => {
     setIsSearching(true);
@@ -181,11 +181,11 @@ const Search = () => {
                   <div>{job.RecruitCompID?.Name}</div>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Rating readonly={true} initialValue={job.rate} /> ({job.rate})
-                    {/* <div style={{ marginLeft: '1rem' }}>Applied Count: {job.appliedCount}</div> */}
                   </div>
                 </div>
                 <div style={{ marginLeft: 'auto' }}>
-                  <div>{convertDate(job.createdAt)}</div>
+                  <div>createdAt: {convertDate(job.createdAt)}</div>
+                  <div>Job application count: {job.feedbacks.length}</div>
                 </div>
               </div>
 
