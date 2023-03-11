@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, List, ListItem, ListItemIcon, ListItemText, Typography, Divider } from '@material-ui/core';
-import { Link, LinkedIn, Language } from '@material-ui/icons';
+import { Link, LinkedIn, Language, Work } from '@material-ui/icons';
+
 import usePageName from '../../utils/usePageName';
 
 const JobSearchResources = () => {
@@ -37,11 +38,11 @@ const JobSearchResources = () => {
             <ListItemIcon>
               <Language />
             </ListItemIcon>
-            <ListItemText primary="Glints" />
+            <ListItemText primary="ITviec" />
           </ListItem>
           <ListItem button component="a" href="https://glints.com">
             <ListItemIcon>
-              <Language />
+              <Work />
             </ListItemIcon>
             <ListItemText primary="TopDev" />
           </ListItem>
@@ -53,9 +54,9 @@ const JobSearchResources = () => {
           </ListItem>
           <ListItem button component="a" href="https://careerbuilder.vn/">
             <ListItemIcon>
-              <Language />
+              <Work />
             </ListItemIcon>
-            <ListItemText primary="ITviec" />
+            <ListItemText primary="Glints" />
           </ListItem>
         </List>
         <br />
