@@ -184,7 +184,7 @@ const Search = () => {
                   </div>
                 </div>
                 <div style={{ marginLeft: 'auto' }}>
-                  <div>createdAt: {convertDate(job.createdAt)}</div>
+                  <div>Created at: {convertDate(job.createdAt)}</div>
                   <div>Job application count: {job.feedbacks.length}</div>
                 </div>
               </div>
