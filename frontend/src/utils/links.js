@@ -1,10 +1,7 @@
 import { IoBarChartSharp } from 'react-icons/io5';
 import { MdQueryStats } from 'react-icons/md';
-import { FaWpforms } from 'react-icons/fa';
+import { FaWpforms, FaCommentDots, FaCommentAlt, FaQuestionCircle } from 'react-icons/fa';
 import { ImProfile } from 'react-icons/im';
-import { FaCommentDots } from 'react-icons/fa';
-import { FaCommentAlt } from 'react-icons/fa';
-import { FaQuestionCircle } from 'react-icons/fa';
 import { IoIosBook } from 'react-icons/io';
 
 export const LINKS = [
@@ -176,20 +173,6 @@ export const teacherLinks = [
     path: 'manage-company-partnership-proposal',
     icon: <MdQueryStats />,
   },
-
-  // { id: 3, text: "all feedback", path: "all-feedback", icon: <FaCommentAlt /> },
-  // {
-  //   id: 4,
-  //   text: "add feedback",
-  //   path: "add-feedback",
-  //   icon: <FaCommentDots />,
-  // },
-  // {
-  //   id: 5,
-  //   text: "job search resources",
-  //   path: "job-search-resources",
-  //   icon: <IoIosBook />,
-  // },
   { id: 6, text: 'get help', path: 'get-help', icon: <FaQuestionCircle /> },
   { id: 7, text: 'profile', path: 'profile', icon: <ImProfile /> },
 ];

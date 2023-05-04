@@ -30,21 +30,6 @@ const Search = () => {
   const [user, setUser] = useState(null);
   const [modal, setModal] = useState(false);
 
-  // const appliedCounts = {};
-
-  // if (sort === 'applied') {
-  //   jobs.forEach((job) => {
-  //     const companyId = job.RecruitCompID?._id;
-  //     if (companyId) {
-  //       if (!appliedCounts[companyId]) {
-  //         appliedCounts[companyId] = 1;
-  //       } else {
-  //         appliedCounts[companyId]++;
-  //       }
-  //     }
-  //   });
-  // }
-
   const jobsFetch = useCallback(async (path) => {
     setIsSearching(true);
     const { data } = await authFetch.get(path);
